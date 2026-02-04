@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>東京 Day 7：最後的賦歸 | 深度旅誌</title>
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@500;700&family=Noto+Sans+TC:wght@300;400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
+    <style>
+        :root {
+            --bg-color: #fcfbf9;       
+            --text-primary: #333333;
+            --primary-accent: #2c5364; 
+            --gold-accent: #c5a059;    
+            --skyliner-blue: #0055a5;  /* 京成電鐵藍 */
+            --narita-blue: #002147;    /* 成田機場深藍 */
+            --card-shadow: 0 20px 40px rgba(0,0,0,0.06);
+        }
+
+        body {
+            font-family: 'Noto Sans TC', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            font-size: 19px; 
+            line-height: 1.9;
+            letter-spacing: 0.03em;
+        }
+
+        h1, h2, h3, h4 {
+            font-family: 'Noto Serif TC', serif;
+            color: var(--primary-accent);
+            font-weight: 700;
+        }
+        h3 { font-size: 1.8rem; }
+
+        /* --- 導覽列 --- */
+        .sticky-sidebar {
+            position: sticky; top: 40px; padding: 30px;
+            border-left: 2px solid #eee; display: none;
+        }
+        @media (min-width: 992px) { .sticky-sidebar { display: block; } }
+
+        .nav-link {
+            color: #aaa; font-family: 'Noto Serif TC', serif; font-size: 1.15rem;
+            padding: 18px 0; position: relative; transition: all 0.4s ease;
+            display: flex; align-items: center; gap: 12px;
+        }
+        .nav-num { font-family: 'Helvetica', sans-serif; font-weight: bold; font-size: 0.9rem; opacity: 0.5; }
+        .nav-link.active { color: var(--primary-accent); font-weight: bold; padding-left: 15px; }
+        .nav-link.active .nav-num { opacity: 1; color: var(--gold-accent); }
+        .nav-link.active::before {
+            content: ''; position: absolute; left: 0; top: 50%; transform: translateY(-50%);
+            width: 5px; height: 24px; background: var(--gold-accent);
+        }
+
+        /* --- 手機導覽 --- */
+        .mobile-nav {
+            position: sticky; top: 0; z-index: 999;
+            background: rgba(255,255,255,0.95); backdrop-filter: blur(10px);
+            padding: 15px; border-bottom: 1px solid rgba(0,0,0,0.05);
+            display: flex; gap: 12px; overflow-x: auto;
+        }
+        @media (min-width: 992px) { .mobile-nav { display: none; } }
+        .mobile-nav-item {
+            color: var(--text-primary); text-decoration: none; font-size: 1rem;
+            padding: 8px 18px; border-radius: 50px; background: white; border: 1px solid #ddd;
+            font-weight: 500; white-space: nowrap;
+        }
+        .mobile-nav-item.active { background-color: var(--primary-accent); color: white; border-color: var(--primary-accent); }
+
+        /* --- 卡片 --- */
+        .spot-section {
+            background: white; border-radius: 24px; overflow: hidden;
+            box-shadow: var(--card-shadow); margin-bottom: 70px;
+            transition: transform 0.3s ease; position: relative;
+        }
+        .spot-section:hover { transform: translateY(-5px); }
+
+        .spot-number {
+            position: absolute; top: 20px; left: 20px;
+            background: rgba(255,255,255,0.95); backdrop-filter: blur(5px);
+            padding: 8px 20px; border-radius: 30px;
+            font-family: 'Noto Serif TC', serif; font-weight: bold; font-size: 1.1rem;
+            color: var(--primary-accent); z-index: 10; box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        .cinema-frame { height: 450px; position: relative; overflow: hidden; background-color: #eee; }
+        .cinema-bg {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background-size: cover; background-position: center;
+            filter: blur(25px) brightness(0.95); transform: scale(1.1);
+        }
+        .cinema-img {
+            position: relative; z-index: 2; width: 100%; height: 100%;
+            object-fit: contain; filter: drop-shadow(0 10px 20px rgba(0,0,0,0.2));
+        }
+
+        .spot-content { padding: 45px; }
+        .spot-meta {
+            display: flex; gap: 25px; color: #666; font-size: 1.05rem;
+            margin-bottom: 20px; border-bottom: 1px solid #f0f0f0; padding-bottom: 15px;
+        }
+        .spot-meta i { color: var(--gold-accent); margin-right: 8px; font-size: 1.2rem; }
+
+        .info-grid {
+            display: grid; grid-template-columns: 1fr 1fr; gap: 30px; margin-top: 30px;
+        }
+        .info-item h4 { font-size: 1.2rem; margin-bottom: 15px; border-bottom: 2px solid var(--gold-accent); display: inline-block; }
+        .info-item p { font-size: 1rem; color: #555; line-height: 1.7; }
+
+        .highlight-box {
+            background: #f0f4f8; border-left: 5px solid var(--skyliner-blue);
+            padding: 25px 30px; margin-top: 30px; border-radius: 0 12px 12px 0; font-size: 1.1rem;
+        }
+
+        /* 交通卡片 */
+        .transit-card {
+            text-align: center; margin-bottom: 70px; position: relative;
+            color: #777; font-size: 1.15rem; font-weight: 500;
+        }
+        .transit-card::before {
+            content: ''; display: block; width: 2px; height: 40px;
+            background: #ddd; margin: 0 auto 15px auto;
+        }
+        
+        /* 交通徽章 */
+        .badge-skyliner {
+            background: var(--skyliner-blue); color: white;
+            padding: 6px 16px; border-radius: 50px; font-weight: normal; letter-spacing: 1px;
+            font-size: 0.95rem; vertical-align: middle; margin-right: 10px;
+        }
+        .badge-walk {
+            background: #95a5a6; color: white;
+            padding: 6px 16px; border-radius: 50px; font-size: 0.95rem; vertical-align: middle; margin-right: 10px;
+        }
+
+        /* Header */
+        .main-header { padding: 80px 0 50px; text-align: center; }
+        .main-header h1 { font-size: 3.5rem; letter-spacing: 0.1em; margin-bottom: 15px; }
+        .main-header .divider { width: 80px; height: 4px; background: var(--gold-accent); margin: 25px auto; }
+
+        .home-fab {
+            position: fixed; bottom: 30px; right: 30px;
+            width: 65px; height: 65px;
+            background-color: var(--primary-accent); color: white;
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            text-decoration: none; box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            transition: transform 0.3s ease, background 0.3s; z-index: 1000; font-size: 1.5rem;
+        }
+        .home-fab:hover { background-color: var(--gold-accent); transform: scale(1.1); color: white; }
+
+        @media (max-width: 768px) {
+            body { font-size: 18px; }
+            .info-grid { grid-template-columns: 1fr; }
+            .cinema-frame { height: 300px; }
+            .spot-content { padding: 30px; }
+            .main-header h1 { font-size: 2.5rem; }
+            .home-fab { width: 55px; height: 55px; font-size: 1.2rem; bottom: 20px; right: 20px; }
+        }
+    </style>
+</head>
+<body data-bs-spy="scroll" data-bs-target="#timeline-nav" data-bs-offset="100" tabindex="0">
+
+    <nav class="mobile-nav no-scrollbar">
+        <a class="mobile-nav-item" href="#spot-1">01 車站</a>
+        <a class="mobile-nav-item" href="#spot-2">02 Skyliner</a>
+        <a class="mobile-nav-item" href="#spot-3">03 成田機場</a>
+        <a class="mobile-nav-item" href="#spot-home">Home</a>
+    </nav>
+
+    <div class="container main-wrapper">
+        <div class="row">
+            
+            <div class="col-lg-3">
+                <nav id="timeline-nav" class="sticky-sidebar flex-column">
+                    <h5 class="mb-4 ps-2" style="color:#aaa; letter-spacing:2px; font-size:1rem;">FLOW</h5>
+                    <nav class="nav nav-pills flex-column">
+                        <a class="nav-link" href="#spot-1"><span class="nav-num">01</span> 車站出發</a>
+                        <a class="nav-link" href="#spot-2"><span class="nav-num">02</span> 機場快線</a>
+                        <a class="nav-link" href="#spot-3"><span class="nav-num">03</span> 成田巡禮</a>
+                        <a class="nav-link" href="#spot-home"><span class="nav-num">END</span> 溫暖的家</a>
+                    </nav>
+                </nav>
+            </div>
+
+            <div class="col-lg-9 content-col">
+                
+                <header class="main-header" data-aos="fade-down" id="top">
+                    <p class="text-muted mb-0" style="letter-spacing: 3px; font-size: 1rem;">TOKYO TRIP DAY 7</p>
+                    <h1>最後的賦歸</h1>
+                    <div class="divider"></div>
+                    <p class="text-muted">上野・成田 | 帶著感動與戰利品踏上歸途</p>
+                </header>
+
+                <div id="spot-1" class="section-anchor" data-aos="fade-up">
+                    <div class="spot-section">
+                        <div class="spot-number">Spot 01</div>
+                        <div class="cinema-frame">
+                            <div class="cinema-bg" style="background-image: url('tokyotrip/day7/station.webp');"></div>
+                            <img src="tokyotrip/day7/station.webp" class="cinema-img" alt="京成上野站" onerror="this.src='https://placehold.co/800x600/e0e0e0/999?text=Ueno+Station'">
+                        </div>
+                        <div class="spot-content">
+                            <div class="spot-meta">
+                                <span><i class="fas fa-hotel"></i> 退房指南</span>
+                                <span><i class="fas fa-suitcase-rolling"></i> 行李滿載</span>
+                            </div>
+                            <h3>揮別上野：從 Dormy Inn 到京成上野站</h3>
+                            <p>在 Dormy Inn 享用最後一次早餐後辦理退房。拖著累積了七天的戰利品，沿著熟悉的路徑走向車站。這短短的幾百公尺，是旅程中最深刻的回味時光。</p>
+                            
+                            <div class="info-grid">
+                                <div class="info-item">
+                                    <h4>行李策略</h4>
+                                    <p>如果戰利品過多，建議利用車站內的升降梯。京成上野站的動線設計非常適合大件行李，從進站到月台皆有完善的無障礙設施，讓這段路不至於太過狼狽。</p>
+                                </div>
+                                <div class="info-item">
+                                    <h4>最後的補貨</h4>
+                                    <p>進站前，如果還有剩餘的小零錢，車站附近的便利商店或是上野公園入口處的自動販賣機，是購買「最後一瓶午後紅茶」的好地方。</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="spot-2" class="section-anchor" data-aos="fade-up">
+                    <div class="spot-section">
+                        <div class="spot-number">Spot 02</div>
+                        <div class="cinema-frame">
+                            <div class="cinema-bg" style="background-image: url('tokyotrip/day7/skyliner.jpg');"></div>
+                            <img src="tokyotrip/day7/skyliner.jpg" class="cinema-img" alt="京成 Skyliner" onerror="this.src='https://placehold.co/800x600/e0e0e0/999?text=Skyliner'">
+                        </div>
+                        <div class="spot-content">
+                            <div class="spot-meta">
+                                <span><i class="fas fa-tachometer-alt"></i> 極速體驗</span>
+                                <span><i class="fas fa-couch"></i> 舒適放鬆</span>
+                            </div>
+                            <h3>京成 Skyliner：穿越關東平原的藍色閃電</h3>
+                            <p>作為連結東京市區與成田機場的最速交通工具，Skyliner 以最高時速 160 公里奔馳。坐在舒適的對號座上，窗外的城市景觀漸漸轉為寬廣的田園，心情也隨之平靜。</p>
+
+                            <div class="info-grid">
+                                <div class="info-item">
+                                    <h4>設計與設施</h4>
+                                    <p>由設計大師山本耀司設計的車廂，擁有寬敞的腿部空間與座位充電座。這 41 分鐘的車程是整理旅途照片、寫下最後一點感言的最佳時機。</p>
+                                </div>
+                                <div class="info-item">
+                                    <h4>智慧購票</h4>
+                                    <p>建議提前網上購票或在自動售票機領取，Skyliner 的劃位制度確保了歸途的穩定與舒適，免去了擠通勤電車的辛勞。</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="transit-card" data-aos="fade-in">
+                    <span class="badge-skyliner">Skyliner</span> 京成上野 <i class="fas fa-arrow-right small mx-2"></i> 成田機場 Terminal 
+                </div>
+
+                <div id="spot-3" class="section-anchor" data-aos="fade-up">
+                    <div class="spot-section">
+                        <div class="spot-number">Spot 03</div>
+                        <div class="cinema-frame">
+                            <div class="cinema-bg" style="background-image: url('tokyotrip/day7/airport.webp');"></div>
+                            <img src="tokyotrip/day7/airport.webp" class="cinema-img" alt="成田機場" onerror="this.src='https://placehold.co/800x600/e0e0e0/999?text=Narita+Airport'">
+                        </div>
+                        <div class="spot-content">
+                            <div class="spot-meta">
+                                <span><i class="fas fa-shopping-bag"></i> 機場攻略</span>
+                                <span><i class="fas fa-plane-departure"></i> 最終回眸</span>
+                            </div>
+                            <h3>成田國際機場：滿載心意與伴手禮</h3>
+                            <p>抵達機場後，並非旅程的結束，而是最後的「機場巡禮」。從託運行李到通關後的免稅店衝刺，成田機場本身就是一個超大型的購物中心。</p>
+
+                            <div class="info-grid">
+                                <div class="info-item">
+                                    <h4>免稅店最後衝刺</h4>
+                                    <p>通關後的免稅店是購買伴手禮的最高殿堂。無論是經典的 Tokyo Banana、白色戀人，還是機場限定款的日本清酒與化妝品，這裡都能一次補齊。</p>
+                                </div>
+                                <div class="info-item">
+                                    <h4>觀景台體驗</h4>
+                                    <p>如果時間充裕，成田機場的展望露台是絕佳景點。看著各國飛機頻繁起降，感受航空港繁忙而有序的節奏，為這場夢幻旅行畫下壯麗句點。</p>
+                                </div>
+                            </div>
+
+                            <div class="highlight-box">
+                                <strong><i class="fas fa-clipboard-list" style="color:var(--skyliner-blue)"></i> 機場清單：</strong> 辦理行李託運、領取最後的網路退改、採購特色免稅品、享用最後一份道地日式料理。
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="spot-home" class="section-anchor" data-aos="fade-up">
+                    <div class="spot-section" style="background: var(--primary-accent); color: white;">
+                        <div class="spot-content text-center">
+                            <h3 style="color:white; margin-bottom: 25px;">🌙 Welcome Home</h3>
+                            
+                            <div class="d-flex justify-content-center align-items-center mb-4" style="gap: 20px;">
+                                <div class="text-center">
+                                    <i class="fas fa-plane-departure fa-2x mb-2" style="color: var(--gold-accent);"></i>
+                                    <p class="small mb-0">成田機場</p>
+                                </div>
+                                <div style="flex-grow: 1; max-width: 150px; border-top: 2px dashed rgba(255,255,255,0.4); position: relative;">
+                                    <i class="fas fa-plane" style="position: absolute; top: -15px; left: 50%; transform: translateX(-50%);"></i>
+                                </div>
+                                <div class="text-center">
+                                    <i class="fas fa-home fa-2x mb-2" style="color: var(--gold-accent);"></i>
+                                    <p class="small mb-0">溫暖的家</p>
+                                </div>
+                            </div>
+
+                            <p style="opacity: 0.9; font-size: 1.2rem;">
+                                旅程雖然在此暫告一段落，但每一張照片、每一段回憶，<br>
+                                都將成為養分，陪伴我們期待下一次的出發。
+                            </p>
+                            <hr style="border-color: rgba(255,255,255,0.3); width: 60px; margin: 30px auto;">
+                            <div class="highlight-box text-start mb-0" style="background: rgba(255,255,255,0.1); border-left-color: var(--gold-accent); color: white;">
+                                <strong><i class="fas fa-heart"></i> 歸國提醒：</strong><br>
+                                回家後記得整理行李中的寶貴回憶，並計畫下一次的精彩旅程。東京，我們後會有期！
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <footer class="text-center py-5 text-muted small">
+                    <p style="font-size: 1rem;">&copy; 2026 Tokyo Memory Trip | Day 7</p>
+                </footer>
+
+            </div>
+        </div>
+    </div>
+
+    <a href="index.html" class="home-fab" title="回首頁">
+        <i class="fas fa-home"></i>
+    </a>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init({ duration: 800, once: true, offset: 100 });
+        
+        const mobileLinks = document.querySelectorAll('.mobile-nav-item');
+        mobileLinks.forEach(link => {
+            link.addEventListener('click', function() {
+                mobileLinks.forEach(l => l.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+    </script>
+</body>
+</html>

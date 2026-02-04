@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>東京 Day 2：海灣風情與電氣街道 | 深度旅誌</title>
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@500;700&family=Noto+Sans+TC:wght@300;400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
+    <style>
+        :root {
+            --bg-color: #fcfbf9;       
+            --text-primary: #333333;
+            --primary-accent: #2c5364; 
+            --gold-accent: #c5a059;    
+            --green-accent: #7a9e7e;
+            --ocean-blue: #006994;     
+            --akiba-neon: #e60033;     
+            --keiyo-red: #c9242f;      
+            --yurikamome-silver: #a4a8d4; 
+            --card-shadow: 0 20px 40px rgba(0,0,0,0.06);
+        }
+
+        body {
+            font-family: 'Noto Sans TC', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            font-size: 19px; 
+            line-height: 1.9;
+            letter-spacing: 0.03em;
+        }
+
+        h1, h2, h3, h4 {
+            font-family: 'Noto Serif TC', serif;
+            color: var(--primary-accent);
+            font-weight: 700;
+        }
+        h3 { font-size: 1.8rem; }
+
+        /* --- 導覽列 --- */
+        .sticky-sidebar {
+            position: sticky; top: 40px; padding: 30px;
+            border-left: 2px solid #eee; display: none;
+        }
+        @media (min-width: 992px) { .sticky-sidebar { display: block; } }
+
+        .nav-link {
+            color: #aaa; font-family: 'Noto Serif TC', serif; font-size: 1.15rem;
+            padding: 18px 0; position: relative; transition: all 0.4s ease;
+            display: flex; align-items: center; gap: 12px;
+        }
+        .nav-num { font-family: 'Helvetica', sans-serif; font-weight: bold; font-size: 0.9rem; opacity: 0.5; }
+        .nav-link.active { color: var(--primary-accent); font-weight: bold; padding-left: 15px; }
+        .nav-link.active .nav-num { opacity: 1; color: var(--gold-accent); }
+        .nav-link.active::before {
+            content: ''; position: absolute; left: 0; top: 50%; transform: translateY(-50%);
+            width: 5px; height: 24px; background: var(--gold-accent);
+        }
+
+        /* --- 手機導覽 --- */
+        .mobile-nav {
+            position: sticky; top: 0; z-index: 999;
+            background: rgba(255,255,255,0.95); backdrop-filter: blur(10px);
+            padding: 15px; border-bottom: 1px solid rgba(0,0,0,0.05);
+            display: flex; gap: 12px; overflow-x: auto;
+        }
+        @media (min-width: 992px) { .mobile-nav { display: none; } }
+        .mobile-nav-item {
+            color: var(--text-primary); text-decoration: none; font-size: 1rem;
+            padding: 8px 18px; border-radius: 50px; background: white; border: 1px solid #ddd;
+            font-weight: 500; white-space: nowrap;
+        }
+        .mobile-nav-item.active { background-color: var(--primary-accent); color: white; border-color: var(--primary-accent); }
+
+        /* --- 卡片 --- */
+        .spot-section {
+            background: white; border-radius: 24px; overflow: hidden;
+            box-shadow: var(--card-shadow); margin-bottom: 70px;
+            transition: transform 0.3s ease; position: relative;
+        }
+        .spot-number {
+            position: absolute; top: 20px; left: 20px;
+            background: rgba(255,255,255,0.95); backdrop-filter: blur(5px);
+            padding: 8px 20px; border-radius: 30px;
+            font-family: 'Noto Serif TC', serif; font-weight: bold; font-size: 1.1rem;
+            color: var(--primary-accent); z-index: 10; box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        .cinema-frame { height: 450px; position: relative; overflow: hidden; background-color: #eee; }
+        .cinema-bg {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background-size: cover; background-position: center;
+            filter: blur(25px) brightness(0.95); transform: scale(1.1);
+        }
+        .cinema-img {
+            position: relative; z-index: 2; width: 100%; height: 100%;
+            object-fit: contain; filter: drop-shadow(0 10px 20px rgba(0,0,0,0.2));
+        }
+
+        .spot-content { padding: 45px; }
+        .spot-meta {
+            display: flex; gap: 25px; color: #666; font-size: 1.05rem;
+            margin-bottom: 20px; border-bottom: 1px solid #f0f0f0; padding-bottom: 15px;
+        }
+        .spot-meta i { color: var(--gold-accent); margin-right: 8px; font-size: 1.2rem; }
+
+        .info-grid {
+            display: grid; grid-template-columns: 1fr 1fr; gap: 30px; margin-top: 30px;
+        }
+        .info-item h4 { font-size: 1.2rem; margin-bottom: 15px; border-bottom: 2px solid var(--gold-accent); display: inline-block; }
+        .info-item p { font-size: 1rem; color: #555; line-height: 1.7; }
+
+        .highlight-box {
+            background: #f0f8ff; border-left: 5px solid var(--ocean-blue);
+            padding: 25px 30px; margin-top: 30px; border-radius: 0 12px 12px 0; font-size: 1.1rem;
+        }
+        .highlight-box.akiba { background: #fff5f7; border-left-color: var(--akiba-neon); }
+        .highlight-box.shrine { background: #fffcf5; border-left-color: var(--gold-accent); }
+
+        /* --- 百合海鷗號專屬樣式 --- */
+        .yurikamome-intro-box {
+            background: #f8f9fa; 
+            border: 2px dashed var(--yurikamome-silver);
+            border-radius: 16px;
+            padding: 30px;
+            margin-bottom: 30px;
+            position: relative;
+            text-align: left;
+        }
+        .yurikamome-intro-title {
+            color: #6c757d;
+            font-family: 'Noto Serif TC', serif;
+            font-weight: bold;
+            font-size: 1.3rem;
+            margin-bottom: 10px;
+            display: flex; align-items: center; gap: 10px;
+        }
+
+        /* 交通卡片 */
+        .transit-card {
+            text-align: center; margin-bottom: 70px; position: relative;
+            color: #777; font-size: 1.15rem; font-weight: 500;
+        }
+        .transit-card::before {
+            content: ''; display: block; width: 2px; height: 40px;
+            background: #ddd; margin: 0 auto 15px auto;
+        }
+        
+        /* 交通徽章 */
+        .badge-keiyo {
+            background: var(--keiyo-red); color: white;
+            padding: 6px 16px; border-radius: 50px; font-weight: normal; letter-spacing: 1px;
+            font-size: 0.95rem; vertical-align: middle; margin-right: 10px;
+        }
+        .badge-yurikamome {
+            background: #b0c4de; color: #333; 
+            padding: 6px 16px; border-radius: 50px; font-weight: normal; letter-spacing: 1px;
+            font-size: 0.95rem; vertical-align: middle; margin-right: 10px;
+        }
+        .badge-walk {
+            background: #95a5a6; color: white;
+            padding: 6px 16px; border-radius: 50px; font-size: 0.95rem; vertical-align: middle; margin-right: 10px;
+        }
+
+        /* Header */
+        .main-header { padding: 80px 0 50px; text-align: center; }
+        .main-header h1 { font-size: 3.5rem; letter-spacing: 0.1em; margin-bottom: 15px; }
+        .main-header .divider { width: 80px; height: 4px; background: var(--gold-accent); margin: 25px auto; }
+
+        .home-fab {
+            position: fixed; bottom: 30px; right: 30px;
+            width: 65px; height: 65px;
+            background-color: var(--primary-accent); color: white;
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            text-decoration: none; box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            transition: transform 0.3s ease, background 0.3s; z-index: 1000; font-size: 1.5rem;
+        }
+        .home-fab:hover { background-color: var(--gold-accent); transform: scale(1.1); color: white; }
+
+        @media (max-width: 768px) {
+            body { font-size: 18px; }
+            .info-grid { grid-template-columns: 1fr; }
+            .cinema-frame { height: 300px; }
+            .spot-content { padding: 30px; }
+            .main-header h1 { font-size: 2.5rem; }
+        }
+    </style>
+</head>
+<body data-bs-spy="scroll" data-bs-target="#timeline-nav" data-bs-offset="100" tabindex="0">
+
+    <nav class="mobile-nav no-scrollbar">
+        <a class="mobile-nav-item" href="#spot-1">01 水族園</a>
+        <a class="mobile-nav-item" href="#spot-2">02 台場</a>
+        <a class="mobile-nav-item" href="#spot-3">03 秋葉原</a>
+        <a class="mobile-nav-item" href="#spot-4">04 神田神社</a>
+        <a class="mobile-nav-item" href="#spot-home">Ending</a>
+    </nav>
+
+    <div class="container main-wrapper">
+        <div class="row">
+            
+            <div class="col-lg-3">
+                <nav id="timeline-nav" class="sticky-sidebar flex-column">
+                    <h5 class="mb-4 ps-2" style="color:#aaa; letter-spacing:2px; font-size:1rem;">FLOW</h5>
+                    <nav class="nav nav-pills flex-column">
+                        <a class="nav-link" href="#spot-1"><span class="nav-num">01</span> 葛西臨海水族園</a>
+                        <a class="nav-link" href="#spot-2"><span class="nav-num">02</span> 台場海濱公園</a>
+                        <a class="nav-link" href="#spot-3"><span class="nav-num">03</span> 秋葉原電器街</a>
+                        <a class="nav-link" href="#spot-4"><span class="nav-num">04</span> 神田神社</a>
+                        <a class="nav-link" href="#spot-home"><span class="nav-num">END</span> 步行回飯店</a>
+                    </nav>
+                </nav>
+            </div>
+
+            <div class="col-lg-9 content-col">
+                
+                <header class="main-header" data-aos="fade-down">
+                    <p class="text-muted mb-0" style="letter-spacing: 3px; font-size: 1rem;">TOKYO TRIP DAY 2</p>
+                    <h1>海灣與電氣</h1>
+                    <div class="divider"></div>
+                    <p class="text-muted">葛西・台場・秋葉原 | 從深海到未來的旅程</p>
+                </header>
+
+                <div class="transit-card" data-aos="fade-in">
+                    <h5 class="mb-4">🌊 往東京灣出發</h5>
+                    <span class="badge-line">JR 山手線</span> 御徒町 <i class="fas fa-arrow-right small mx-2"></i> 東京站 (轉乘)<br><br>
+                    <i class="fas fa-arrow-down text-muted"></i><br><br>
+                    <span class="badge-keiyo">JR 京葉線</span> 東京 <i class="fas fa-arrow-right small mx-2"></i> 葛西臨海公園<br>
+                    <small class="text-muted">※ 東京站轉乘京葉線需步行約 10-15 分鐘，請預留時間。</small>
+                </div>
+
+                <div id="spot-1" class="section-anchor" data-aos="fade-up">
+                    <div class="spot-section">
+                        <div class="spot-number">Spot 01</div>
+                        <div class="cinema-frame">
+                            <div class="cinema-bg" style="background-image: url('tokyotrip/day2/fishpark.jpg');"></div>
+                            <img src="tokyotrip/day2/fishpark.jpg" class="cinema-img" alt="葛西水族園" onerror="this.src='https://placehold.co/800x600/e0e0e0/999?text=Aquarium'">
+                        </div>
+                        <div class="spot-content">
+                            <div class="spot-meta">
+                                <span><i class="fas fa-drafting-compass"></i> 谷口吉生設計</span>
+                                <span><i class="fas fa-fish"></i> 黑鮪魚環繞</span>
+                            </div>
+                            <h3>葛西臨海水族園：深藍色的玻璃穹頂</h3>
+                            <p>巨大的玻璃圓頂彷彿漂浮在東京灣面上。不同於一般水族館的華麗表演，這裡更專注於展現海洋原生態的震撼與建築之美。</p>
+                            
+                            <div class="info-grid">
+                                <div class="info-item">
+                                    <h4>黑鮪魚的迴遊</h4>
+                                    <p>在名為「大洋航海者」的環形水槽中，您可以觀察到黑鮪魚群以驚人的速度不斷繞圈游動。這是全球少數能成功人工飼養黑鮪魚的場所，銀光閃爍極具張力。</p>
+                                </div>
+                                <div class="info-item">
+                                    <h4>企鵝展示區</h4>
+                                    <p>日本最大規模的企鵝展示區之一。您可以從水面上觀察牠們搖晃走路，也可以透過地下玻璃，欣賞牠們在水中如燕子般穿梭的英姿。</p>
+                                </div>
+                            </div>
+
+                            <div class="highlight-box">
+                                <strong><i class="fas fa-star" style="color:var(--ocean-blue)"></i> 必看：</strong> 2,200 噸巨型環形水槽、玻璃圓頂光影、國內最大級企鵝場。
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="transit-card" data-aos="fade-in">
+                    <span class="badge-keiyo">JR 京葉線</span> 葛西臨海公園 <i class="fas fa-arrow-right small mx-2"></i> 新木場 <i class="fas fa-arrow-right small mx-2"></i> 東京電訊站 (臨海線)
+                </div>
+
+                <div id="spot-2" class="section-anchor" data-aos="fade-up">
+                    <div class="spot-section">
+                        <div class="spot-number">Spot 02</div>
+                        <div class="cinema-frame">
+                            <div class="cinema-bg" style="background-image: url('tokyotrip/day2/seapark.webp');"></div>
+                            <img src="tokyotrip/day2/seapark.webp" class="cinema-img" alt="台場" onerror="this.src='https://placehold.co/800x600/e0e0e0/999?text=Odaiba'">
+                        </div>
+                        <div class="spot-content">
+                            <div class="spot-meta">
+                                <span><i class="fas fa-robot"></i> 獨角獸鋼彈</span>
+                                <span><i class="fas fa-city"></i> 都市天際線</span>
+                            </div>
+                            <h3>台場海濱公園：科技與海風的浪漫</h3>
+                            <p>東京最迷人的人工島，結合了購物中心、富士電視台建築，以及最迷人的都市海岸線，是東京現代美學的縮影。</p>
+
+                            <div class="info-grid">
+                                <div class="info-item">
+                                    <h4>DiverCity 鋼彈傳奇</h4>
+                                    <p>矗立在商場前的「實物大獨角獸鋼彈」是台場的精神象徵。若遇整點，可以觀賞到盔甲伸縮、發光的變身演出，配合背景音樂沉浸感十足。</p>
+                                </div>
+                                <div class="info-item">
+                                    <h4>彩虹大橋與女神</h4>
+                                    <p>漫步在海濱木棧道，迷你版自由女神像與後方的跨海大橋交相輝映，讓人彷彿置身紐約，卻又保有日本獨有的精緻氛圍。</p>
+                                </div>
+                            </div>
+
+                            <div class="highlight-box">
+                                <strong><i class="fas fa-camera" style="color:var(--gold-accent)"></i> 打卡：</strong> 獨角獸鋼彈 (定時表演)、自由女神像、DECKS 展望平台。
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div data-aos="fade-up">
+                    <div class="yurikamome-intro-box">
+                        <div class="yurikamome-intro-title">
+                            <i class="fas fa-subway"></i> 百合海鷗號 (Yurikamome)
+                        </div>
+                        <p style="margin-bottom: 0; font-size: 1rem; color: #555;">
+                            無人駕駛的高架電車。建議搶佔<strong>第一節車廂最前排</strong>。列車駛過彩虹大橋時，270 度的東京灣景觀將如環繞銀幕般在眼前展開。
+                        </p>
+                    </div>
+
+                    <div class="transit-card">
+                        <span class="badge-yurikamome">百合海鷗號</span> 台場 <i class="fas fa-arrow-right small mx-2"></i> 新橋<br><br>
+                        <i class="fas fa-arrow-down text-muted"></i><br><br>
+                        <span class="badge-line">JR 山手線</span> 新橋 <i class="fas fa-arrow-right small mx-2"></i> 秋葉原
+                    </div>
+                </div>
+
+                <div id="spot-3" class="section-anchor" data-aos="fade-up">
+                    <div class="spot-section">
+                        <div class="spot-number">Spot 03</div>
+                        <div class="cinema-frame">
+                            <div class="cinema-bg" style="background-image: url('tokyotrip/day2/shoppingstreet.webp');"></div>
+                            <img src="tokyotrip/day2/shoppingstreet.webp" class="cinema-img" alt="秋葉原" onerror="this.src='https://placehold.co/800x600/e0e0e0/999?text=Akihabara'">
+                        </div>
+                        <div class="spot-content">
+                            <div class="spot-meta">
+                                <span><i class="fas fa-gamepad"></i> 次文化麥加</span>
+                                <span><i class="fas fa-bolt"></i> 霓虹幻境</span>
+                            </div>
+                            <h3>秋葉原電器街：2D 與 3D 的交會點</h3>
+                            <p>全球動漫迷與技術狂的聖地。滿街的霓虹看板、不斷播放的主題曲，以及充滿活力的街頭氛圍，構築成獨特的「Akiba」文化。</p>
+
+                            <div class="info-grid">
+                                <div class="info-item">
+                                    <h4>動漫與模型探索</h4>
+                                    <p>從「Radio 會館」到「Animate」，層層疊疊的店家能找到各類限定公仔。即使不購物，在這些充滿細節的店鋪穿梭也是種文化觀察。</p>
+                                </div>
+                                <div class="info-item">
+                                    <h4>Yodobashi 零售美學</h4>
+                                    <p>超大型電器行 Yodobashi-Akiba 展現了日本極致的零售效率，從高端相機到無窮無盡的扭蛋牆，是採購生活電器的首選場所。</p>
+                                </div>
+                            </div>
+
+                            <div class="highlight-box akiba">
+                                <strong><i class="fas fa-bolt" style="color:var(--akiba-neon)"></i> 感受：</strong> 夜晚降臨時，漫步在中央通感受賽博龐克 (Cyberpunk) 風格的霓虹街景。
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="transit-card" data-aos="fade-in">
+                    <span class="badge-walk"><i class="fas fa-walking"></i> 步行</span> 
+                    秋葉原電器街 <i class="fas fa-arrow-right small mx-2"></i> 神田神社 (約 10 分鐘)
+                </div>
+
+                <div id="spot-4" class="section-anchor" data-aos="fade-up">
+                    <div class="spot-section">
+                        <div class="spot-number">Spot 04</div>
+                        <div class="cinema-frame">
+                            <div class="cinema-bg" style="background-image: url('tokyotrip/day2/kandashrine.webp');"></div>
+                            <img src="tokyotrip/day2/godfieldteemple.jpg" class="cinema-img" alt="神田神社" onerror="this.src='https://placehold.co/800x600/e0e0e0/999?text=Kanda+Shrine'">
+                        </div>
+                        <div class="spot-content">
+                            <div class="spot-meta">
+                                <span><i class="fas fa-microchip"></i> IT 守護</span>
+                                <span><i class="fas fa-torii-gate"></i> 24小時開放</span>
+                            </div>
+                            <h3>神田神社：跨越千年的守護之神</h3>
+                            <p>擁有超過 1300 年歷史的神田明神，不僅是江戶時期的總鎮守，更以與動漫作品聯名、守護科技發展而聞名於世。</p>
+
+                            <div class="info-grid">
+                                <div class="info-item">
+                                    <h4>IT 守護與電子御守</h4>
+                                    <p>全日本獨一無二的「IT 守護符」，外觀像電路板。許多相關從業者會專程前往參拜，祈求電腦運作穩定、程式無災，體現神社的時代性。</p>
+                                </div>
+                                <div class="info-item">
+                                    <h4>動漫繪馬文化</h4>
+                                    <p>作為《Love Live!》等名作的舞台，繪馬架上掛滿了世界各地繪師精雕細琢的動漫繪馬。夜晚亮燈後的朱紅隨神門顯得格外優雅。</p>
+                                </div>
+                            </div>
+
+                            <div class="highlight-box shrine">
+                                <strong><i class="fas fa-om" style="color:var(--gold-accent)"></i> 靜謐：</strong> 這裡是遠離電器街喧囂的淨土。夜晚氣氛莊嚴神聖，非常適合靜心總結一天的行程。
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="spot-home" class="section-anchor" data-aos="fade-up">
+                    <div class="spot-section" style="background: var(--primary-accent); color: white;">
+                        <div class="spot-content text-center">
+                            <h3 style="color:white; margin-bottom: 25px;">🌙 漫步回程</h3>
+                            
+                            <div class="d-flex justify-content-center align-items-center mb-4" style="gap: 20px;">
+                                <div class="text-center">
+                                    <i class="fas fa-torii-gate fa-2x mb-2" style="color: var(--gold-accent);"></i>
+                                    <p class="small mb-0">神田神社</p>
+                                </div>
+                                
+                                <div style="flex-grow: 1; max-width: 150px; border-top: 2px dashed rgba(255,255,255,0.4); position: relative;">
+                                    <i class="fas fa-walking" style="position: absolute; top: -25px; left: 50%; transform: translateX(-50%);"></i>
+                                    <span class="small" style="position: absolute; bottom: -25px; left: 50%; transform: translateX(-50%); white-space: nowrap;">約 1.2km / 步行</span>
+                                </div>
+
+                                <div class="text-center">
+                                    <i class="fas fa-hotel fa-2x mb-2" style="color: var(--gold-accent);"></i>
+                                    <p class="small mb-0">Dormy Inn</p>
+                                </div>
+                            </div>
+
+                            <p style="opacity: 0.9; font-size: 1.1rem; line-height: 1.6;">
+                                穿過夜晚安靜的上野廣小路巷弄，回到御徒町。<br>
+                                享受涼爽的晚風，為今天的旅程畫下句點。
+                            </p>
+                            <hr style="border-color: rgba(255,255,255,0.3); width: 60px; margin: 30px auto;">
+                            <div class="highlight-box text-start mb-0" style="background: rgba(255,255,255,0.1); border-left-color: var(--gold-accent); color: white;">
+                                <strong><i class="fas fa-hot-tub"></i> 睡前提醒：</strong><br>
+                                回飯店後，剛好趕上 Dormy Inn 的<strong>夜鳴拉麵</strong> (21:30 - 23:00)，再泡個溫泉，洗去整天的疲憊。
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <footer class="text-center py-5 text-muted small">
+                    <p style="font-size: 1rem;">&copy; 2026 Tokyo Memory Trip</p>
+                </footer>
+
+            </div>
+        </div>
+    </div>
+
+    <a href="index.html" class="home-fab" title="回首頁">
+        <i class="fas fa-home"></i>
+    </a>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init({ duration: 800, once: true, offset: 100 });
+        const mobileLinks = document.querySelectorAll('.mobile-nav-item');
+        mobileLinks.forEach(link => {
+            link.addEventListener('click', function() {
+                mobileLinks.forEach(l => l.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+    </script>
+</body>
+</html>

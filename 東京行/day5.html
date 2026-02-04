@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>東京 Day 5：湘南鎌倉與橫濱一日遊 | 深度旅誌</title>
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@500;700&family=Noto+Sans+TC:wght@300;400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
+    <style>
+        :root {
+            --bg-color: #fcfbf9;       
+            --text-primary: #333333;
+            --primary-accent: #2c5364; 
+            --gold-accent: #c5a059;    
+            --shonan-teal: #2e8b93;    /* 湘南海岸青綠色 */
+            --brick-red: #a8423f;      /* 橫濱紅磚色 */
+            --oedo-magenta: #b6007a;   /* 大江戶線紫紅色 */
+            --card-shadow: 0 20px 40px rgba(0,0,0,0.06);
+        }
+
+        body {
+            font-family: 'Noto Sans TC', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            font-size: 19px; 
+            line-height: 1.9;
+            letter-spacing: 0.03em;
+        }
+
+        h1, h2, h3, h4 {
+            font-family: 'Noto Serif TC', serif;
+            color: var(--primary-accent);
+            font-weight: 700;
+        }
+        h3 { font-size: 1.8rem; }
+
+        /* --- 導覽列 --- */
+        .sticky-sidebar {
+            position: sticky; top: 40px; padding: 30px;
+            border-left: 2px solid #eee; display: none;
+        }
+        @media (min-width: 992px) { .sticky-sidebar { display: block; } }
+
+        .nav-link {
+            color: #aaa; font-family: 'Noto Serif TC', serif; font-size: 1.15rem;
+            padding: 15px 0; position: relative; transition: all 0.4s ease;
+            display: flex; align-items: center; gap: 10px;
+        }
+        .nav-num { font-family: 'Helvetica', sans-serif; font-weight: bold; font-size: 0.9rem; opacity: 0.5; }
+        .nav-link.active { color: var(--primary-accent); font-weight: bold; padding-left: 15px; }
+        .nav-link.active .nav-num { opacity: 1; color: var(--gold-accent); }
+        .nav-link.active::before {
+            content: ''; position: absolute; left: 0; top: 50%; transform: translateY(-50%);
+            width: 5px; height: 24px; background: var(--gold-accent);
+        }
+
+        /* --- 手機導覽 --- */
+        .mobile-nav {
+            position: sticky; top: 0; z-index: 999;
+            background: rgba(255,255,255,0.95); backdrop-filter: blur(10px);
+            padding: 15px; border-bottom: 1px solid rgba(0,0,0,0.05);
+            display: flex; gap: 12px; overflow-x: auto;
+        }
+        @media (min-width: 992px) { .mobile-nav { display: none; } }
+        .mobile-nav-item {
+            color: var(--text-primary); text-decoration: none; font-size: 1rem;
+            padding: 8px 18px; border-radius: 50px; background: white; border: 1px solid #ddd;
+            font-weight: 500; white-space: nowrap;
+        }
+        .mobile-nav-item.active { background-color: var(--primary-accent); color: white; border-color: var(--primary-accent); }
+
+        /* --- 卡片 --- */
+        .spot-section {
+            background: white; border-radius: 24px; overflow: hidden;
+            box-shadow: var(--card-shadow); margin-bottom: 70px;
+            transition: transform 0.3s ease; position: relative;
+        }
+        .spot-section:hover { transform: translateY(-5px); }
+
+        .spot-number {
+            position: absolute; top: 20px; left: 20px;
+            background: rgba(255,255,255,0.95); backdrop-filter: blur(5px);
+            padding: 8px 20px; border-radius: 30px;
+            font-family: 'Noto Serif TC', serif; font-weight: bold; font-size: 1.1rem;
+            color: var(--primary-accent); z-index: 10;
+        }
+
+        .cinema-frame { height: 450px; position: relative; overflow: hidden; background-color: #eee; }
+        .cinema-bg {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background-size: cover; background-position: center;
+            filter: blur(25px) brightness(0.95); transform: scale(1.1);
+        }
+        .cinema-img {
+            position: relative; z-index: 2; width: 100%; height: 100%;
+            object-fit: contain; filter: drop-shadow(0 10px 20px rgba(0,0,0,0.2));
+        }
+
+        .spot-content { padding: 45px; }
+        .spot-meta {
+            display: flex; gap: 25px; color: #666; font-size: 1.05rem;
+            margin-bottom: 20px; border-bottom: 1px solid #f0f0f0; padding-bottom: 15px;
+        }
+        .spot-meta i { color: var(--gold-accent); margin-right: 8px; font-size: 1.2rem; }
+
+        .info-grid {
+            display: grid; grid-template-columns: 1fr 1fr; gap: 30px; margin-top: 30px;
+        }
+        .info-item h4 { font-size: 1.2rem; margin-bottom: 15px; border-bottom: 2px solid var(--gold-accent); display: inline-block; }
+        .info-item p { font-size: 1rem; color: #555; line-height: 1.7; }
+
+        .highlight-box {
+            background: #f0fbfb; border-left: 5px solid var(--shonan-teal);
+            padding: 25px 30px; margin-top: 30px; border-radius: 0 12px 12px 0; font-size: 1.1rem;
+        }
+
+        /* 巴士集合專屬樣式 */
+        .bus-meeting-box {
+            background: #fff0f0; border: 2px solid #e74c3c;
+            border-radius: 16px; padding: 30px; margin-bottom: 50px;
+            position: relative; text-align: left;
+            box-shadow: 0 10px 20px rgba(231, 76, 60, 0.1);
+        }
+        .bus-meeting-title {
+            color: #e74c3c; font-weight: bold; font-size: 1.4rem;
+            margin-bottom: 15px; display: flex; align-items: center; gap: 10px;
+        }
+        .meeting-time { font-size: 1.8rem; font-weight: 800; color: #e74c3c; }
+
+        /* 交通卡片 */
+        .transit-card {
+            text-align: center; margin-bottom: 70px; position: relative;
+            color: #777; font-size: 1.15rem; font-weight: 500;
+        }
+        .transit-card::before {
+            content: ''; display: block; width: 2px; height: 40px;
+            background: #ddd; margin: 0 auto 15px auto;
+        }
+        .badge-oedo {
+            background: var(--oedo-magenta); color: white;
+            padding: 6px 16px; border-radius: 50px; font-weight: normal; letter-spacing: 1px;
+            font-size: 0.95rem; vertical-align: middle; margin-right: 10px;
+        }
+        .badge-bus {
+            background: var(--primary-accent); color: white;
+            padding: 6px 16px; border-radius: 50px; font-weight: normal; letter-spacing: 1px;
+            font-size: 0.95rem; vertical-align: middle; margin-right: 10px;
+        }
+
+        /* Header */
+        .main-header { padding: 80px 0 50px; text-align: center; }
+        .main-header h1 { font-size: 3.5rem; letter-spacing: 0.1em; margin-bottom: 15px; }
+        .main-header .divider { width: 80px; height: 4px; background: var(--gold-accent); margin: 25px auto; }
+
+        .home-fab {
+            position: fixed; bottom: 30px; right: 30px;
+            width: 65px; height: 65px;
+            background-color: var(--primary-accent); color: white;
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            text-decoration: none; box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            transition: transform 0.3s ease, background 0.3s; z-index: 1000; font-size: 1.5rem;
+        }
+        .home-fab:hover { background-color: var(--gold-accent); transform: scale(1.1); color: white; }
+
+        @media (max-width: 768px) {
+            body { font-size: 18px; }
+            .info-grid { grid-template-columns: 1fr; }
+            .cinema-frame { height: 300px; }
+            .spot-content { padding: 30px; }
+            .main-header h1 { font-size: 2.5rem; }
+            .home-fab { width: 55px; height: 55px; font-size: 1.2rem; bottom: 20px; right: 20px; }
+        }
+    </style>
+</head>
+<body data-bs-spy="scroll" data-bs-target="#timeline-nav" data-bs-offset="100" tabindex="0">
+
+    <nav class="mobile-nav no-scrollbar">
+        <a class="mobile-nav-item" href="#spot-1">01 江之島</a>
+        <a class="mobile-nav-item" href="#spot-2">02 江島神社</a>
+        <a class="mobile-nav-item" href="#spot-3">03 江之電</a>
+        <a class="mobile-nav-item" href="#spot-4">04 鎌倉高校</a>
+        <a class="mobile-nav-item" href="#spot-5">05 八幡宮</a>
+        <a class="mobile-nav-item" href="#spot-6">06 小町通</a>
+        <a class="mobile-nav-item" href="#spot-7">07 橫濱紅磚</a>
+        <a class="mobile-nav-item" href="#spot-home">Ending</a>
+    </nav>
+
+    <div class="container main-wrapper">
+        <div class="row">
+            
+            <div class="col-lg-3">
+                <nav id="timeline-nav" class="sticky-sidebar flex-column">
+                    <h5 class="mb-4 ps-2" style="color:#aaa; letter-spacing:2px; font-size:1rem;">FLOW</h5>
+                    <nav class="nav nav-pills flex-column">
+                        <a class="nav-link" href="#meeting"><span class="nav-num">Start</span> 集合出發</a>
+                        <a class="nav-link" href="#spot-1"><span class="nav-num">01</span> 江之島</a>
+                        <a class="nav-link" href="#spot-2"><span class="nav-num">02</span> 江島神社</a>
+                        <a class="nav-link" href="#spot-3"><span class="nav-num">03</span> 江之電體驗</a>
+                        <a class="nav-link" href="#spot-4"><span class="nav-num">04</span> 鎌倉高校前</a>
+                        <a class="nav-link" href="#spot-5"><span class="nav-num">05</span> 鶴岡八幡宮</a>
+                        <a class="nav-link" href="#spot-6"><span class="nav-num">06</span> 小町通</a>
+                        <a class="nav-link" href="#spot-7"><span class="nav-num">07</span> 橫濱紅磚倉庫</a>
+                        <a class="nav-link" href="#spot-home"><span class="nav-num">END</span> 賦歸</a>
+                    </nav>
+                </nav>
+            </div>
+
+            <div class="col-lg-9 content-col">
+                
+                <header class="main-header" data-aos="fade-down">
+                    <p class="text-muted mb-0" style="letter-spacing: 3px; font-size: 1rem;">TOKYO TRIP DAY 5</p>
+                    <h1>湘南與橫濱</h1>
+                    <div class="divider"></div>
+                    <p class="text-muted">巴士一日遊 | 青春的海岸線與港都風情</p>
+                </header>
+
+                <div class="transit-card" data-aos="fade-in">
+                    <h5 class="mb-4">🚇 前往集合地點</h5>
+                    <span class="badge-oedo">都營大江戶線</span> 上野御徒町 <i class="fas fa-arrow-right small mx-2"></i> 新宿西口 (約 20 分)<br>
+                    <small class="text-muted">新宿站較大，請預留 15 分鐘步行至地面集合點</small>
+                </div>
+
+                <div id="meeting" class="section-anchor" data-aos="zoom-in">
+                    <div class="bus-meeting-box">
+                        <div class="bus-meeting-title">
+                            <i class="fas fa-exclamation-circle"></i> 集合情報 (準時發車)
+                        </div>
+                        <div class="row align-items-center">
+                            <div class="col-md-4 text-center border-end">
+                                <div class="text-muted small">集合時間</div>
+                                <div class="meeting-time">10:50</div>
+                                <div class="text-danger small">逾時不候</div>
+                            </div>
+                            <div class="col-md-8 ps-md-4">
+                                <h5 class="mb-2" style="font-weight:bold;">東京 MODE 學園 (繭絲大樓) 前</h5>
+                                <p class="mb-0 small"><i class="fas fa-map-pin"></i> 新宿西口站 E12 出口步行約 5-10 分鐘</p>
+                                <p class="mb-0 small text-muted">認明外觀像「蠶繭」的白色超高大樓</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="spot-1" class="section-anchor" data-aos="fade-up">
+                    <div class="spot-section">
+                        <div class="spot-number">Spot 01</div>
+                        <div class="cinema-frame">
+                            <div class="cinema-bg" style="background-image: url('tokyotrip/day5/island.webp');"></div>
+                            <img src="tokyotrip/day5/island.webp" class="cinema-img" alt="江之島" onerror="this.src='https://placehold.co/800x600/e0e0e0/999?text=Enoshima'">
+                        </div>
+                        <div class="spot-content">
+                            <div class="spot-meta">
+                                <span><i class="fas fa-water"></i> 湘南海岸</span>
+                                <span><i class="fas fa-camera"></i> 絕美藍調</span>
+                            </div>
+                            <h3>江之島：太平洋上的綠寶石</h3>
+                            <p>這是一座充滿神話色彩的陸連島。從見晴亭漫步而下，能看見壯觀的海蝕平台與礁石，海浪拍打岸邊的聲音與開闊的視野，讓人瞬間忘卻城市繁囂。</p>
+                            
+                            <div class="info-grid">
+                                <div class="info-item">
+                                    <h4>海灣景致</h4>
+                                    <p>江之島擁有獨特的海灣地形，天氣晴朗時甚至能遠眺富士山。沿著海岸步道行走，能觀察到豐富的海濱植被與壯闊的地質景觀。</p>
+                                </div>
+                                <div class="info-item">
+                                    <h4>吻仔魚美食</h4>
+                                    <p>來到這裡絕不能錯過當地的「吻仔魚 (Shirasu)」料理。無論是生食還是熟食，那種帶有淡淡海鹽味的鮮甜是湘南地區最具代表性的滋味。</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="spot-2" class="section-anchor" data-aos="fade-up">
+                    <div class="spot-section">
+                        <div class="spot-number">Spot 02</div>
+                        <div class="cinema-frame">
+                            <div class="cinema-bg" style="background-image: url('tokyotrip/day5/islandtemple.webp');"></div>
+                            <img src="tokyotrip/day5/islandtemple.webp" class="cinema-img" alt="江島神社" onerror="this.src='https://placehold.co/800x600/e0e0e0/999?text=Enoshima+Shrine'">
+                        </div>
+                        <div class="spot-content">
+                            <div class="spot-meta">
+                                <span><i class="fas fa-torii-gate"></i> 三大弁財天</span>
+                                <span><i class="fas fa-music"></i> 財富與才藝</span>
+                            </div>
+                            <h3>江島神社：山道上的神靈庇佑</h3>
+                            <p>供奉日本三大弁財天之一，由邊津宮、中津宮、奧津宮三座神社組成。雖然通往主殿的階梯頗具挑戰，但登高後的涼風與古色古香的朱紅建築，是最佳的報償。</p>
+
+                            <div class="info-grid">
+                                <div class="info-item">
+                                    <h4>財運祈福</h4>
+                                    <p>弁財天是掌管口才、音樂與財富的女神。信眾常在此求取「洗錢」祈求財源廣進，神社境內的「龍戀之鐘」更是著名的姻緣聖地。</p>
+                                </div>
+                                <div class="info-item">
+                                    <h4>江之島電梯 (Escar)</h4>
+                                    <p>如果不想體力透支，可以使用全日本少見的「戶外付費電梯」，分段銜接上山，讓參拜過程變得輕鬆優雅。</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="spot-3" class="section-anchor" data-aos="fade-up">
+                    <div class="spot-section">
+                        <div class="spot-number">Spot 03</div>
+                        <div class="cinema-frame">
+                            <div class="cinema-bg" style="background-image: url('tokyotrip/day5/train.jpg');"></div>
+                            <img src="tokyotrip/day5/train.jpg" class="cinema-img" alt="江之電" onerror="this.src='https://placehold.co/800x600/e0e0e0/999?text=Enoden'">
+                        </div>
+                        <div class="spot-content">
+                            <div class="spot-meta">
+                                <span><i class="fas fa-train"></i> 百年鐵道</span>
+                                <span><i class="fas fa-sun"></i> 海邊電車</span>
+                            </div>
+                            <h3>江之電體驗：復古綠皮車的慢旅行</h3>
+                            <p>穿越民宅後院、緊鄰太平洋行駛。江之島電鐵（江之電）不僅是當地人的通勤工具，更是湘南浪漫風景的代名詞。當車窗外映射出波光粼粼的海面，彷彿進入了電影場景。</p>
+                            
+                            <div class="info-grid">
+                                <div class="info-item">
+                                    <h4>鐵道文化</h4>
+                                    <p>江之電擁有超過百年的歷史，車廂保留了復古的木造與綠黃色塗裝。部分路段甚至像路面電車般行駛在馬路中央，人車並行的景象十分獨特。</p>
+                                </div>
+                                <div class="info-item">
+                                    <h4>海岸景觀位</h4>
+                                    <p>從「鎌倉高校前」到「七里濱」站之間，是鐵道離海洋最近的路段。搶占面向海洋的一側座位，能收穫無遮蔽的絕美湘南蔚藍。</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="spot-4" class="section-anchor" data-aos="fade-up">
+                    <div class="spot-section">
+                        <div class="spot-number">Spot 04</div>
+                        <div class="cinema-frame">
+                            <div class="cinema-bg" style="background-image: url('tokyotrip/day5/school.jpg');"></div>
+                            <img src="tokyotrip/day5/school.jpg" class="cinema-img" alt="鎌倉高校前" onerror="this.src='https://placehold.co/800x600/e0e0e0/999?text=Slam+Dunk'">
+                        </div>
+                        <div class="spot-content">
+                            <div class="spot-meta">
+                                <span><i class="fas fa-basketball-ball"></i> 灌籃高手</span>
+                                <span><i class="fas fa-camera"></i> 青春回憶</span>
+                            </div>
+                            <h3>鎌倉高校前：定格在那年夏天</h3>
+                            <p>《灌籃高手》動畫開場動畫中，櫻木花道與晴子相遇的那個平交道。這裡是全湘南人氣最高的打卡點，即使只是在那裡靜待電車駛過，都能感受到滿滿的熱血與悸動。</p>
+
+                            <div class="info-grid">
+                                <div class="info-item">
+                                    <h4>動漫取景地</h4>
+                                    <p>鎌倉高校是作品中「陵南高中」的原型。由於是真實校區，參觀時請保持安靜，並在平交道兩側安全區域拍攝，共同維護這份經典場景。</p>
+                                </div>
+                                <div class="info-item">
+                                    <h4>七里濱夕陽</h4>
+                                    <p>平交道後方就是廣大的沙灘，海風吹過校舍。這裡的日落時分光線極美，是許多日劇與電影捕捉「湘南青春感」的御基地。</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="spot-5" class="section-anchor" data-aos="fade-up">
+                    <div class="spot-section">
+                        <div class="spot-number">Spot 05</div>
+                        <div class="cinema-frame">
+                            <div class="cinema-bg" style="background-image: url('tokyotrip/day5/eighttemple.jpg');"></div>
+                            <img src="tokyotrip/day5/eighttemple.jpg" class="cinema-img" alt="鶴岡八幡宮" onerror="this.src='https://placehold.co/800x600/e0e0e0/999?text=Hachimangu'">
+                        </div>
+                        <div class="spot-content">
+                            <div class="spot-meta">
+                                <span><i class="fas fa-landmark"></i> 幕府古都</span>
+                                <span><i class="fas fa-vihara"></i> 武家守護</span>
+                            </div>
+                            <h3>鶴岡八幡宮：鎌倉靈魂之所在</h3>
+                            <p>身為鎌倉的信仰中心，它是鎌倉幕府初代將軍源賴朝所建。雄偉的本宮矗立在石階頂端，俯視著整條若宮大路，其建築格局展現了武家文化的剛毅與威嚴。</p>
+
+                            <div class="info-grid">
+                                <div class="info-item">
+                                    <h4>段葛參道</h4>
+                                    <p>從車站通往神社的「段葛」是一條特別加高的參道。兩側種滿櫻花，其建築透視設計讓神社在視覺上顯得比實際距離更遠，展現了古人的智慧。</p>
+                                </div>
+                                <div class="info-item">
+                                    <h4>平家池與源氏池</h4>
+                                    <p>神社入口的兩座池塘象徵源平兩家的對峙與歷史。夏季時池中滿佈紅、白蓮花，是古都之中極具意境的風景畫。</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="spot-6" class="section-anchor" data-aos="fade-up">
+                    <div class="spot-section">
+                        <div class="spot-number">Spot 06</div>
+                        <div class="cinema-frame">
+                            <div class="cinema-bg" style="background-image: url('tokyotrip/day5/smallshoppingstreet.webp');"></div>
+                            <img src="tokyotrip/day5/smallshoppingstreet.webp" class="cinema-img" alt="小町通" onerror="this.src='https://placehold.co/800x600/e0e0e0/999?text=Komachi+Street'">
+                        </div>
+                        <div class="spot-content">
+                            <div class="spot-meta">
+                                <span><i class="fas fa-utensils"></i> 吃貨聖地</span>
+                                <span><i class="fas fa-shopping-bag"></i> 特色店鋪</span>
+                            </div>
+                            <h3>小町通：鎌倉最熱鬧的舌尖饗宴</h3>
+                            <p>緊鄰若宮大路的繁華街道，匯集了鎌倉最精華的小吃與雜貨。這裡的步調歡快，是採購伴手禮或是在參拜後享受下午茶美食的絕佳去處。</p>
+
+                            <div class="info-grid">
+                                <div class="info-item">
+                                    <h4>特色小吃推薦</h4>
+                                    <p>從「大佛燒」雞蛋糕、口感Q彈的五彩糰子到濃郁的抹茶甜點，小町通的每一攤都充滿誘惑。建議可以多樣少量嘗試，體驗道地鎌倉味。</p>
+                                </div>
+                                <div class="info-item">
+                                    <h4>工藝與伴手禮</h4>
+                                    <p>除了美食，這裡還有許多鎌倉雕、豆子點心專賣店。許多手作雜貨店充滿了湘南獨有的藍調風格，是挑選紀念品的好地方。</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="spot-7" class="section-anchor" data-aos="fade-up">
+                    <div class="spot-section">
+                        <div class="spot-number">Spot 07</div>
+                        <div class="cinema-frame">
+                            <div class="cinema-bg" style="background-image: url('tokyotrip/day5/nightview.webp');"></div>
+                            <img src="tokyotrip/day5/nightview.webp" class="cinema-img" alt="橫濱紅磚倉庫" onerror="this.src='https://placehold.co/800x600/e0e0e0/999?text=Yokohama'">
+                        </div>
+                        <div class="spot-content">
+                            <div class="spot-meta">
+                                <span><i class="fas fa-history"></i> 海港文化</span>
+                                <span><i class="fas fa-lightbulb"></i> 夜間點燈</span>
+                            </div>
+                            <h3 style="color: var(--brick-red);">橫濱紅磚倉庫：港都的瑰麗餘暉</h3>
+                            <p>擁有百年歷史的紅磚建築，在夜晚燈光的烘托下展現出極致的異國情調。海風吹拂，後方是橫濱海灣大橋與摩天輪的璀璨燈火，這裡是浪漫與質感的代名詞。</p>
+
+                            <div class="info-grid">
+                                <div class="info-item">
+                                    <h4>文創商業空間</h4>
+                                    <p>由舊倉庫改建而成的室內商場，保留了斑駁的磚牆與鋼樑，進駐了許多質感選物店與知名餐廳（如 Bills 鬆餅），展現了老屋新生的典範。</p>
+                                </div>
+                                <div class="info-item">
+                                    <h4>橫濱 MM21 夜景</h4>
+                                    <p>從倉庫廣場望向未來 21 地區，巨型摩天輪「Cosmo Clock 21」與地標塔構成全球知名的城市夜景，是當天行程最完美的謝幕。</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="spot-home" class="section-anchor" data-aos="fade-up">
+                    <div class="spot-section" style="background: var(--primary-accent); color: white;">
+                        <div class="spot-content text-center">
+                            <h3 style="color:white; margin-bottom: 25px;">🌙 充實賦歸</h3>
+                            
+                            <div class="row g-4 justify-content-center mb-5">
+                                <div class="col-6 col-md-3">
+                                    <div class="p-3 border border-light border-opacity-25 rounded-3 h-100">
+                                        <i class="fas fa-bus-alt mb-2"></i><br>
+                                        <span class="badge-bus">巴士回程</span><br>
+                                        <span class="small">橫濱</span><br>
+                                        <i class="fas fa-chevron-right my-2 opacity-50"></i><br>
+                                        <span class="small">新宿</span>
+                                    </div>
+                                </div>
+                                <div class="col-6 col-md-3">
+                                    <div class="p-3 border border-light border-opacity-25 rounded-3 h-100">
+                                        <i class="fas fa-subway mb-2"></i><br>
+                                        <span class="badge-oedo">大江戶線</span><br>
+                                        <span class="small">新宿西口</span><br>
+                                        <i class="fas fa-chevron-right mx-2 opacity-50"></i><br>
+                                        <span class="small">御徒町</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <p style="opacity: 0.9;">預計 21:00 左右抵達新宿，隨後轉乘電車返回飯店。</p>
+                            <hr style="border-color: rgba(255,255,255,0.3); width: 60px; margin: 30px auto;">
+                            <div class="highlight-box text-start mb-0" style="background: rgba(255,255,255,0.1); border-left-color: var(--gold-accent); color: white;">
+                                <strong><i class="fas fa-check-circle"></i> 今日總結：</strong><br>
+                                經歷了湘南海岸的陽光、鎌倉高校前的青春印記，最後在橫濱海灣的夜色中醉心。<br>
+                                雖然巴士行程長，但換回了豐富的視覺回憶，今晚就讓溫泉徹底放鬆雙腿吧。
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <footer class="text-center py-5 text-muted small">
+                    <p style="font-size: 1rem;">&copy; 2026 Tokyo Memory Trip | Day 5</p>
+                </footer>
+
+            </div>
+        </div>
+    </div>
+
+    <a href="index.html" class="home-fab" title="回首頁">
+        <i class="fas fa-home"></i>
+    </a>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init({ duration: 800, once: true, offset: 100 });
+        const mobileLinks = document.querySelectorAll('.mobile-nav-item');
+        mobileLinks.forEach(link => {
+            link.addEventListener('click', function() {
+                mobileLinks.forEach(l => l.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+    </script>
+</body>
+</html>

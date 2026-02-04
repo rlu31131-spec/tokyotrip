@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>東京 Day 4：川越小江戶一日遊 | 深度旅誌</title>
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@500;700&family=Noto+Sans+TC:wght@300;400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
+    <style>
+        :root {
+            --bg-color: #fcfbf9;       
+            --text-primary: #333333;
+            --primary-accent: #2c5364; 
+            --gold-accent: #c5a059;    
+            --green-accent: #7a9e7e;   
+            --kawagoe-red: #a65e5e;    
+            --card-shadow: 0 20px 40px rgba(0,0,0,0.06);
+        }
+
+        body {
+            font-family: 'Noto Sans TC', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            font-size: 19px; 
+            line-height: 1.9;
+            letter-spacing: 0.03em;
+        }
+
+        h1, h2, h3, h4 {
+            font-family: 'Noto Serif TC', serif;
+            color: var(--primary-accent);
+            font-weight: 700;
+        }
+        h3 { font-size: 1.8rem; }
+
+        /* --- 導覽列 --- */
+        .sticky-sidebar {
+            position: sticky; top: 40px; padding: 30px;
+            border-left: 2px solid #eee; display: none;
+        }
+        @media (min-width: 992px) { .sticky-sidebar { display: block; } }
+
+        .nav-link {
+            color: #aaa; font-family: 'Noto Serif TC', serif; font-size: 1.15rem;
+            padding: 18px 0; position: relative; transition: all 0.4s ease;
+            display: flex; align-items: center; gap: 12px;
+        }
+        .nav-num { font-family: 'Helvetica', sans-serif; font-weight: bold; font-size: 0.9rem; opacity: 0.5; }
+        .nav-link.active { color: var(--primary-accent); font-weight: bold; padding-left: 15px; }
+        .nav-link.active .nav-num { opacity: 1; color: var(--gold-accent); }
+        .nav-link.active::before {
+            content: ''; position: absolute; left: 0; top: 50%; transform: translateY(-50%);
+            width: 5px; height: 24px; background: var(--gold-accent);
+        }
+
+        /* --- 手機導覽 --- */
+        .mobile-nav {
+            position: sticky; top: 0; z-index: 999;
+            background: rgba(255,255,255,0.95); backdrop-filter: blur(10px);
+            padding: 15px; border-bottom: 1px solid rgba(0,0,0,0.05);
+            display: flex; gap: 12px; overflow-x: auto;
+        }
+        @media (min-width: 992px) { .mobile-nav { display: none; } }
+        .mobile-nav-item {
+            color: var(--text-primary); text-decoration: none; font-size: 1rem;
+            padding: 8px 18px; border-radius: 50px; background: white; border: 1px solid #ddd;
+            font-weight: 500; white-space: nowrap;
+        }
+        .mobile-nav-item.active { background-color: var(--primary-accent); color: white; border-color: var(--primary-accent); }
+
+        /* --- 卡片 --- */
+        .spot-section {
+            background: white; border-radius: 24px; overflow: hidden;
+            box-shadow: var(--card-shadow); margin-bottom: 70px;
+            transition: transform 0.3s ease; position: relative;
+        }
+        .spot-number {
+            position: absolute; top: 20px; left: 20px;
+            background: rgba(255,255,255,0.95); backdrop-filter: blur(5px);
+            padding: 8px 20px; border-radius: 30px;
+            font-family: 'Noto Serif TC', serif; font-weight: bold; font-size: 1.1rem;
+            color: var(--primary-accent); z-index: 10;
+        }
+
+        .cinema-frame { height: 450px; position: relative; overflow: hidden; background-color: #eee; }
+        .cinema-bg {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background-size: cover; background-position: center;
+            filter: blur(25px) brightness(0.95); transform: scale(1.1);
+        }
+        .cinema-img {
+            position: relative; z-index: 2; width: 100%; height: 100%;
+            object-fit: contain; filter: drop-shadow(0 10px 20px rgba(0,0,0,0.2));
+        }
+
+        .spot-content { padding: 45px; }
+        .spot-meta {
+            display: flex; gap: 25px; color: #666; font-size: 1.05rem;
+            margin-bottom: 20px; border-bottom: 1px solid #f0f0f0; padding-bottom: 15px;
+        }
+        .spot-meta i { color: var(--gold-accent); margin-right: 8px; font-size: 1.2rem; }
+
+        .info-grid {
+            display: grid; grid-template-columns: 1fr 1fr; gap: 30px; margin-top: 30px;
+        }
+        .info-item h4 { font-size: 1.2rem; margin-bottom: 15px; border-bottom: 2px solid var(--gold-accent); display: inline-block; }
+        .info-item p { font-size: 1rem; color: #555; line-height: 1.7; }
+
+        .highlight-box {
+            background: #f4f8f9; border-left: 5px solid var(--primary-accent);
+            padding: 25px 30px; margin-top: 30px; border-radius: 0 12px 12px 0; font-size: 1.1rem;
+        }
+
+        /* 交通卡片 */
+        .transit-card {
+            text-align: center; margin-bottom: 70px; position: relative;
+            color: #777; font-size: 1.15rem; font-weight: 500;
+        }
+        .transit-card::before {
+            content: ''; display: block; width: 2px; height: 40px;
+            background: #ddd; margin: 0 auto 15px auto;
+        }
+        .badge-line {
+            background: var(--green-accent); color: white;
+            padding: 6px 16px; border-radius: 50px; font-weight: normal; letter-spacing: 1px;
+            font-size: 0.95rem; vertical-align: middle; margin-right: 10px;
+        }
+        .badge-tobu {
+            background: #005bac; color: white;
+            padding: 6px 16px; border-radius: 50px; font-weight: normal; letter-spacing: 1px;
+            font-size: 0.95rem; vertical-align: middle; margin-right: 10px;
+        }
+        .badge-walk {
+            background: #95a5a6; color: white;
+            padding: 6px 16px; border-radius: 50px; font-size: 0.95rem; vertical-align: middle; margin-right: 10px;
+        }
+
+        /* Header */
+        .main-header { padding: 80px 0 50px; text-align: center; }
+        .main-header h1 { font-size: 3.5rem; letter-spacing: 0.1em; margin-bottom: 15px; }
+        .main-header .divider { width: 80px; height: 4px; background: var(--gold-accent); margin: 25px auto; }
+
+        .home-fab {
+            position: fixed; bottom: 30px; right: 30px;
+            width: 65px; height: 65px;
+            background-color: var(--primary-accent); color: white;
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            text-decoration: none; box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            transition: transform 0.3s ease, background 0.3s; z-index: 1000; font-size: 1.5rem;
+        }
+        .home-fab:hover { background-color: var(--gold-accent); transform: scale(1.1); color: white; }
+
+        @media (max-width: 768px) {
+            body { font-size: 18px; }
+            .info-grid { grid-template-columns: 1fr; }
+            .cinema-frame { height: 300px; }
+            .spot-content { padding: 30px; }
+            .main-header h1 { font-size: 2.5rem; }
+            .home-fab { width: 55px; height: 55px; font-size: 1.2rem; bottom: 20px; right: 20px; }
+        }
+    </style>
+</head>
+<body data-bs-spy="scroll" data-bs-target="#timeline-nav" data-bs-offset="100" tabindex="0">
+
+    <nav class="mobile-nav no-scrollbar">
+        <a class="mobile-nav-item" href="#spot-1">01 熊野神社</a>
+        <a class="mobile-nav-item" href="#spot-2">02 一番街</a>
+        <a class="mobile-nav-item" href="#spot-3">03 冰川神社</a>
+        <a class="mobile-nav-item" href="#spot-4">04 喜多院</a>
+        <a class="mobile-nav-item" href="#spot-home">Ending</a>
+    </nav>
+
+    <div class="container main-wrapper">
+        <div class="row">
+            
+            <div class="col-lg-3">
+                <nav id="timeline-nav" class="sticky-sidebar flex-column">
+                    <h5 class="mb-4 ps-2" style="color:#aaa; letter-spacing:2px; font-size:1rem;">FLOW</h5>
+                    <nav class="nav nav-pills flex-column">
+                        <a class="nav-link" href="#spot-1"><span class="nav-num">01</span> 川越熊野神社</a>
+                        <a class="nav-link" href="#spot-2"><span class="nav-num">02</span> 小江戶一番街</a>
+                        <a class="nav-link" href="#spot-3"><span class="nav-num">03</span> 川越冰川神社</a>
+                        <a class="nav-link" href="#spot-4"><span class="nav-num">04</span> 喜多院</a>
+                        <a class="nav-link" href="#spot-home"><span class="nav-num">END</span> 飯店賦歸</a>
+                    </nav>
+                </nav>
+            </div>
+
+            <div class="col-lg-9 content-col">
+                
+                <header class="main-header" data-aos="fade-down" id="top">
+                    <p class="text-muted mb-0" style="letter-spacing: 3px; font-size: 1rem;">TOKYO TRIP DAY 4</p>
+                    <h1>穿越小江戶</h1>
+                    <div class="divider"></div>
+                    <p class="text-muted">池袋・川越 | 藏造老街的時光旅行</p>
+                </header>
+
+                <div class="transit-card" data-aos="fade-in">
+                    <h5 class="mb-4">🚀 出發！前往川越</h5>
+                    <span class="badge-line">JR 山手線</span> 御徒町 <i class="fas fa-arrow-right small mx-2"></i> 池袋 (轉乘)<br><br>
+                    <i class="fas fa-arrow-down text-muted"></i><br><br>
+                    <span class="badge-tobu">東武東上線</span> 池袋 <i class="fas fa-arrow-right small mx-2"></i> 川越站 (急行約 30 分鐘)
+                </div>
+
+                <div id="spot-1" class="section-anchor" data-aos="fade-up">
+                    <div class="spot-section">
+                        <div class="spot-number">Spot 01</div>
+                        <div class="cinema-frame">
+                            <div class="cinema-bg" style="background-image: url('tokyotrip/day4/beartemple.webp');"></div>
+                            <img src="tokyotrip/day4/beartemple.webp" class="cinema-img" alt="川越熊野神社" onerror="this.src='https://placehold.co/800x600/e0e0e0/999?text=Kumano+Shrine'">
+                        </div>
+                        <div class="spot-content">
+                            <div class="spot-meta">
+                                <span><i class="fas fa-coins"></i> 洗錢辨財天</span>
+                                <span><i class="fas fa-shoe-prints"></i> 健康步道</span>
+                            </div>
+                            <h3>川越熊野神社：開運與緣結的守護</h3>
+                            <p>抵達川越後的第一站。這座神社以祈求運勢與緣結而聞名，神社氛圍活潑且平易近人，是深受當地人與遊客喜愛的能量景點。</p>
+                            
+                            <div class="info-grid">
+                                <div class="info-item">
+                                    <h4>錢洗辨財天</h4>
+                                    <p>神社內設有寶池，您可以將硬幣放入竹籃中用泉水清洗。據說洗過的錢會帶動財運，在日後以數倍的形式回到您的身邊。</p>
+                                </div>
+                                <div class="info-item">
+                                    <h4>足踏健康步道</h4>
+                                    <p>參道旁有一條鋪滿鵝卵石的步道，建議脫鞋挑戰。透過踩踏石頭按摩足底穴位，能檢測身體健康並帶來能量。</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="transit-card" data-aos="fade-in">
+                    <span class="badge-walk">WALK</span> 漫步前往一番街 (步行約 5-8 分鐘)
+                </div>
+
+                <div id="spot-2" class="section-anchor" data-aos="fade-up">
+                    <div class="spot-section">
+                        <div class="spot-number">Spot 02</div>
+                        <div class="cinema-frame">
+                            <div class="cinema-bg" style="background-image: url('tokyotrip/day4/shoppingstreet.jpg');"></div>
+                            <img src="tokyotrip/day4/shoppingstreet.jpg" class="cinema-img" alt="一番街" onerror="this.src='https://placehold.co/800x600/e0e0e0/999?text=Ichibangai'">
+                        </div>
+                        <div class="spot-content">
+                            <div class="spot-meta">
+                                <span><i class="fas fa-landmark"></i> 藏造建築</span>
+                                <span><i class="fas fa-bell"></i> 時之鐘</span>
+                            </div>
+                            <h3>小江戶一番街：沉浸江戶盛世</h3>
+                            <p>川越最代表性的老街，兩旁矗立著宏偉的「藏造」式建築。厚實土牆與黑色屋瓦是為了防範江戶時期的火災，如今成了珍貴的文化遺產。</p>
+
+                            <div class="info-grid">
+                                <div class="info-item">
+                                    <h4>地標：時之鐘</h4>
+                                    <p>這座木造鐘樓自江戶初期就守護著川越，每日會在固定時段準時鳴鐘，悠揚的鐘聲被選為「日本音風景百選」。</p>
+                                </div>
+                                <div class="info-item">
+                                    <h4>菓子屋橫丁</h4>
+                                    <p>聚集了數十家傳統糖果店。這裡販售著充滿懷舊氣息的烤糰子、地瓜點心與大根糖，是川越人情味的縮影。</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="transit-card" data-aos="fade-in">
+                    <span class="badge-walk">WALK</span> 前往冰川神社 (步行約 10 分鐘)
+                </div>
+
+                <div id="spot-3" class="section-anchor" data-aos="fade-up">
+                    <div class="spot-section">
+                        <div class="spot-number">Spot 03</div>
+                        <div class="cinema-frame">
+                            <div class="cinema-bg" style="background-image: url('tokyotrip/day4/icerivertemple.webp');"></div>
+                            <img src="tokyotrip/day4/icerivertemple.webp" class="cinema-img" alt="冰川神社" onerror="this.src='https://placehold.co/800x600/e0e0e0/999?text=Hikawa+Shrine'">
+                        </div>
+                        <div class="spot-content">
+                            <div class="spot-meta">
+                                <span><i class="fas fa-heart"></i> 結緣最強</span>
+                                <span><i class="fas fa-fish"></i> 鯛魚求籤</span>
+                            </div>
+                            <h3>川越冰川神社：浪漫的水邊結緣地</h3>
+                            <p>擁有 1500 年歷史，是求取姻緣與家庭圓滿的首選聖地。其著名的繪馬隧道與充滿創意的求籤方式，讓許願也充滿樂趣。</p>
+
+                            <div class="info-grid">
+                                <div class="info-item">
+                                    <h4>鯛魚御守求籤</h4>
+                                    <p>籤詩藏在彩色鯛魚模型中。拿起釣竿，親手「釣」起一隻鯛魚來讀取運勢，是神社最受歡迎的體驗。</p>
+                                </div>
+                                <div class="info-item">
+                                    <h4>繪馬隧道</h4>
+                                    <p>掛滿許願繪馬的隧道是著名的攝影點。在光影交織下走過隧道，能感受到匯聚於此的強大信念與祝福。</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="transit-card" data-aos="fade-in">
+                    <span class="badge-walk">WALK</span> 步行前往喜多院 (步行約 15 分鐘)
+                </div>
+
+                <div id="spot-4" class="section-anchor" data-aos="fade-up">
+                    <div class="spot-section">
+                        <div class="spot-number">Spot 04</div>
+                        <div class="cinema-frame">
+                            <div class="cinema-bg" style="background-image: url('tokyotrip/day4/happymuchtemple.webp');"></div>
+                            <img src="tokyotrip/day4/happymuchtemple.webp" class="cinema-img" alt="喜多院" onerror="this.src='https://placehold.co/800x600/e0e0e0/999?text=Kitain'">
+                        </div>
+                        <div class="spot-content">
+                            <div class="spot-meta">
+                                <span><i class="fas fa-history"></i> 將軍之家</span>
+                                <span><i class="fas fa-users"></i> 五百羅漢</span>
+                            </div>
+                            <h3>喜多院：江戶城遺落的歷史拼圖</h3>
+                            <p>作為川越的大本山，喜多院與德川將軍家有深厚淵源。江戶城部分建物曾移築至此，讓這裡保存了珍貴的城內空間。</p>
+
+                            <div class="info-grid">
+                                <div class="info-item">
+                                    <h4>五百羅漢像</h4>
+                                    <p>園內矗立著 500 多尊表情、動作完全不同的羅漢石像。有的沉思有的歡笑，展現了生動的人間百態。</p>
+                                </div>
+                                <div class="info-item">
+                                    <h4>德川家光誕生間</h4>
+                                    <p>客殿內保存了江戶城移築而來的房間，精緻的障壁畫與木造結構，訴說著德川家族的輝煌歷史。</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="spot-home" class="section-anchor" data-aos="fade-up">
+                    <div class="spot-section" style="background: var(--primary-accent); color: white;">
+                        <div class="spot-content text-center">
+                            <h3 style="color:white; margin-bottom: 25px;">🌙 圓滿歸途</h3>
+                            
+                            <div class="row g-4 justify-content-center mb-5">
+                                <div class="col-6 col-md-3">
+                                    <div class="p-3 border border-light border-opacity-25 rounded-3 h-100">
+                                        <i class="fas fa-bus mb-2"></i><br>
+                                        <span class="small">喜多院</span><br>
+                                        <i class="fas fa-chevron-down my-2 opacity-50"></i><br>
+                                        <span class="badge-walk">巴士/步行</span><br>
+                                        <span class="small">川越站</span>
+                                    </div>
+                                </div>
+                                <div class="col-6 col-md-3">
+                                    <div class="p-3 border border-light border-opacity-25 rounded-3 h-100">
+                                        <i class="fas fa-train mb-2"></i><br>
+                                        <span class="badge-tobu">東武線</span><br>
+                                        <span class="small">川越站</span><br>
+                                        <i class="fas fa-chevron-right mx-2 opacity-50"></i><br>
+                                        <span class="small">池袋</span>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-md-3">
+                                    <div class="p-3 border border-light border-opacity-25 rounded-3 h-100">
+                                        <i class="fas fa-subway mb-2"></i><br>
+                                        <span class="badge-line">山手線</span><br>
+                                        <span class="small">池袋</span><br>
+                                        <i class="fas fa-chevron-right mx-2 opacity-50"></i><br>
+                                        <span class="small">御徒町</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <p style="opacity: 0.9;">暫時告別江戶氛圍，返回繁華的東京中心。</p>
+                            <hr style="border-color: rgba(255,255,255,0.3); width: 60px; margin: 30px auto;">
+                            <div class="highlight-box text-start mb-0" style="background: rgba(255,255,255,0.1); border-left-color: var(--gold-accent); color: white;">
+                                <strong><i class="fas fa-check-circle"></i> 今日總結：</strong><br>
+                                在川越體驗了跨越四百年的時光之旅。洗了錢、釣了魚、看了古蹟。今晚就在 Dormy Inn 的溫泉與夜鳴拉麵中完美收尾吧。
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <footer class="text-center py-5 text-muted small">
+                    <p style="font-size: 1rem;">&copy; 2026 Tokyo Memory Trip | Day 4</p>
+                </footer>
+
+            </div>
+        </div>
+    </div>
+
+    <a href="index.html" class="home-fab" title="回首頁">
+        <i class="fas fa-home"></i>
+    </a>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init({ duration: 800, once: true, offset: 100 });
+        const mobileLinks = document.querySelectorAll('.mobile-nav-item');
+        mobileLinks.forEach(link => {
+            link.addEventListener('click', function() {
+                mobileLinks.forEach(l => l.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>東京 Day 6：知性地標與古典奢華 | 深度旅誌</title>
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@500;700&family=Noto+Sans+TC:wght@300;400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
+    <style>
+        :root {
+            --bg-color: #fcfbf9;       
+            --text-primary: #333333;
+            --primary-accent: #2c5364; 
+            --gold-accent: #c5a059;    
+            /* Day 6 專屬交通色 */
+            --hibiya-silver: #9caeb7;  /* 日比谷線 */
+            --mita-blue: #0079c1;      /* 三田線 */
+            --ginza-orange: #ff9500;   /* 銀座線 */
+            --card-shadow: 0 20px 40px rgba(0,0,0,0.06);
+        }
+
+        body {
+            font-family: 'Noto Sans TC', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            font-size: 19px; 
+            line-height: 1.9;
+            letter-spacing: 0.03em;
+        }
+
+        h1, h2, h3, h4 {
+            font-family: 'Noto Serif TC', serif;
+            color: var(--primary-accent);
+            font-weight: 700;
+        }
+        h3 { font-size: 1.8rem; }
+
+        /* --- 導覽列 --- */
+        .sticky-sidebar {
+            position: sticky; top: 40px; padding: 30px;
+            border-left: 2px solid #eee; display: none;
+        }
+        @media (min-width: 992px) { .sticky-sidebar { display: block; } }
+
+        .nav-link {
+            color: #aaa; font-family: 'Noto Serif TC', serif; font-size: 1.15rem;
+            padding: 18px 0; position: relative; transition: all 0.4s ease;
+            display: flex; align-items: center; gap: 12px;
+        }
+        .nav-num { font-family: 'Helvetica', sans-serif; font-weight: bold; font-size: 0.9rem; opacity: 0.5; }
+        .nav-link.active { color: var(--primary-accent); font-weight: bold; padding-left: 15px; }
+        .nav-link.active .nav-num { opacity: 1; color: var(--gold-accent); }
+        .nav-link.active::before {
+            content: ''; position: absolute; left: 0; top: 50%; transform: translateY(-50%);
+            width: 5px; height: 24px; background: var(--gold-accent);
+        }
+
+        /* --- 手機導覽 --- */
+        .mobile-nav {
+            position: sticky; top: 0; z-index: 999;
+            background: rgba(255,255,255,0.95); backdrop-filter: blur(10px);
+            padding: 15px; border-bottom: 1px solid rgba(0,0,0,0.05);
+            display: flex; gap: 12px; overflow-x: auto;
+        }
+        @media (min-width: 992px) { .mobile-nav { display: none; } }
+        .mobile-nav-item {
+            color: var(--text-primary); text-decoration: none; font-size: 1rem;
+            padding: 8px 18px; border-radius: 50px; background: white; border: 1px solid #ddd;
+            font-weight: 500; white-space: nowrap;
+        }
+        .mobile-nav-item.active { background-color: var(--primary-accent); color: white; border-color: var(--primary-accent); }
+
+        /* --- 卡片 --- */
+        .spot-section {
+            background: white; border-radius: 24px; overflow: hidden;
+            box-shadow: var(--card-shadow); margin-bottom: 70px;
+            transition: transform 0.3s ease; position: relative;
+        }
+        .spot-section:hover { transform: translateY(-5px); }
+
+        .spot-number {
+            position: absolute; top: 20px; left: 20px;
+            background: rgba(255,255,255,0.95); backdrop-filter: blur(5px);
+            padding: 8px 20px; border-radius: 30px;
+            font-family: 'Noto Serif TC', serif; font-weight: bold; font-size: 1.1rem;
+            color: var(--primary-accent); z-index: 10; box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        /* 圖片容器修正：確保圖片完整顯示不裁切 */
+        .cinema-frame { 
+            width: 100%; height: auto; min-height: 300px;
+            position: relative; overflow: hidden; background-color: #eee;
+            display: flex; align-items: center; justify-content: center;
+        }
+        .cinema-bg {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background-size: cover; background-position: center;
+            filter: blur(25px) brightness(0.95); transform: scale(1.1);
+        }
+        .cinema-img {
+            position: relative; z-index: 2; width: 100%; height: auto; max-height: 700px;
+            object-fit: contain; filter: drop-shadow(0 10px 20px rgba(0,0,0,0.2));
+            display: block;
+        }
+
+        .spot-content { padding: 45px; }
+        .spot-meta {
+            display: flex; gap: 25px; color: #666; font-size: 1.05rem;
+            margin-bottom: 20px; border-bottom: 1px solid #f0f0f0; padding-bottom: 15px;
+        }
+        .spot-meta i { color: var(--gold-accent); margin-right: 8px; font-size: 1.2rem; }
+
+        .info-grid {
+            display: grid; grid-template-columns: 1fr 1fr; gap: 30px; margin-top: 30px;
+        }
+        .info-item h4 { font-size: 1.2rem; margin-bottom: 15px; border-bottom: 2px solid var(--gold-accent); display: inline-block; }
+        .info-item p { font-size: 1rem; color: #555; line-height: 1.7; }
+
+        .highlight-box {
+            background: #f4f8f9; border-left: 5px solid var(--primary-accent);
+            padding: 25px 30px; margin-top: 30px; border-radius: 0 12px 12px 0; font-size: 1.1rem;
+        }
+
+        /* 交通卡片 */
+        .transit-card {
+            text-align: center; margin-bottom: 70px; position: relative;
+            color: #777; font-size: 1.15rem; font-weight: 500;
+        }
+        .transit-card::before {
+            content: ''; display: block; width: 2px; height: 40px;
+            background: #ddd; margin: 0 auto 15px auto;
+        }
+        
+        /* 交通徽章 */
+        .badge-line {
+            display: inline-block; color: white; padding: 6px 16px; 
+            border-radius: 50px; font-weight: normal; letter-spacing: 1px;
+            font-size: 0.95rem; vertical-align: middle; margin-right: 10px;
+        }
+
+        /* Header */
+        .main-header { padding: 80px 0 50px; text-align: center; }
+        .main-header h1 { font-size: 3.5rem; letter-spacing: 0.1em; margin-bottom: 15px; }
+        .main-header .divider { width: 80px; height: 4px; background: var(--gold-accent); margin: 25px auto; }
+
+        .home-fab {
+            position: fixed; bottom: 30px; right: 30px;
+            width: 65px; height: 65px;
+            background-color: var(--primary-accent); color: white;
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            text-decoration: none; box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            transition: transform 0.3s ease, background 0.3s; z-index: 1000; font-size: 1.5rem;
+        }
+        .home-fab:hover { background-color: var(--gold-accent); transform: scale(1.1); color: white; }
+
+        @media (max-width: 768px) {
+            body { font-size: 18px; }
+            .info-grid { grid-template-columns: 1fr; }
+            .spot-content { padding: 30px; }
+            .main-header h1 { font-size: 2.5rem; }
+            .home-fab { width: 55px; height: 55px; font-size: 1.2rem; bottom: 20px; right: 20px; }
+        }
+    </style>
+</head>
+<body data-bs-spy="scroll" data-bs-target="#timeline-nav" data-bs-offset="100" tabindex="0">
+
+    <nav class="mobile-nav no-scrollbar">
+        <a class="mobile-nav-item" href="#spot-1">01 科博館</a>
+        <a class="mobile-nav-item" href="#spot-2">02 東京鐵塔</a>
+        <a class="mobile-nav-item" href="#spot-3">03 增上寺</a>
+        <a class="mobile-nav-item" href="#spot-4">04 東京站</a>
+        <a class="mobile-nav-item" href="#spot-5">05 日本橋</a>
+        <a class="mobile-nav-item" href="#spot-home">Ending</a>
+    </nav>
+
+    <div class="container main-wrapper">
+        <div class="row">
+            
+            <div class="col-lg-3">
+                <nav id="timeline-nav" class="sticky-sidebar flex-column">
+                    <h5 class="mb-4 ps-2" style="color:#aaa; letter-spacing:2px; font-size:1rem;">FLOW</h5>
+                    <nav class="nav nav-pills flex-column">
+                        <a class="nav-link" href="#spot-1"><span class="nav-num">01</span> 國立科學博物館</a>
+                        <a class="nav-link" href="#spot-2"><span class="nav-num">02</span> 東京鐵塔</a>
+                        <a class="nav-link" href="#spot-3"><span class="nav-num">03</span> 增上寺</a>
+                        <a class="nav-link" href="#spot-4"><span class="nav-num">04</span> 東京車站</a>
+                        <a class="nav-link" href="#spot-5"><span class="nav-num">05</span> 日本橋三越</a>
+                        <a class="nav-link" href="#spot-home"><span class="nav-num">END</span> 返回飯店</a>
+                    </nav>
+                </nav>
+            </div>
+
+            <div class="col-lg-9 content-col">
+                
+                <header class="main-header" data-aos="fade-down" id="top">
+                    <p class="text-muted mb-0" style="letter-spacing: 3px; font-size: 1rem;">TOKYO TRIP DAY 6</p>
+                    <h1>地標與經典</h1>
+                    <div class="divider"></div>
+                    <p class="text-muted">上野・港區・日本橋 | 從演化奇蹟到江戶繁華</p>
+                </header>
+
+                <div id="spot-1" class="section-anchor" data-aos="fade-up">
+                    <div class="spot-section">
+                        <div class="spot-number">Spot 01</div>
+                        <div class="cinema-frame">
+                            <div class="cinema-bg" style="background-image: url('tokyotrip/day6/museum.webp');"></div>
+                            <img src="tokyotrip/day6/museum.webp" class="cinema-img" alt="國立科學博物館" onerror="this.src='https://placehold.co/800x600/e0e0e0/999?text=National+Museum'">
+                        </div>
+                        <div class="spot-content">
+                            <div class="spot-meta">
+                                <span><i class="fas fa-microscope"></i> 科學殿堂</span>
+                                <span><i class="fas fa-map-marker-alt"></i> 上野公園</span>
+                            </div>
+                            <h3>國立科學博物館：生命的演化史詩</h3>
+                            <p>行程從上野公園展開。這裡是日本唯一的綜合科學博物館，匯集了從地球誕生到現代科技的驚人收藏。</p>
+                            
+                            <div class="info-grid">
+                                <div class="info-item">
+                                    <h4>地球館演化奇蹟</h4>
+                                    <p>重點在於地下層的恐龍展示區，巨大的暴龍與三角龍骨骼化石立體交錯，重現中生代的霸主氣勢。</p>
+                                </div>
+                                <div class="info-item">
+                                    <h4>日本館建築美學</h4>
+                                    <p>建築本身即為重要文化財。展示了日本列島的自然變遷、忠犬八公的標本，以及古代日本人觀測自然的智慧。</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="transit-card" data-aos="fade-in">
+                    <span class="badge-line" style="background: var(--hibiya-silver);">日比谷線</span> 上野 <i class="fas fa-arrow-right small mx-2"></i> 神谷町站
+                </div>
+
+                <div id="spot-2" class="section-anchor" data-aos="fade-up">
+                    <div class="spot-section">
+                        <div class="spot-number">Spot 02</div>
+                        <div class="cinema-frame">
+                            <div class="cinema-bg" style="background-image: url('tokyotrip/day6/tokyotower.webp');"></div>
+                            <img src="tokyotrip/day6/tokyotower.webp" class="cinema-img" alt="東京鐵塔" onerror="this.src='https://placehold.co/800x600/e0e0e0/999?text=Tokyo+Tower'">
+                        </div>
+                        <div class="spot-content">
+                            <div class="spot-meta">
+                                <span><i class="fas fa-broadcast-tower"></i> 永遠的地標</span>
+                                <span><i class="fas fa-sun"></i> 經典橘白</span>
+                            </div>
+                            <h3>東京鐵塔：紅與白的優雅靈魂</h3>
+                            <p>不論造訪過東京多少次，紅白相間的鐵塔依然是這座城市最具溫度的地標。它不僅是一座廣播塔，更是昭和時代繁榮至今的精神象徵。</p>
+
+                            <div class="info-grid">
+                                <div class="info-item">
+                                    <h4>都會景觀視野</h4>
+                                    <p>登上 Main Deck，港區繁華的高樓群一覽無遺。透明地墊挑戰膽量，俯瞰 145 公尺下的車水馬龍。</p>
+                                </div>
+                                <div class="info-item">
+                                    <h4>FootTown 購物</h4>
+                                    <p>塔下的商業設施內含限定伴手禮店，是收集東京鐵塔紀念小物與休息的好地方。</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="spot-3" class="section-anchor" data-aos="fade-up">
+                    <div class="spot-section">
+                        <div class="spot-number">Spot 03</div>
+                        <div class="cinema-frame">
+                            <div class="cinema-bg" style="background-image: url('tokyotrip/day6/bigtemple.jpg');"></div>
+                            <img src="tokyotrip/day6/bigtemple.jpg" class="cinema-img" alt="增上寺" onerror="this.src='https://placehold.co/800x600/e0e0e0/999?text=Zojo-ji'">
+                        </div>
+                        <div class="spot-content">
+                            <div class="spot-meta">
+                                <span><i class="fas fa-vihara"></i> 德川家靈廟</span>
+                                <span><i class="fas fa-camera"></i> 古今對話</span>
+                            </div>
+                            <h3>增上寺：德川幕府與現代地標的交錯</h3>
+                            <p>德川將軍家的菩提寺。這裡最著名的便是江戶時代的大殿與後方鮮豔東京鐵塔同框的畫面。</p>
+
+                            <div class="info-grid">
+                                <div class="info-item">
+                                    <h4>千體子育地藏</h4>
+                                    <p>境內排列整齊的地藏菩薩像，披著紅帽、手持風車，為肅穆的寺院增添了一絲溫柔色彩。</p>
+                                </div>
+                                <div class="info-item">
+                                    <h4>將軍家靈廟</h4>
+                                    <p>安葬了六位德川幕府將軍，靜靜訴說著江戶時代最後的輝煌。</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="transit-card" data-aos="fade-in">
+                    <span class="badge-line" style="background: var(--mita-blue);">三田線</span> 御成門 <i class="fas fa-arrow-right small mx-2"></i> 大手町站
+                </div>
+
+                <div id="spot-4" class="section-anchor" data-aos="fade-up">
+                    <div class="spot-section">
+                        <div class="spot-number">Spot 04</div>
+                        <div class="cinema-frame">
+                            <div class="cinema-bg" style="background-image: url('tokyotrip/day6/tokyostation.webp');"></div>
+                            <img src="tokyotrip/day6/tokyostation.webp" class="cinema-img" alt="東京車站" onerror="this.src='https://placehold.co/800x600/e0e0e0/999?text=Tokyo+Station'">
+                        </div>
+                        <div class="spot-content">
+                            <div class="spot-meta">
+                                <span><i class="fas fa-train"></i> 紅磚經典</span>
+                                <span><i class="fas fa-history"></i> 時代玄關</span>
+                            </div>
+                            <h3>東京車站：紅磚下的時空拼圖</h3>
+                            <p>由辰野金吾設計的紅磚站舍，修復後展現了明治時代的浪漫風華。</p>
+
+                            <div class="info-grid">
+                                <div class="info-item">
+                                    <h4>南北圓頂浮雕</h4>
+                                    <p>入口大廳穹頂內刻有精美的生肖與老鷹浮雕，展現了西洋建築技術與日式美學的融合。</p>
+                                </div>
+                                <div class="info-item">
+                                    <h4>丸之內建築群</h4>
+                                    <p>對面的丸之內大樓廣場，提供視野開闊的攝影點，黃昏時分燈光亮起，站舍如同寶石般閃耀。</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="spot-5" class="section-anchor" data-aos="fade-up">
+                    <div class="spot-section">
+                        <div class="spot-number">Spot 05</div>
+                        <div class="cinema-frame">
+                            <div class="cinema-bg" style="background-image: url('tokyotrip/day6/departmentstore.jpg');"></div>
+                            <img src="tokyotrip/day6/departmentstore.jpg" class="cinema-img" alt="日本橋三越" onerror="this.src='https://placehold.co/800x600/e0e0e0/999?text=Mitsukoshi'">
+                        </div>
+                        <div class="spot-content">
+                            <div class="spot-meta">
+                                <span><i class="fas fa-shopping-bag"></i> 第一百貨</span>
+                                <span><i class="fas fa-crown"></i> 江戶繁華</span>
+                            </div>
+                            <h3>日本橋三越本店：傳承百年的奢華殿堂</h3>
+                            <p>日本第一家百貨公司。三越本店不僅提供頂級購物，更是一座「活的建築博物館」。</p>
+
+                            <div class="info-grid">
+                                <div class="info-item">
+                                    <h4>中央大廳天女像</h4>
+                                    <p>高達四層樓、色彩斑斕的檜木雕刻「天女像」，是造訪此處必看的藝術震撼。</p>
+                                </div>
+                                <div class="info-item">
+                                    <h4>青銅獅子守護神</h4>
+                                    <p>正門的青銅獅子自 1914 年起便守護著此處。傳說秘密觸摸獅子的後腿會帶來好運。</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="spot-home" class="section-anchor">
+                    <div class="spot-section" style="background: var(--primary-accent); color: white;">
+                        <div class="spot-content text-center">
+                            <h3 style="color:white; margin-bottom: 25px;">🌙 歸途平安</h3>
+                            
+                            <div class="d-flex justify-content-center align-items-center mb-4" style="gap: 20px;">
+                                <div class="text-center">
+                                    <i class="fas fa-building fa-2x mb-2" style="color: var(--gold-accent);"></i>
+                                    <p class="small mb-0">三越前</p>
+                                </div>
+                                <div style="flex-grow: 1; max-width: 150px; border-top: 2px dashed rgba(255,255,255,0.4); position: relative;">
+                                    <span class="badge-line" style="background:var(--ginza-orange); position: absolute; top: -20px; left: 50%; transform: translateX(-50%); white-space: nowrap; font-size: 0.7rem;">銀座線</span>
+                                    <i class="fas fa-train" style="position: absolute; top: 10px; left: 50%; transform: translateX(-50%);"></i>
+                                </div>
+                                <div class="text-center">
+                                    <i class="fas fa-hotel fa-2x mb-2" style="color: var(--gold-accent);"></i>
+                                    <p class="small mb-0">御徒町</p>
+                                </div>
+                            </div>
+
+                            <p style="opacity: 0.9; font-size: 1.2rem;">
+                                返回飯店休息，結束這場地標與古典交織的旅程。
+                            </p>
+                            <hr style="border-color: rgba(255,255,255,0.3); width: 60px; margin: 30px auto;">
+                            
+                            <div class="highlight-box text-start mb-0" style="background: rgba(255,255,255,0.1); border-left-color: var(--gold-accent); color: white;">
+                                <strong><i class="fas fa-check-circle"></i> 今日總結：</strong><br>
+                                經歷了知性的科學探索、與紅白鐵道塔的邂逅，最後在日本橋感受百年商道的精髓。這份記憶將隨著溫泉的熱氣，深深烙印在腦海中。
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <footer class="text-center py-5 text-muted small">
+                    <p style="font-size: 1rem;">&copy; 2026 Tokyo Memory Trip | Day 6</p>
+                </footer>
+
+            </div>
+        </div>
+    </div>
+
+    <a href="index.html" class="home-fab" title="回首頁">
+        <i class="fas fa-home"></i>
+    </a>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init({ duration: 800, once: true, offset: 100 });
+        
+        const mobileLinks = document.querySelectorAll('.mobile-nav-item');
+        mobileLinks.forEach(link => {
+            link.addEventListener('click', function() {
+                mobileLinks.forEach(l => l.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+    </script>
+</body>
+</html>

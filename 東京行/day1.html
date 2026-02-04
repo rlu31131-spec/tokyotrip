@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>東京 Day 1：初抵東京與淺草風情 | 深度旅誌</title>
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@500;700&family=Noto+Sans+TC:wght@300;400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
+    <style>
+        :root {
+            --bg-color: #fcfbf9;       
+            --text-primary: #333333;
+            --primary-accent: #2c5364; 
+            --gold-accent: #c5a059;    
+            --asakusa-red: #cc3333;    /* 淺草雷門朱紅色 */
+            --skyliner-blue: #0055a5;  /* 京成電鐵藍 */
+            --ginza-orange: #f39700;   /* 銀座線橘色 */
+            --card-shadow: 0 20px 40px rgba(0,0,0,0.06);
+        }
+
+        body {
+            font-family: 'Noto Sans TC', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            font-size: 19px; 
+            line-height: 1.9;
+            letter-spacing: 0.03em;
+        }
+
+        h1, h2, h3, h4 {
+            font-family: 'Noto Serif TC', serif;
+            color: var(--primary-accent);
+            font-weight: 700;
+        }
+        h3 { font-size: 1.8rem; }
+
+        /* --- 導覽列 --- */
+        .sticky-sidebar {
+            position: sticky; top: 40px; padding: 30px;
+            border-left: 2px solid #eee; display: none;
+        }
+        @media (min-width: 992px) { .sticky-sidebar { display: block; } }
+
+        .nav-link {
+            color: #aaa; font-family: 'Noto Serif TC', serif; font-size: 1.15rem;
+            padding: 18px 0; position: relative; transition: all 0.4s ease;
+            display: flex; align-items: center; gap: 12px;
+        }
+        .nav-num { font-family: 'Helvetica', sans-serif; font-weight: bold; font-size: 0.9rem; opacity: 0.5; }
+        .nav-link.active { color: var(--primary-accent); font-weight: bold; padding-left: 15px; }
+        .nav-link.active .nav-num { opacity: 1; color: var(--gold-accent); }
+        .nav-link.active::before {
+            content: ''; position: absolute; left: 0; top: 50%; transform: translateY(-50%);
+            width: 5px; height: 24px; background: var(--gold-accent);
+        }
+
+        /* --- 手機導覽 --- */
+        .mobile-nav {
+            position: sticky; top: 0; z-index: 999;
+            background: rgba(255,255,255,0.95); backdrop-filter: blur(10px);
+            padding: 15px; border-bottom: 1px solid rgba(0,0,0,0.05);
+            display: flex; gap: 12px; overflow-x: auto;
+        }
+        @media (min-width: 992px) { .mobile-nav { display: none; } }
+        .mobile-nav-item {
+            color: var(--text-primary); text-decoration: none; font-size: 1rem;
+            padding: 8px 18px; border-radius: 50px; background: white; border: 1px solid #ddd;
+            font-weight: 500; white-space: nowrap;
+        }
+        .mobile-nav-item.active { background-color: var(--primary-accent); color: white; border-color: var(--primary-accent); }
+
+        /* --- 卡片 --- */
+        .spot-section {
+            background: white; border-radius: 24px; overflow: hidden;
+            box-shadow: var(--card-shadow); margin-bottom: 70px;
+            transition: transform 0.3s ease; position: relative;
+        }
+        .spot-number {
+            position: absolute; top: 20px; left: 20px;
+            background: rgba(255,255,255,0.95); backdrop-filter: blur(5px);
+            padding: 8px 20px; border-radius: 30px;
+            font-family: 'Noto Serif TC', serif; font-weight: bold; font-size: 1.1rem;
+            color: var(--primary-accent); z-index: 10;
+        }
+
+        .cinema-frame { height: 450px; position: relative; overflow: hidden; background-color: #eee; }
+        .cinema-bg {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background-size: cover; background-position: center;
+            filter: blur(25px) brightness(0.95); transform: scale(1.1);
+        }
+        .cinema-img {
+            position: relative; z-index: 2; width: 100%; height: 100%;
+            object-fit: contain; filter: drop-shadow(0 10px 20px rgba(0,0,0,0.2));
+        }
+
+        .spot-content { padding: 45px; }
+        .spot-meta {
+            display: flex; gap: 25px; color: #666; font-size: 1.05rem;
+            margin-bottom: 20px; border-bottom: 1px solid #f0f0f0; padding-bottom: 15px;
+        }
+        .spot-meta i { color: var(--gold-accent); margin-right: 8px; font-size: 1.2rem; }
+
+        .info-grid {
+            display: grid; grid-template-columns: 1fr 1fr; gap: 30px; margin-top: 30px;
+        }
+        .info-item h4 { font-size: 1.2rem; margin-bottom: 15px; border-bottom: 2px solid var(--gold-accent); display: inline-block; }
+        .info-item p { font-size: 1rem; color: #555; line-height: 1.7; }
+
+        .highlight-box {
+            background: #fdf5f5; border-left: 5px solid var(--asakusa-red);
+            padding: 25px 30px; margin-top: 30px; border-radius: 0 12px 12px 0; font-size: 1.1rem;
+        }
+
+        /* 交通卡片 */
+        .transit-card {
+            text-align: center; margin-bottom: 70px; position: relative;
+            color: #777; font-size: 1.15rem; font-weight: 500;
+        }
+        .transit-card::before {
+            content: ''; display: block; width: 2px; height: 40px;
+            background: #ddd; margin: 0 auto 15px auto;
+        }
+        
+        /* 交通徽章樣式 */
+        .badge-skyliner {
+            background: var(--skyliner-blue); color: white;
+            padding: 6px 16px; border-radius: 50px; font-weight: normal; letter-spacing: 1px;
+            font-size: 0.95rem; vertical-align: middle; margin-right: 10px;
+        }
+        .badge-ginza {
+            background: var(--ginza-orange); color: white;
+            padding: 6px 16px; border-radius: 50px; font-weight: normal; letter-spacing: 1px;
+            font-size: 0.95rem; vertical-align: middle; margin-right: 10px;
+        }
+        .badge-walk {
+            background: #95a5a6; color: white;
+            padding: 6px 16px; border-radius: 50px; font-size: 0.95rem; vertical-align: middle; margin-right: 10px;
+        }
+
+        /* Header */
+        .main-header { padding: 80px 0 50px; text-align: center; }
+        .main-header h1 { font-size: 3.5rem; letter-spacing: 0.1em; margin-bottom: 15px; }
+        .main-header .divider { width: 80px; height: 4px; background: var(--gold-accent); margin: 25px auto; }
+
+        .home-fab {
+            position: fixed; bottom: 30px; right: 30px;
+            width: 65px; height: 65px;
+            background-color: var(--primary-accent); color: white;
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            text-decoration: none; box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            transition: transform 0.3s ease, background 0.3s; z-index: 1000; font-size: 1.5rem;
+        }
+        .home-fab:hover { background-color: var(--gold-accent); transform: scale(1.1); color: white; }
+
+        @media (max-width: 768px) {
+            body { font-size: 18px; }
+            .info-grid { grid-template-columns: 1fr; }
+            .cinema-frame { height: 300px; }
+            .spot-content { padding: 30px; }
+            .main-header h1 { font-size: 2.5rem; }
+        }
+    </style>
+</head>
+<body data-bs-spy="scroll" data-bs-target="#timeline-nav" data-bs-offset="100" tabindex="0">
+
+    <nav class="mobile-nav no-scrollbar">
+        <a class="mobile-nav-item" href="#spot-1">01 抵達</a>
+        <a class="mobile-nav-item" href="#spot-2">02 淺草</a>
+        <a class="mobile-nav-item" href="#spot-3">03 晴空塔</a>
+        <a class="mobile-nav-item" href="#spot-4">04 阿美橫丁</a>
+        <a class="mobile-nav-item" href="#spot-home">Ending</a>
+    </nav>
+
+    <div class="container main-wrapper">
+        <div class="row">
+            
+            <div class="col-lg-3">
+                <nav id="timeline-nav" class="sticky-sidebar flex-column">
+                    <h5 class="mb-4 ps-2" style="color:#aaa; letter-spacing:2px; font-size:1rem;">FLOW</h5>
+                    <nav class="nav nav-pills flex-column">
+                        <a class="nav-link" href="#spot-1"><span class="nav-num">01</span> 抵達東京 & Check-in</a>
+                        <a class="nav-link" href="#spot-2"><span class="nav-num">02</span> 淺草寺參拜</a>
+                        <a class="nav-link" href="#spot-3"><span class="nav-num">03</span> 晴空塔展望</a>
+                        <a class="nav-link" href="#spot-4"><span class="nav-num">04</span> 阿美橫丁</a>
+                        <a class="nav-link" href="#spot-home"><span class="nav-num">END</span> 飯店休憩</a>
+                    </nav>
+                </nav>
+            </div>
+
+            <div class="col-lg-9 content-col">
+                
+                <header class="main-header" data-aos="fade-down">
+                    <p class="text-muted mb-0" style="letter-spacing: 3px; font-size: 1rem;">TOKYO TRIP DAY 1</p>
+                    <h1>下町風情巡禮</h1>
+                    <div class="divider"></div>
+                    <p class="text-muted">上野・淺草・押上 | 經典東京的初次見面</p>
+                </header>
+
+                <div id="spot-1" class="section-anchor" data-aos="fade-up">
+                    <div class="spot-section">
+                        <div class="spot-number">Spot 01</div>
+                        <div class="cinema-frame">
+                            <div class="cinema-bg" style="background-image: url('tokyotrip/day1/skyliner.jpg');"></div>
+                            <img src="tokyotrip/day1/skyliner.jpg" class="cinema-img" alt="京成Skyliner" onerror="this.src='https://placehold.co/800x600/e0e0e0/999?text=Arrival'">
+                        </div>
+                        <div class="spot-content">
+                            <div class="spot-meta">
+                                <span><i class="fas fa-plane"></i> 航班抵達</span>
+                                <span><i class="fas fa-hotel"></i> Dormy Inn 寄放</span>
+                            </div>
+                            <h3>成田機場 <i class="fas fa-arrow-right mx-2 text-muted"></i> 上野御徒町</h3>
+                            <p>從高雄飛抵成田機場。搭乘最快速的「京成 Skyliner」直奔市區，前往位於上野御徒町的飯店寄放行李，開啟輕鬆的東京之旅。</p>
+                            
+                            <div class="info-grid">
+                                <div class="info-item">
+                                    <h4>京成 Skyliner</h4>
+                                    <p>以時速 160 公里奔馳，是日本除了新幹線外最快的列車。全車對號座且空間寬敞，只需 41 分鐘即可從機場抵達上野站。</p>
+                                </div>
+                                <div class="info-item">
+                                    <h4>Dormy Inn 上野御徒町</h4>
+                                    <p>位於便利的御徒町站旁。飯店提供著名的天然溫泉大浴場，以及每晚免費供應的「夜鳴拉麵」，是下榻上野的首選。</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="transit-card" data-aos="fade-in">
+                    <span class="badge-ginza">銀座線</span> 上野廣小路 <i class="fas fa-arrow-right small mx-2"></i> 淺草 (約 5 分)
+                </div>
+
+                <div id="spot-2" class="section-anchor" data-aos="fade-up">
+                    <div class="spot-section">
+                        <div class="spot-number">Spot 02</div>
+                        <div class="cinema-frame">
+                            <div class="cinema-bg" style="background-image: url('tokyotrip/day1/grasstemple.jpg');"></div>
+                            <img src="tokyotrip/day1/grasstemple.jpg" class="cinema-img" alt="淺草寺" onerror="this.src='https://placehold.co/800x600/e0e0e0/999?text=Sensoji'">
+                        </div>
+                        <div class="spot-content">
+                            <div class="spot-meta">
+                                <span><i class="fas fa-torii-gate"></i> 東京最古寺廟</span>
+                                <span><i class="fas fa-camera"></i> 雷門地標</span>
+                            </div>
+                            <h3>淺草寺：雷門與下町繁華</h3>
+                            <p>穿過寫著「雷門」的巨大紅燈籠，漫步在充滿人氣的「仲見世通」。這裡是感受江戶傳統文化與庶民活力的最佳起點。</p>
+
+                            <div class="info-grid">
+                                <div class="info-item">
+                                    <h4>仲見世通美食</h4>
+                                    <p>這條古老的商店街販售各種傳統甜點，如人形燒、炸饅頭與現烤米果。建議邊逛邊品嚐這些流傳百年的下町滋味。</p>
+                                </div>
+                                <div class="info-item">
+                                    <h4>觀音本堂參拜</h4>
+                                    <p>抵達本堂前先在「常香爐」薰香，據說能保佑身體健康。隨後進入本堂向慈悲的觀世音菩薩祈願平安順遂。</p>
+                                </div>
+                            </div>
+
+                            <div class="highlight-box">
+                                <strong><i class="fas fa-star" style="color:var(--asakusa-red)"></i> 必看：</strong> 除了主殿，別忘了在雷門前留影，這是東京最具代表性的地標視角。
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="transit-card" data-aos="fade-in">
+                    <span class="badge-walk">WALK</span> 淺草寺 <i class="fas fa-arrow-right small mx-2"></i> 吾妻橋 <i class="fas fa-arrow-right small mx-2"></i> 晴空塔 (散步約 15 分)
+                </div>
+
+                <div id="spot-3" class="section-anchor" data-aos="fade-up">
+                    <div class="spot-section">
+                        <div class="spot-number">Spot 03</div>
+                        <div class="cinema-frame">
+                            <div class="cinema-bg" style="background-image: url('tokyotrip/day1/skytree.jpg');"></div>
+                            <img src="tokyotrip/day1/skytower.png" class="cinema-img" alt="晴空塔" onerror="this.src='https://placehold.co/800x600/e0e0e0/999?text=Skytree'">
+                        </div>
+                        <div class="spot-content">
+                            <div class="spot-meta">
+                                <span><i class="fas fa-mountain"></i> 634m 展望</span>
+                                <span><i class="fas fa-moon"></i> 絕美點燈</span>
+                            </div>
+                            <h3>東京晴空塔：漫步雲端的現代奇蹟</h3>
+                            <p>橫跨隅田川即可抵達世界第一高的電波塔。它融合了傳統「五重塔」的建築智慧與現代工藝，是俯視大東京平原的絕佳景點。</p>
+
+                            <div class="info-grid">
+                                <div class="info-item">
+                                    <h4>天望甲板展望</h4>
+                                    <p>登上 350 或 450 公尺的觀景台，可以將東京塔、彩虹大橋甚至遠方的富士山盡收眼底，傍晚時分的魔幻時刻最為動人。</p>
+                                </div>
+                                <div class="info-item">
+                                    <h4>Solamachi 商城</h4>
+                                    <p>塔下的商場擁有超過 300 家店舖，包含許多晴空塔限定的伴手禮、吉卜力專賣店以及各式異國美食餐廳。</p>
+                                </div>
+                            </div>
+
+                            <div class="highlight-box" style="border-left-color: #66ccff; background: #f0faff;">
+                                <strong><i class="fas fa-lightbulb" style="color:#0055a5"></i> 攝影點：</strong> 跨越隅田川的「吾妻橋」是捕捉晴空塔與朝日啤酒大樓合影的最佳位置。
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="transit-card" data-aos="fade-in">
+                    <span class="badge-walk">WALK</span> 晴空塔 <i class="fas fa-arrow-right small mx-2"></i> 吾妻橋 <i class="fas fa-arrow-right small mx-2"></i> 淺草站<br><br>
+                    <i class="fas fa-arrow-down text-muted"></i><br><br>
+                    <span class="badge-ginza">銀座線</span> 淺草 <i class="fas fa-arrow-right small mx-2"></i> 上野 (約 5 分)
+                </div>
+
+                <div id="spot-4" class="section-anchor" data-aos="fade-up">
+                    <div class="spot-section">
+                        <div class="spot-number">Spot 04</div>
+                        <div class="cinema-frame">
+                            <div class="cinema-bg" style="background-image: url('tokyotrip/day1/shoppingstreet.webp');"></div>
+                            <img src="tokyotrip/day1/shoppingstreet.webp" class="cinema-img" alt="阿美橫丁" onerror="this.src='https://placehold.co/800x600/e0e0e0/999?text=Ameyoko'">
+                        </div>
+                        <div class="spot-content">
+                            <div class="spot-meta">
+                                <span><i class="fas fa-utensils"></i> 居酒屋美食</span>
+                                <span><i class="fas fa-tags"></i> 伴手禮採購</span>
+                            </div>
+                            <h3>上野阿美橫丁：熱情喧囂的市場魂</h3>
+                            <p>位於高架橋下的商店街，充滿了活力與叫賣聲。從藥妝、零食到街頭小吃應有盡有，是感受東京庶民生活最好的地方。</p>
+
+                            <div class="info-grid">
+                                <div class="info-item">
+                                    <h4>二木之菓子</h4>
+                                    <p>這裡是零食採買聖地，從古早味餅乾到最新流行糖果一應俱全，且價格極具競爭力，非常適合一次備齊伴手禮。</p>
+                                </div>
+                                <div class="info-item">
+                                    <h4>高架橋下居酒屋</h4>
+                                    <p>夜晚的阿美橫丁充滿了大眾食堂與居酒屋，大口吃串燒、大口喝酒的氛圍，是體驗道地日本下班生活的最佳場所。</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="spot-home" class="section-anchor" data-aos="fade-up">
+                    <div class="spot-section" style="background: var(--primary-accent); color: white;">
+                        <div class="spot-content text-center">
+                            <h3 style="color:white; margin-bottom: 25px;">🌙 圓滿歸途</h3>
+                            <div class="d-flex justify-content-center align-items-center mb-4" style="gap: 20px;">
+                                <div class="text-center">
+                                    <i class="fas fa-map-marked-alt fa-2x mb-2" style="color: var(--gold-accent);"></i>
+                                    <p class="small mb-0">阿美橫丁</p>
+                                </div>
+                                <div style="flex-grow: 1; max-width: 150px; border-top: 2px dashed rgba(255,255,255,0.4); position: relative;">
+                                    <i class="fas fa-walking" style="position: absolute; top: -25px; left: 50%; transform: translateX(-50%);"></i>
+                                    <span class="small" style="position: absolute; bottom: -25px; left: 50%; transform: translateX(-50%); white-space: nowrap;">約 5 min</span>
+                                </div>
+                                <div class="text-center">
+                                    <i class="fas fa-hotel fa-2x mb-2" style="color: var(--gold-accent);"></i>
+                                    <p class="small mb-0">Dormy Inn</p>
+                                </div>
+                            </div>
+                            <p style="opacity: 0.9; margin-top: 20px;">
+                                步行返回飯店休息。<br>
+                                晚間別忘了飯店的免費拉麵服務。
+                            </p>
+                            <hr style="border-color: rgba(255,255,255,0.3); width: 60px; margin: 30px auto;">
+                            <div class="highlight-box text-start mb-0" style="background: rgba(255,255,255,0.1); border-left-color: var(--gold-accent); color: white;">
+                                <strong><i class="fas fa-check-circle"></i> 今日總結：</strong><br>
+                                初抵東京，從淺草寺的古典朱紅到晴空塔的壯麗天際，再到阿美橫丁的市場氣息。<br>
+                                洗去長途飛行的疲憊，期待明天的冒險。
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <footer class="text-center py-5 text-muted small">
+                    <p style="font-size: 1rem;">&copy; 2026 Tokyo Memory Trip | Day 1</p>
+                </footer>
+
+            </div>
+        </div>
+    </div>
+
+    <a href="index.html" class="home-fab" title="回首頁">
+        <i class="fas fa-home"></i>
+    </a>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init({ duration: 800, once: true, offset: 100 });
+        const mobileLinks = document.querySelectorAll('.mobile-nav-item');
+        mobileLinks.forEach(link => {
+            link.addEventListener('click', function() {
+                mobileLinks.forEach(l => l.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+    </script>
+</body>
+</html>

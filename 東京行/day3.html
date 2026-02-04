@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>東京 Day 3：下町路面電車之旅 | 深度旅誌</title>
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@500;700&family=Noto+Sans+TC:wght@300;400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
+    <style>
+        :root {
+            --bg-color: #fcfbf9;       
+            --text-primary: #333333;
+            --primary-accent: #2c5364; 
+            --gold-accent: #c5a059;    
+            --green-accent: #7a9e7e;   
+            --tram-pink: #d8839d;      
+            --card-shadow: 0 20px 40px rgba(0,0,0,0.06);
+        }
+
+        body {
+            font-family: 'Noto Sans TC', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            font-size: 19px; 
+            line-height: 1.9;
+            letter-spacing: 0.03em;
+        }
+
+        h1, h2, h3, h4 {
+            font-family: 'Noto Serif TC', serif;
+            color: var(--primary-accent);
+            font-weight: 700;
+        }
+        h3 { font-size: 1.8rem; }
+
+        /* --- 導覽列 --- */
+        .sticky-sidebar {
+            position: sticky; top: 40px; padding: 30px;
+            border-left: 2px solid #eee; display: none;
+        }
+        @media (min-width: 992px) { .sticky-sidebar { display: block; } }
+
+        .nav-link {
+            color: #aaa; font-family: 'Noto Serif TC', serif; font-size: 1.15rem;
+            padding: 18px 0; position: relative; transition: all 0.4s ease;
+            display: flex; align-items: center; gap: 12px;
+        }
+        .nav-num { font-family: 'Helvetica', sans-serif; font-weight: bold; font-size: 0.9rem; opacity: 0.5; }
+        .nav-link.active { color: var(--primary-accent); font-weight: bold; padding-left: 15px; }
+        .nav-link.active .nav-num { opacity: 1; color: var(--gold-accent); }
+        .nav-link.active::before {
+            content: ''; position: absolute; left: 0; top: 50%; transform: translateY(-50%);
+            width: 5px; height: 24px; background: var(--gold-accent);
+        }
+
+        /* --- 手機導覽 --- */
+        .mobile-nav {
+            position: sticky; top: 0; z-index: 999;
+            background: rgba(255,255,255,0.95); backdrop-filter: blur(10px);
+            padding: 15px; border-bottom: 1px solid rgba(0,0,0,0.05);
+            display: flex; gap: 12px; overflow-x: auto;
+        }
+        @media (min-width: 992px) { .mobile-nav { display: none; } }
+        .mobile-nav-item {
+            color: var(--text-primary); text-decoration: none; font-size: 1rem;
+            padding: 8px 18px; border-radius: 50px; background: white; border: 1px solid #ddd;
+            font-weight: 500; white-space: nowrap;
+        }
+        .mobile-nav-item.active { background-color: var(--primary-accent); color: white; border-color: var(--primary-accent); }
+
+        /* --- 卡片與排版 --- */
+        .spot-section {
+            background: white; border-radius: 24px; overflow: hidden;
+            box-shadow: var(--card-shadow); margin-bottom: 70px;
+            transition: transform 0.3s ease; position: relative;
+        }
+        .spot-number {
+            position: absolute; top: 20px; left: 20px;
+            background: rgba(255,255,255,0.95); backdrop-filter: blur(5px);
+            padding: 8px 20px; border-radius: 30px;
+            font-family: 'Noto Serif TC', serif; font-weight: bold; font-size: 1.1rem;
+            color: var(--primary-accent); z-index: 10;
+        }
+
+        .cinema-frame { height: 450px; position: relative; overflow: hidden; background-color: #eee; }
+        .cinema-bg {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background-size: cover; background-position: center;
+            filter: blur(25px) brightness(0.95); transform: scale(1.1);
+        }
+        .cinema-img {
+            position: relative; z-index: 2; width: 100%; height: 100%;
+            object-fit: contain; filter: drop-shadow(0 10px 20px rgba(0,0,0,0.2));
+        }
+
+        .spot-content { padding: 45px; }
+        .spot-meta {
+            display: flex; gap: 25px; color: #666; font-size: 1.05rem;
+            margin-bottom: 20px; border-bottom: 1px solid #f0f0f0; padding-bottom: 15px;
+        }
+        .spot-meta i { color: var(--gold-accent); margin-right: 8px; font-size: 1.2rem; }
+
+        .info-grid {
+            display: grid; grid-template-columns: 1fr 1fr; gap: 30px; margin-top: 30px;
+        }
+        .info-item h4 { font-size: 1.2rem; margin-bottom: 15px; border-bottom: 2px solid var(--gold-accent); display: inline-block; }
+        .info-item p { font-size: 1rem; color: #555; line-height: 1.7; }
+
+        .highlight-box {
+            background: #f4f8f9; border-left: 5px solid var(--primary-accent);
+            padding: 25px 30px; margin-top: 30px; border-radius: 0 12px 12px 0; font-size: 1.1rem;
+        }
+
+        /* --- 荒川線樣式 --- */
+        .tram-intro-box {
+            background: #fff0f5; border: 2px dashed var(--tram-pink);
+            border-radius: 16px; padding: 30px; margin-bottom: 30px;
+            position: relative; text-align: left;
+        }
+        .tram-intro-title {
+            color: #b05c78; font-family: 'Noto Serif TC', serif;
+            font-weight: bold; font-size: 1.3rem; margin-bottom: 10px;
+            display: flex; align-items: center; gap: 10px;
+        }
+
+        /* 交通卡片 */
+        .transit-card {
+            text-align: center; margin-bottom: 70px; position: relative;
+            color: #777; font-size: 1.15rem; font-weight: 500;
+        }
+        .transit-card::before {
+            content: ''; display: block; width: 2px; height: 40px;
+            background: #ddd; margin: 0 auto 15px auto;
+        }
+        .badge-line {
+            background: var(--green-accent); color: white;
+            padding: 6px 16px; border-radius: 50px; font-weight: normal; letter-spacing: 1px;
+            font-size: 0.95rem; vertical-align: middle; margin-right: 10px;
+        }
+        .badge-walk {
+            background: #95a5a6; color: white;
+            padding: 6px 16px; border-radius: 50px; font-size: 0.95rem; vertical-align: middle; margin-right: 10px;
+        }
+
+        /* Header */
+        .main-header { padding: 80px 0 50px; text-align: center; }
+        .main-header h1 { font-size: 3.5rem; letter-spacing: 0.1em; margin-bottom: 15px; }
+        .main-header .divider { width: 80px; height: 4px; background: var(--gold-accent); margin: 25px auto; }
+
+        .home-fab {
+            position: fixed; bottom: 30px; right: 30px;
+            width: 65px; height: 65px;
+            background-color: var(--primary-accent); color: white;
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            text-decoration: none; box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            transition: transform 0.3s ease, background 0.3s; z-index: 1000; font-size: 1.5rem;
+        }
+        .home-fab:hover { background-color: var(--gold-accent); transform: scale(1.1); color: white; }
+
+        @media (max-width: 768px) {
+            body { font-size: 18px; }
+            .info-grid { grid-template-columns: 1fr; }
+            .cinema-frame { height: 300px; }
+            .spot-content { padding: 30px; }
+            .main-header h1 { font-size: 2.5rem; }
+            .home-fab { width: 55px; height: 55px; font-size: 1.2rem; bottom: 20px; right: 20px; }
+        }
+    </style>
+</head>
+<body data-bs-spy="scroll" data-bs-target="#timeline-nav" data-bs-offset="100" tabindex="0">
+
+    <nav class="mobile-nav no-scrollbar">
+        <a class="mobile-nav-item" href="#spot-1">01 湯島</a>
+        <a class="mobile-nav-item" href="#spot-2">02 上野</a>
+        <a class="mobile-nav-item" href="#spot-3">03 妙義</a>
+        <a class="mobile-nav-item" href="#spot-4">04 巢鴨</a>
+        <a class="mobile-nav-item" href="#spot-5">05 池袋</a>
+        <a class="mobile-nav-item" href="#spot-home">Ending</a>
+    </nav>
+
+    <div class="container main-wrapper">
+        <div class="row">
+            
+            <div class="col-lg-3">
+                <nav id="timeline-nav" class="sticky-sidebar flex-column">
+                    <h5 class="mb-4 ps-2" style="color:#aaa; letter-spacing:2px; font-size:1rem;">FLOW</h5>
+                    <nav class="nav nav-pills flex-column">
+                        <a class="nav-link" href="#spot-1"><span class="nav-num">01</span> 湯島天滿宮</a>
+                        <a class="nav-link" href="#spot-2"><span class="nav-num">02</span> 上野動物園</a>
+                        <a class="nav-link" href="#spot-3"><span class="nav-num">03</span> 駒込妙義神社</a>
+                        <a class="nav-link" href="#spot-4"><span class="nav-num">04</span> 巢鴨地藏通</a>
+                        <a class="nav-link" href="#spot-5"><span class="nav-num">05</span> 池袋太陽城</a>
+                        <a class="nav-link" href="#spot-home"><span class="nav-num">END</span> 飯店賦歸</a>
+                    </nav>
+                </nav>
+            </div>
+
+            <div class="col-lg-9 content-col">
+                
+                <header class="main-header" data-aos="fade-down" id="top">
+                    <p class="text-muted mb-0" style="letter-spacing: 3px; font-size: 1rem;">TOKYO TRIP DAY 3</p>
+                    <h1>路面電車散策</h1>
+                    <div class="divider"></div>
+                    <p class="text-muted">文京・巢鴨・池袋 | 穿梭在昭和與現代之間</p>
+                </header>
+
+                <div id="spot-1" class="section-anchor" data-aos="fade-up">
+                    <div class="spot-section">
+                        <div class="spot-number">Spot 01</div>
+                        <div class="cinema-frame">
+                            <div class="cinema-bg" style="background-image: url('tokyotrip/day3/soupislandtemple.jpg');"></div>
+                            <img src="tokyotrip/day3/soupislandtemple.jpg" class="cinema-img" alt="湯島天滿宮" onerror="this.src='https://placehold.co/800x600/e0e0e0/999?text=Yushima'">
+                        </div>
+                        <div class="spot-content">
+                            <div class="spot-meta">
+                                <span><i class="fas fa-scroll"></i> 學問之神</span>
+                                <span><i class="fas fa-map-marker-alt"></i> 文京區</span>
+                            </div>
+                            <h3>湯島天滿宮：求學與智慧的殿堂</h3>
+                            <p>行程從這座靜謐的神社開始。這裡是供奉學問之神「菅原道真」的殿堂。清晨造訪，能感受到江戶時代延續至今的文化氣息與肅穆氛圍。</p>
+                            
+                            <div class="info-grid">
+                                <div class="info-item">
+                                    <h4>御神牛的祝福</h4>
+                                    <p>相傳撫摸神社內的「御神牛」可以獲得智慧或療癒病痛。觀察銅牛身上被信眾摸得發亮的部分，能體會這份傳承千年的誠摯信仰。</p>
+                                </div>
+                                <div class="info-item">
+                                    <h4>梅花名所</h4>
+                                    <p>除了求學出名，這裡也是著名的賞梅勝地。庭園中種植了約 300 棵梅樹，在花季期間，淡雅的香氣與古樸的木造建築構成極美的景觀。</p>
+                                </div>
+                            </div>
+
+                            <div class="highlight-box">
+                                <strong><i class="fas fa-star" style="color:var(--gold-accent)"></i> 體驗：</strong> 撫摸御神牛祈求智慧，欣賞掛滿誠摯願望的繪馬牆。
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="transit-card" data-aos="fade-in">
+                    <span class="badge-walk">WALK</span> 步行約 10 分鐘 <i class="fas fa-arrow-right small mx-2"></i> 上野動物園（池之端門）
+                </div>
+
+                <div id="spot-2" class="section-anchor" data-aos="fade-up">
+                    <div class="spot-section">
+                        <div class="spot-number">Spot 02</div>
+                        <div class="cinema-frame">
+                            <div class="cinema-bg" style="background-image: url('tokyotrip/day3/zoo.webp');"></div>
+                            <img src="tokyotrip/day3/zoo.webp" class="cinema-img" alt="上野動物園" onerror="this.src='https://placehold.co/800x600/e0e0e0/999?text=Ueno+Zoo'">
+                        </div>
+                        <div class="spot-content">
+                            <div class="spot-meta">
+                                <span><i class="fas fa-paw"></i> 明星貓熊</span>
+                                <span><i class="fas fa-ticket-alt"></i> 需門票</span>
+                            </div>
+                            <h3>上野動物園：都會中的自然綠洲</h3>
+                            <p>作為日本第一座動物園，這裡不僅擁有可愛的動物，更是一座活生生的歷史公園。從西園跨過懸垂列車軌道前往東園，沿途可見江戶時期的五重塔遺址。</p>
+
+                            <div class="info-grid">
+                                <div class="info-item">
+                                    <h4>不忍池風光</h4>
+                                    <p>西園與不忍池緊鄰，夏季滿池荷花綻放，冬季則是候鳥的棲息地。在此可觀察到鵜鶘、非洲企鵝等生活在水邊的動物，意境悠遠。</p>
+                                </div>
+                                <div class="info-item">
+                                    <h4>歷史建築群</h4>
+                                    <p>園區內保留了舊寬永寺的五重塔，這種動物展區與江戶古蹟共存的景象是上野獨有的特色，完美結合了自然生態與人文底蘊。</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="transit-card" data-aos="fade-in">
+                    <span class="badge-line">JR 山手線</span> 上野 <i class="fas fa-arrow-right small mx-2"></i> 駒込 (往池袋方向)
+                </div>
+
+                <div id="spot-3" class="section-anchor" data-aos="fade-up">
+                    <div class="spot-section">
+                        <div class="spot-number">Spot 03</div>
+                        <div class="cinema-frame">
+                            <div class="cinema-bg" style="background-image: url('tokyotrip/day3/temple01.jpg');"></div>
+                            <img src="tokyotrip/day3/temple01.jpg" class="cinema-img" alt="妙義神社" onerror="this.src='https://placehold.co/800x600/e0e0e0/999?text=Myogi+Shrine'">
+                        </div>
+                        <div class="spot-content">
+                            <div class="spot-meta">
+                                <span><i class="fas fa-fist-raised"></i> 勝運祈願</span>
+                                <span><i class="fas fa-torii-gate"></i> 能量景點</span>
+                            </div>
+                            <h3>駒込妙義神社：戰國名將的祈勝地</h3>
+                            <p>隱身於駒込住宅區的坡道之上，這座神社雖小，卻充滿了強大的靈氣。它是東京最古老的神社之一，以祈求「勝利」與「開運」聞名。</p>
+
+                            <div class="info-grid">
+                                <div class="info-item">
+                                    <h4>太田道灌之緣</h4>
+                                    <p>相傳江戶城的築城者太田道灌曾在征戰前在此祈勝，最終凱旋。此後這裡便成為武士與現代職人們祈求突破困境、獲得成功的精神支柱。</p>
+                                </div>
+                                <div class="info-item">
+                                    <h4>洗練的現代感</h4>
+                                    <p>神社近年重建後，木質構造簡約且具美感，石階兩旁的綠意與精緻的朱印服務，讓這裡成為駒込地區著名的「隱世能量點」。</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="transit-card" data-aos="fade-in">
+                    <span class="badge-line">JR 山手線</span> 駒込 <i class="fas fa-arrow-right small mx-2"></i> 巢鴨 (1站抵達)
+                </div>
+
+                <div id="spot-4" class="section-anchor" data-aos="fade-up">
+                    <div class="spot-section">
+                        <div class="spot-number">Spot 04</div>
+                        <div class="cinema-frame">
+                            <div class="cinema-bg" style="background-image: url('tokyotrip/day3/shopingstreet.jpg');"></div>
+                            <img src="tokyotrip/day3/shopingstreet.jpg" class="cinema-img" alt="巢鴨" onerror="this.src='https://placehold.co/800x600/e0e0e0/999?text=Sugamo'">
+                        </div>
+                        <div class="spot-content">
+                            <div class="spot-meta">
+                                <span><i class="fas fa-hand-holding-heart"></i> 洗觀音祈福</span>
+                                <span><i class="fas fa-utensils"></i> 老派美食</span>
+                            </div>
+                            <h3>巢鴨地藏通：充滿人情味的老派時光</h3>
+                            <p>被暱稱為「老奶奶的原宿」，這條商店街保留了濃厚的昭和氣息。步調緩慢、親切的叫賣聲與各式傳統商品，展現了東京最溫暖的一面。</p>
+
+                            <div class="info-grid">
+                                <div class="info-item">
+                                    <h4>高岩寺水洗觀音</h4>
+                                    <p>在商店街核心的高岩寺中，供奉著著名的「洗觀音」。據說拿布擦拭觀音像上與自己身體不適相同的部位，就能獲得保佑與療癒。</p>
+                                </div>
+                                <div class="info-item">
+                                    <h4>名產鹽大福</h4>
+                                    <p>巢鴨代表美食「鹽大福」，甜中帶鹹的滋味是長輩們的最愛。此外，整間通紅的「紅色內褲專賣店」更是象徵長壽與元氣的特色景致。</p>
+                                </div>
+                            </div>
+
+                            <div class="highlight-box">
+                                <strong><i class="fas fa-thumbs-up" style="color:var(--gold-accent)"></i> 必試：</strong> 鹽大福、高岩寺水洗觀音祈福、紅色內褲專賣店選購。
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div data-aos="fade-up">
+                    <div class="tram-intro-box">
+                        <div class="tram-intro-title">
+                            <i class="fas fa-train"></i> 都電荒川線 (Tokyo Sakura Tram)
+                        </div>
+                        <p style="margin-bottom: 0; font-size: 1rem; color: #555;">
+                            從巢鴨商店街走到底即可抵達<strong>「庚申塚站」</strong>。
+                            坐在單節車廂中，隨着「叮叮」聲緩緩駛過民宅後巷。這條東京唯一的路面電車，將帶您從懷舊的下町駛向現代化的池袋。
+                        </p>
+                    </div>
+
+                    <div class="transit-card">
+                        <span class="badge-walk">WALK</span> 商店街尾端「庚申塚站」<br><br>
+                        <i class="fas fa-arrow-down text-muted"></i><br><br>
+                        <span class="badge-line" style="background: var(--tram-pink);">荒川線</span> 
+                        庚申塚 <i class="fas fa-arrow-right small mx-2"></i> 東池袋四丁目 (約 12 分鐘)
+                    </div>
+                </div>
+
+                <div id="spot-5" class="section-anchor" data-aos="fade-up">
+                    <div class="spot-section">
+                        <div class="spot-number">Spot 05</div>
+                        <div class="cinema-frame">
+                            <div class="cinema-bg" style="background-image: url('tokyotrip/day3/sunshinecity.webp');"></div>
+                            <img src="tokyotrip/day3/sunshinecity.webp" class="cinema-img" alt="池袋" onerror="this.src='https://placehold.co/800x600/e0e0e0/999?text=Ikebukuro'">
+                        </div>
+                        <div class="spot-content">
+                            <div class="spot-meta">
+                                <span><i class="fas fa-water"></i> 空中水族館</span>
+                                <span><i class="fas fa-shopping-bag"></i> 潮流娛樂</span>
+                            </div>
+                            <h3>池袋太陽城：垂直開發的娛樂森林</h3>
+                            <p>從路面電車下車後，視野瞬間轉向摩天大樓。太陽城是一個集購物、水族館與展望台於一體的超巨型建築，是池袋地區的繁華指標。</p>
+
+                            <div class="info-grid">
+                                <div class="info-item">
+                                    <h4>陽光水族館</h4>
+                                    <p>位於大樓頂層，最著名的「天空通道」讓企鵝彷彿在城市高樓間飛翔。這種以都會天空為背景的展示方式，提供了極致的視覺震撼。</p>
+                                </div>
+                                <div class="info-item">
+                                    <h4>寶可夢中心 Mega Tokyo</h4>
+                                    <p>全日本規模最大的 Pokemon Center 之一。除了豐富的周邊，還有噴火龍等具代表性的巨大塑像，是喜愛寶可夢的玩家絕不可錯過的地標。</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="spot-home" class="section-anchor" data-aos="fade-up">
+                    <div class="spot-section" style="background: var(--primary-accent); color: white;">
+                        <div class="spot-content text-center">
+                            <h3 style="color:white; margin-bottom: 25px;">🌙 圓滿賦歸</h3>
+                            
+                            <div class="d-flex justify-content-center align-items-center mb-4" style="gap: 20px;">
+                                <div class="text-center">
+                                    <i class="fas fa-city fa-2x mb-2" style="color: var(--gold-accent);"></i>
+                                    <p class="small mb-0">池袋</p>
+                                </div>
+                                <div style="flex-grow: 1; max-width: 150px; border-top: 2px dashed rgba(255,255,255,0.4); position: relative;">
+                                    <span class="badge-line" style="position: absolute; top: -20px; left: 50%; transform: translateX(-50%); white-space: nowrap; font-size: 0.7rem;">山手線</span>
+                                    <i class="fas fa-train" style="position: absolute; top: 10px; left: 50%; transform: translateX(-50%);"></i>
+                                </div>
+                                <div class="text-center">
+                                    <i class="fas fa-hotel fa-2x mb-2" style="color: var(--gold-accent);"></i>
+                                    <p class="small mb-0">御徒町</p>
+                                </div>
+                            </div>
+
+                            <p style="opacity: 0.9;">搭乘 JR 山手線（往上野方向）返回御徒町飯店。</p>
+                            <hr style="border-color: rgba(255,255,255,0.3); width: 60px; margin: 30px auto;">
+                            <div class="highlight-box text-start mb-0" style="background: rgba(255,255,255,0.1); border-left-color: var(--gold-accent); color: white;">
+                                <strong><i class="fas fa-check-circle"></i> 今日總結：</strong><br>
+                                從湯島的文藝氣息到巢鴨的人情味，最後在池袋的現代娛樂中收尾。<br>
+                                體驗了東京獨一無二的路面電車，感受了跨越時空的都市魅力。
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <footer class="text-center py-5 text-muted small">
+                    <p style="font-size: 1rem;">&copy; 2026 Tokyo Memory Trip</p>
+                </footer>
+
+            </div>
+        </div>
+    </div>
+
+    <a href="index.html" class="home-fab" title="回首頁">
+        <i class="fas fa-home"></i>
+    </a>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init({ duration: 800, once: true, offset: 100 });
+        
+        const mobileLinks = document.querySelectorAll('.mobile-nav-item');
+        mobileLinks.forEach(link => {
+            link.addEventListener('click', function() {
+                mobileLinks.forEach(l => l.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+    </script>
+</body>
+</html>
