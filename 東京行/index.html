@@ -15,8 +15,10 @@
             --primary-dark: #2c3e50;
             --primary-accent: #2c5364;
             --gold-accent: #c5a059;
+            --gold-pale: #eadaa8; /* 新增：淡金色 */
             --bg-color: #fcfbf9;
-            --nav-bg: rgba(255, 255, 255, 0.95);
+            --nav-bg: rgba(255, 255, 255, 0.96);
+            --text-main: #444;
         }
 
         html { scroll-behavior: smooth; }
@@ -24,202 +26,294 @@
         body {
             font-family: 'Noto Sans TC', sans-serif;
             background-color: var(--bg-color);
-            color: #444;
+            color: var(--text-main);
             overflow-x: hidden;
+            /* 裝飾 1：全局背景加上淡日式紋樣 (七寶 Shippo) */
+            background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0MCIgaGVpZ2h0PSI0MCIgdmlld0JveD0iMCAwIDQwIDQwIj48ZyBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxnIGZpbGw9IiNjNWExNTkiIGZpbGwtb3BhY2l0eT0iMC4wNSI+PHBhdGggZD0iTTAgMGg0MHY0MEgwVjB6bTIwIDIwaDIwdjIwSDIWMjB6TTAgMjBoMjB2MjBIMFYyMHoyMCAwaDIwdjIwSDIwVjB6TTAgMTBoMTB2MTBIMFYxMHoyMCAxMGgxMHYxMEgyMFYxMHoyMCAyMGgxMHYxMEgyMFYyMHoyMCAzMGgxMHYxMEgyMFYzMEgwIDMwaDEwdjEwSDBWMzB6bTEwIDBoMTB2MTBIMTBWMzB6bTIwLTBoMTB2MTBIMzBWMzB6bTEwLTEwaDEwdjEwSDQwVjIwem0wLTBoMTB2MTBIMDBWMTB6bTEwLTEwaDEwdjEwSDEwVjB6bTIwIDBoMTB2MTBIMzBWMHoiLz48L2c+PC9nPjwvc3ZnPg==');
         }
 
         h1, h2, h3, .serif-font { font-family: 'Noto Serif TC', serif; }
 
-        /* --- Hero Section --- */
+        /* --- Hero Section 升級 --- */
         .hero-section {
             height: 100vh;
-            background-image: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.6)), url('tokyotrip/index/tokyo.jpg');
+            background-image: 
+                linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.6)), 
+                url('tokyotrip/index/tokyo.jpg'); /* 替換為你的圖片路径 */
             background-size: cover;
             background-position: center;
             background-attachment: fixed;
             display: flex;
-            flex-direction: column;
             justify-content: center;
             align-items: center;
             color: white;
             text-align: center;
             position: relative;
+            overflow: hidden;
+        }
+
+        /* 裝飾 2：Hero Section 淡金色和紙紋理疊加 */
+        .hero-section::after {
+            content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAFAAAABQCAMAAAC5zwKfAAAABlBMVEUAAAAAAAClZ7nPAAAAAXRSTlMAQObYZgAAADRJREFUeNrtwQEBAAAAQJDSS/pYHLAAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAB4MDBwAAGD4AD3AAAAAElFTkSuQmCC'); /* 淡紋理 */
+            opacity: 0.15; pointer-events: none; z-index: 1;
+        }
+
+        .hero-content {
+            z-index: 2; position: relative;
+            padding: 40px;
+            /* 裝飾 3：金色幾何框線 */
+            border: 2px solid var(--gold-pale);
+            border-radius: 4px;
+            background: rgba(0,0,0,0.2);
+            backdrop-filter: blur(2px);
         }
 
         .hero-title {
             font-family: 'Playfair Display', serif;
-            font-size: 5rem;
-            letter-spacing: 8px;
-            margin-bottom: 20px;
-            text-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            font-size: 5.5rem;
+            letter-spacing: 12px;
+            margin-bottom: 15px;
+            text-shadow: 0 5px 15px rgba(0,0,0,0.5);
+            font-weight: 700;
         }
 
         .hero-subtitle {
-            font-size: 1.2rem;
-            letter-spacing: 0.5em;
-            padding: 10px 20px;
-            border-top: 1px solid rgba(255,255,255,0.7);
-            border-bottom: 1px solid rgba(255,255,255,0.7);
+            font-size: 1.25rem;
+            letter-spacing: 0.6em;
+            padding: 10px 0;
+            display: inline-block;
+            border-top: 1px solid rgba(255,255,255,0.6);
+            border-bottom: 1px solid rgba(255,255,255,0.6);
         }
 
         .scroll-indicator {
-            position: absolute; bottom: 80px;
+            position: absolute; bottom: 60px; z-index: 2;
             animation: float 2s infinite ease-in-out;
-            color: white; opacity: 0.8; font-size: 1.5rem; cursor: pointer;
+            color: white; opacity: 0.8; font-size: 1.8rem; cursor: pointer;
+            transition: opacity 0.3s;
         }
+        .scroll-indicator:hover { opacity: 1; color: var(--gold-accent); }
 
         /* --- Quick Timeline Nav --- */
         .quick-nav {
             position: sticky; top: 0; z-index: 1000;
             background: var(--nav-bg);
-            backdrop-filter: blur(10px);
-            border-bottom: 1px solid rgba(0,0,0,0.05);
-            padding: 15px 0;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+            backdrop-filter: blur(15px);
+            border-bottom: 1px solid rgba(197, 160, 89, 0.2);
+            padding: 12px 0;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
         }
 
         .nav-scroller {
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-            overflow-x: auto;
-            white-space: nowrap;
-            padding: 5px 20px;
-            -webkit-overflow-scrolling: touch;
+            display: flex; justify-content: center; gap: 12px;
+            overflow-x: auto; white-space: nowrap; padding: 5px 20px;
         }
-
         .nav-scroller::-webkit-scrollbar { display: none; }
         .nav-scroller { -ms-overflow-style: none; scrollbar-width: none; }
 
         .nav-dot {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            min-width: 90px;
-            height: 45px;
-            padding: 0 20px;
+            display: inline-flex; align-items: center; justify-content: center;
+            min-width: 95px; height: 45px; padding: 0 20px;
             border-radius: 50px;
-            border: 1px solid #ddd;
-            color: #555;
+            border: 1px solid rgba(44, 62, 80, 0.1);
+            color: var(--primary-dark);
             text-decoration: none;
             font-family: 'Playfair Display', serif;
-            font-weight: bold;
-            font-size: 1.05rem;
-            transition: all 0.3s ease;
+            font-weight: 700; font-size: 1rem;
+            letter-spacing: 1px;
+            transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
             background: white;
+            position: relative; overflow: hidden;
         }
+
+        /* 裝飾 4：導覽列懸停微底色 */
+        .nav-dot::after {
+            content: ''; position: absolute; bottom: 0; left: 0; width: 100%; height: 0;
+            background: rgba(197, 160, 89, 0.1); transition: height 0.3s; z-index: -1;
+        }
+
+        .nav-dot:hover::after, .nav-dot.active::after { height: 100%; }
 
         .nav-dot:hover, .nav-dot.active {
-            background-color: var(--primary-accent);
-            color: white;
-            border-color: var(--primary-accent);
-            transform: translateY(-2px);
-            box-shadow: 0 4px 10px rgba(44, 83, 100, 0.3);
+            background-color: var(--primary-dark);
+            color: var(--gold-pale) !important;
+            border-color: var(--primary-dark);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(44, 62, 80, 0.2);
         }
 
-        /* --- Timeline Container --- */
+        /* --- Timeline Container 升級 --- */
         .timeline-container {
             position: relative;
-            max-width: 1000px;
+            max-width: 1100px;
             margin: 0 auto;
-            padding: 80px 20px 100px;
+            padding: 100px 20px 120px;
         }
 
+        /* 裝飾 5：時間軸線條改為金色漸層並淡出 */
         .timeline-container::after {
             content: ''; position: absolute;
-            width: 2px; background-color: var(--gold-accent);
+            width: 2px;
+            background: linear-gradient(to bottom, rgba(197, 160, 89, 0) 0%, rgba(197, 160, 89, 0.4) 15%, rgba(197, 160, 89, 0.4) 85%, rgba(197, 160, 89, 0) 100%);
             top: 0; bottom: 0; left: 50%;
-            margin-left: -1px; opacity: 0.3;
+            margin-left: -1px;
         }
 
+        /* --- Timeline Item --- */
         .timeline-item {
-            padding: 10px 40px;
+            padding: 10px 60px;
             position: relative;
             background-color: inherit;
             width: 50%;
-            margin-bottom: 60px;
+            margin-bottom: 80px;
             scroll-margin-top: 140px;
         }
 
         .timeline-item.left { left: 0; text-align: right; }
         .timeline-item.right { left: 50%; text-align: left; }
 
+        /* 時間軸上的圓點升級 */
         .timeline-item::after {
             content: ''; position: absolute;
-            width: 16px; height: 16px; right: -8px; 
-            background-color: white; border: 3px solid var(--gold-accent);
-            top: 25px; border-radius: 50%; z-index: 1;
+            width: 20px; height: 20px; right: -10px; 
+            background-color: var(--bg-color);
+            border: 4px solid var(--gold-accent);
+            top: 25px; border-radius: 50%; z-index: 2;
             transition: all 0.3s ease;
+            box-shadow: 0 0 0 0px rgba(197, 160, 89, 0.3); /* 初始無光暈 */
         }
-        .timeline-item.right::after { left: -8px; }
-        .timeline-item:hover::after { background-color: var(--gold-accent); transform: scale(1.3); }
+        .timeline-item.right::after { left: -10px; }
 
+        /* 裝飾 6：圓點懸停時有呼吸光暈 */
+        .timeline-item:hover::after {
+            background-color: var(--primary-dark);
+            transform: scale(1.2);
+            box-shadow: 0 0 0 10px rgba(197, 160, 89, 0);
+            animation: pulse-gold 1.5s infinite;
+        }
+
+        @keyframes pulse-gold {
+            0% { box-shadow: 0 0 0 0px rgba(197, 160, 89, 0.5); }
+            100% { box-shadow: 0 0 0 15px rgba(197, 160, 89, 0); }
+        }
+
+        /* 內容卡片 升級 */
         .content-card {
             display: block; text-decoration: none; color: inherit;
-            background: white; border-radius: 12px; overflow: hidden;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            background: white; border-radius: 15px; overflow: hidden;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.04);
+            transition: transform 0.4s cubic-bezier(0.165, 0.84, 0.44, 1), box-shadow 0.4s ease;
             position: relative;
+            border: 1px solid rgba(197, 160, 89, 0.1); /* 微金色邊框 */
         }
-        .content-card:hover { transform: translateY(-5px); box-shadow: 0 20px 40px rgba(0,0,0,0.12); }
+        .content-card:hover {
+            transform: translateY(-8px) scale(1.01);
+            box-shadow: 0 25px 60px rgba(44, 62, 80, 0.12);
+        }
 
-        .card-img-frame { height: 240px; overflow: hidden; background: #eee; }
-        .card-img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s ease; }
-        .content-card:hover .card-img { transform: scale(1.08); }
+        /* 裝飾 7：卡片角落增加極淡日式扇形紋樣 (只在左/右邊顯示一個) */
+        .content-card::before {
+            content: ''; position: absolute; width: 150px; height: 150px;
+            background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI1MCIgaGVpZ2h0PSI1MCIgdmlld0JveD0iMCAwIDUwIDUwIj48ZyBmaWxsLWJhc2U9IiNjNWExNTkiIGZpbGwtb3BhY2l0eT0iMC4wNiI+PHBhdGggZD0iTTUwIDUwVjBIMHY1MGg1MHpNMjUgMjVMMCAwaDUwTDI1IDI1ejAiLz48L2c+PC9zdmc+'); /* 淡幾何水引 */
+            opacity: 0.1; pointer-events: none; z-index: 1;
+        }
+        .left .content-card::before { top: -30px; left: -30px; }
+        .right .content-card::before { bottom: -30px; right: -30px; transform: rotate(180deg); }
 
-        .card-body { padding: 30px; position: relative; z-index: 2; }
+        .card-img-frame { height: 260px; overflow: hidden; position: relative; background: #eee; }
         
-        .day-label {
-            font-family: 'Playfair Display', serif; font-weight: bold;
-            font-size: 3.5rem; color: rgba(0,0,0,0.04);
-            position: absolute; top: 0; line-height: 1; z-index: 1;
+        /* 裝飾 8：圖片上加上淡淡的金屬光澤疊加 */
+        .card-img-frame::after {
+            content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 50%, rgba(255,255,255,0.05) 100%);
+            pointer-events: none;
         }
-        .left .day-label { right: 20px; }
-        .right .day-label { left: 20px; }
 
-        .card-title { font-size: 1.5rem; color: var(--primary-accent); margin-top: 10px; font-weight: 700; position: relative; }
-        .card-meta { font-size: 0.9rem; color: var(--gold-accent); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; font-weight: bold; }
-        .card-desc { font-size: 0.95rem; color: #666; margin-bottom: 0; line-height: 1.7; }
+        .card-img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.8s cubic-bezier(0.165, 0.84, 0.44, 1), rotate 0.8s ease; }
+        
+        /* 裝飾 9：圖片懸停時輕微縮放並旋轉 */
+        .content-card:hover .card-img { transform: scale(1.1) rotate(1deg); }
 
-        /* --- 手機版適配 --- */
+        .card-body { padding: 35px; position: relative; z-index: 2; }
+        
+        /* 裝飾 10：Day 數字升級 (深藍金漸層+陰影) */
+        .day-label {
+            font-family: 'Playfair Display', serif; font-weight: 700;
+            font-size: 4rem;
+            background: linear-gradient(to bottom, var(--primary-dark) 0%, var(--gold-accent) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            opacity: 0.08; /* 保留通透感，稍微增加 */
+            position: absolute; top: -10px; line-height: 1; z-index: 1;
+            text-shadow: 2px 2px 0px rgba(255,255,255,0.5);
+        }
+        .left .day-label { right: 25px; }
+        .right .day-label { left: 25px; }
+
+        .card-title { font-size: 1.6rem; color: var(--primary-accent); margin-top: 10px; font-weight: 700; position: relative; display: inline-block; }
+        
+        /* 裝飾 11：卡片標題下方滑出金色底線 */
+        .card-title::after {
+            content: ''; position: absolute; bottom: -5px; left: 0; width: 0; height: 2px;
+            background-color: var(--gold-pale); transition: width 0.3s;
+        }
+        .content-card:hover .card-title::after { width: 100%; }
+
+        .card-meta {
+            font-size: 0.95rem; color: var(--gold-accent); text-transform: uppercase;
+            letter-spacing: 2px; margin-bottom: 10px; font-weight: bold;
+            display: flex; align-items: center; justify-content: inherit;
+        }
+        
+        /* 裝飾 12：Meta 標籤前後加上小裝飾點 */
+        .card-meta::before, .card-meta::after { content: '•'; margin: 0 8px; opacity: 0.5; font-size: 0.8rem; }
+        .left .card-meta { justify-content: flex-end; }
+        .right .card-meta { justify-content: flex-start; }
+
+        .card-desc { font-size: 1rem; color: #555; margin-bottom: 0; line-height: 1.8; }
+
+        /* --- 手機版適配 (裝飾微調) --- */
         @media (max-width: 768px) {
-            .hero-title { font-size: 3rem; letter-spacing: 4px; }
-            .hero-subtitle { font-size: 0.9rem; letter-spacing: 0.2em; }
-            .nav-scroller { justify-content: flex-start; }
+            .hero-content { padding: 25px; border-width: 1px; }
+            .hero-title { font-size: 3.2rem; letter-spacing: 6px; }
+            .hero-subtitle { font-size: 1rem; letter-spacing: 0.3em; }
+            .timeline-container { padding: 60px 15px 80px; }
             .timeline-container::after { left: 31px; }
-            .timeline-item {
-                width: 100% !important;
-                padding-left: 70px !important;
-                padding-right: 20px !important;
-                text-align: left !important;
-                left: 0 !important;
-                margin-bottom: 40px;
-            }
-            .timeline-item::after { left: 23px !important; right: auto !important; }
-            .left .day-label, .right .day-label {
-                right: 20px !important; left: auto !important;
-                font-size: 2.8rem;
-            }
-            .card-img-frame { height: 200px; }
+            .timeline-item { width: 100% !important; padding-left: 70px !important; padding-right: 15px !important; text-align: left !important; left: 0 !important; margin-bottom: 50px; }
+            .timeline-item::after { left: 21px !important; right: auto !important; width: 18px; height: 18px; }
+            
+            .left .day-label, .right .day-label { right: 20px !important; left: auto !important; font-size: 3rem; top: 0; }
+            .left .card-meta, .right .card-meta { justify-content: flex-start; }
+            .card-img-frame { height: 210px; }
+            .card-body { padding: 25px; }
         }
 
         @keyframes float {
             0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(10px); }
+            50% { transform: translateY(12px); }
         }
 
+        /* START/FINISH 標籤升級 */
         .timeline-start, .timeline-end {
-            text-align: center; position: relative; z-index: 2;
-            background: var(--bg-color); padding: 10px 0; width: 150px; margin: 0 auto;
-            border: 1px solid var(--gold-accent); color: var(--gold-accent);
-            font-family: 'Playfair Display', serif; letter-spacing: 2px; border-radius: 50px;
+            text-align: center; position: relative; z-index: 3;
+            background: var(--bg-color); padding: 12px 0; width: 160px; margin: 0 auto;
+            border: 2px solid var(--gold-accent); color: var(--gold-accent);
+            font-family: 'Playfair Display', serif; font-weight: 700;
+            letter-spacing: 3px; border-radius: 50px;
+            box-shadow: 0 5px 15px rgba(197, 160, 89, 0.1);
+            transition: all 0.3s;
+        }
+        .timeline-start:hover, .timeline-end:hover {
+            background: var(--gold-accent); color: white; transform: scale(1.05);
+            box-shadow: 0 8px 25px rgba(197, 160, 89, 0.2);
         }
     </style>
 </head>
 <body>
 
     <header class="hero-section">
-        <div data-aos="zoom-in" data-aos-duration="1500">
+        <div class="hero-content" data-aos="zoom-in" data-aos-duration="1500">
             <h1 class="hero-title">TOKYO</h1>
             <div class="hero-subtitle">JOURNEY OF 7 DAYS</div>
         </div>
@@ -230,8 +324,8 @@
 
     <nav class="quick-nav">
         <div class="container">
-            <div class="nav-scroller">
-                <a href="#day1" class="nav-dot">Day 1</a>
+            <div class="nav-scroller no-scrollbar">
+                <a href="#day1" class="nav-dot active">Day 1</a>
                 <a href="#day2" class="nav-dot">Day 2</a>
                 <a href="#day3" class="nav-dot">Day 3</a>
                 <a href="#day4" class="nav-dot">Day 4</a>
@@ -245,12 +339,12 @@
     <div id="anchor-start" class="timeline-container">
         
         <div class="timeline-start" data-aos="fade-down">START</div>
-        <div style="height: 50px;"></div>
+        <div style="height: 60px;"></div>
 
         <div id="day1" class="timeline-item left" data-aos="fade-right">
             <a href="day1.html" class="content-card">
                 <div class="card-img-frame">
-                    <img src="tokyotrip/day1/grasstemple.jpg" class="card-img" alt="Day 1" onerror="this.src='https://placehold.co/600x400/cc0000/fff?text=Day+1+Asakusa'">
+                    <img src="tokyotrip/day1/grasstemple.jpg" class="card-img" alt="Day 1" onerror="this.src='https://placehold.co/700x500/cc0000/fff?text=Day+1+Asakusa'">
                 </div>
                 <div class="card-body">
                     <div class="day-label">01</div>
@@ -264,7 +358,7 @@
         <div id="day2" class="timeline-item right" data-aos="fade-left">
             <a href="day2.html" class="content-card">
                 <div class="card-img-frame">
-                    <img src="tokyotrip/day2/seapark.webp" class="card-img" alt="Day 2" onerror="this.src='https://placehold.co/600x400/0055a5/fff?text=Day+2+Odaiba'">
+                    <img src="tokyotrip/day2/seapark.webp" class="card-img" alt="Day 2" onerror="this.src='https://placehold.co/700x500/0055a5/fff?text=Day+2+Odaiba'">
                 </div>
                 <div class="card-body">
                     <div class="day-label">02</div>
@@ -278,7 +372,7 @@
         <div id="day3" class="timeline-item left" data-aos="fade-right">
             <a href="day3.html" class="content-card">
                 <div class="card-img-frame">
-                    <img src="tokyotrip/day3/zoo.webp" class="card-img" alt="Day 3" onerror="this.src='https://placehold.co/600x400/2c3e50/fff?text=Day+3+Toden'">
+                    <img src="tokyotrip/day3/zoo.webp" class="card-img" alt="Day 3" onerror="this.src='https://placehold.co/700x500/2c3e50/fff?text=Day+3+Toden'">
                 </div>
                 <div class="card-body">
                     <div class="day-label">03</div>
@@ -292,7 +386,7 @@
         <div id="day4" class="timeline-item right" data-aos="fade-left">
             <a href="day4.html" class="content-card">
                 <div class="card-img-frame">
-                    <img src="tokyotrip/day4/shoppingstreet.jpg" class="card-img" alt="Day 4" onerror="this.src='https://placehold.co/600x400/4a4a4a/fff?text=Day+4+Kawagoe'">
+                    <img src="tokyotrip/day4/shoppingstreet.jpg" class="card-img" alt="Day 4" onerror="this.src='https://placehold.co/700x500/4a4a4a/fff?text=Day+4+Kawagoe'">
                 </div>
                 <div class="card-body">
                     <div class="day-label">04</div>
@@ -306,7 +400,7 @@
         <div id="day5" class="timeline-item left" data-aos="fade-right">
             <a href="day5.html" class="content-card">
                 <div class="card-img-frame">
-                    <img src="tokyotrip/day5/train.jpg" class="card-img" alt="Day 5" onerror="this.src='https://placehold.co/600x400/4a90e2/fff?text=Day+5+Shonan'">
+                    <img src="tokyotrip/day5/train.jpg" class="card-img" alt="Day 5" onerror="this.src='https://placehold.co/700x500/4a90e2/fff?text=Day+5+Shonan'">
                 </div>
                 <div class="card-body">
                     <div class="day-label">05</div>
@@ -320,7 +414,7 @@
         <div id="day6" class="timeline-item right" data-aos="fade-left">
             <a href="day6.html" class="content-card">
                 <div class="card-img-frame">
-                    <img src="tokyotrip/day6/tokyotower.webp" class="card-img" alt="Day 6" onerror="this.src='https://placehold.co/600x400/c0392b/fff?text=Day+6+TokyoTower'">
+                    <img src="tokyotrip/day6/tokyotower.webp" class="card-img" alt="Day 6" onerror="this.src='https://placehold.co/700x500/c0392b/fff?text=Day+6+TokyoTower'">
                 </div>
                 <div class="card-body">
                     <div class="day-label">06</div>
@@ -334,7 +428,7 @@
         <div id="day7" class="timeline-item left" data-aos="fade-right">
             <a href="day7.html" class="content-card">
                 <div class="card-img-frame">
-                    <img src="tokyotrip/day7/airport.webp" class="card-img" alt="Day 7" onerror="this.src='https://placehold.co/600x400/2c3e50/fff?text=Day+7+Airport'">
+                    <img src="tokyotrip/day7/airport.webp" class="card-img" alt="Day 7" onerror="this.src='https://placehold.co/700x500/2c3e50/fff?text=Day+7+Airport'">
                 </div>
                 <div class="card-body">
                     <div class="day-label">07</div>
@@ -345,21 +439,22 @@
             </a>
         </div>
         
-        <div style="height: 50px;"></div>
+        <div style="height: 60px;"></div>
         <div class="timeline-end" data-aos="fade-up">FINISH</div>
 
     </div>
 
-    <footer class="text-center py-5" style="background: #2c3e50; color: #aaa;">
-        <p class="mb-0 serif-font" style="letter-spacing: 2px;">&copy; 2026 Tokyo Trip Journal</p>
+    <footer class="text-center py-5" style="background: var(--primary-dark); color: rgba(255,255,255,0.6);">
+        <p class="mb-2 serif-font" style="letter-spacing: 2px;">&copy; 2026 Tokyo Trip Journal</p>
+        <p class="mb-0" style="font-size: 0.8rem; opacity: 0.7;">Crafted with Elegance for a 7-Day Journey</p>
     </footer>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>
-        AOS.init({ duration: 1000, once: true, offset: 120 });
+        AOS.init({ duration: 1000, once: true, offset: 150 cubicBezier: 'cubic-bezier(0.165, 0.84, 0.44, 1)' });
         
-        // 自動偵測目前的區塊，更新導覽列樣式
+        // 自動偵測目前的區塊，更新導覽列樣式 (優化捲軸偵測範圍)
         window.addEventListener('scroll', () => {
             const sections = document.querySelectorAll('.timeline-item');
             const navDots = document.querySelectorAll('.nav-dot');
@@ -376,6 +471,11 @@
                 dot.classList.remove('active');
                 if (dot.getAttribute('href').includes(current)) {
                     dot.classList.add('active');
+                    // 手機版自動滾動導覽列到中間
+                    dot.parentElement.scrollTo({
+                        left: dot.offsetLeft - (dot.parentElement.offsetWidth / 2) + (dot.offsetWidth / 2),
+                        behavior: 'smooth'
+                    });
                 }
             });
         });
