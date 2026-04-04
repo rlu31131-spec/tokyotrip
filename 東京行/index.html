@@ -2,7 +2,7 @@
 <html lang="zh-TW">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>東京七日深度旅遊 | Tokyo Trip Index</title>
     
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -12,14 +12,13 @@
 
     <style>
         :root {
+            --primary-dark: #2c3e50;
             --primary-accent: #2c5364;
             --gold-accent: #c5a059;
-            /* 初始色彩：淺米白 */
+            --nav-bg: rgba(255, 255, 255, 0.92);
+            --shimmer: linear-gradient(135deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.2) 50%, rgba(255,255,255,0) 100%);
             --dynamic-bg: #fcfbf9; 
-            --text-color: #333;
-            --nav-bg: rgba(255, 255, 255, 0.85);
-            --dot-bg: #ffffff;
-            --dot-text: #666;
+            --text-color: #444;
         }
 
         html { scroll-behavior: smooth; }
@@ -28,285 +27,384 @@
             font-family: 'Noto Sans TC', sans-serif;
             background-color: var(--dynamic-bg);
             color: var(--text-color);
-            margin: 0;
-            /* 核心動畫：背景與文字顏色平滑過渡 */
-            transition: background-color 1.2s cubic-bezier(0.4, 0, 0.2, 1), color 0.8s ease;
-            background-image: radial-gradient(circle at 1px 1px, rgba(0,0,0,0.02) 1px, transparent 0);
-            background-size: 30px 30px;
+            transition: background-color 1.5s cubic-bezier(0.4, 0, 0.2, 1), color 1.5s ease;
+            background-image: radial-gradient(circle at 2px 2px, rgba(0,0,0,0.015) 1px, transparent 0);
+            background-size: 40px 40px;
             overflow-x: hidden;
-            /* 效能優化 */
-            will-change: background-color;
         }
 
-        h1, h2, h3 { font-family: 'Noto Serif TC', serif; }
+        h1, h2, h3, .serif-font { font-family: 'Noto Serif TC', serif; }
 
         /* --- Hero Section --- */
         .hero-section {
-            height: 90vh;
-            background: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), url('tokyotrip/index/tokyo.jpg') center/cover no-repeat;
-            display: flex; flex-direction: column; justify-content: center; align-items: center;
-            color: white; text-align: center;
+            height: 100vh;
+            background-image: linear-gradient(rgba(0,0,0,0.2), rgba(0,0,0,0.5)), url('tokyotrip/index/tokyo.jpg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            text-align: center;
             position: relative;
         }
-        .hero-title { font-family: 'Playfair Display', serif; font-size: 5rem; letter-spacing: 12px; margin-bottom: 15px; }
-        .hero-subtitle { font-size: 1.2rem; letter-spacing: 6px; border-top: 1px solid rgba(255,255,255,0.4); padding-top: 15px; }
 
-        /* --- 導覽列 (已優化手機流暢度) --- */
+        .hero-section::after {
+            content: "";
+            position: absolute;
+            bottom: 0; left: 0; right: 0;
+            height: 15vh;
+            background: linear-gradient(to top, var(--dynamic-bg), transparent);
+            pointer-events: none;
+            transition: background 1.5s ease;
+        }
+
+        .hero-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 5rem;
+            letter-spacing: 12px;
+            margin-bottom: 20px;
+            text-shadow: 0 10px 30px rgba(0,0,0,0.4);
+        }
+
+        .hero-subtitle {
+            font-size: 1.2rem;
+            letter-spacing: 0.6em;
+            padding: 12px 30px;
+            border-top: 1px solid rgba(255,255,255,0.5);
+            border-bottom: 1px solid rgba(255,255,255,0.5);
+        }
+
+        /* --- Quick Timeline Nav 優化 --- */
         .quick-nav {
-            position: -webkit-sticky;
-            position: sticky;
-            top: 0;
-            z-index: 2000;
+            position: sticky; top: 0; z-index: 1000;
             background: var(--nav-bg);
-            backdrop-filter: blur(15px);
-            -webkit-backdrop-filter: blur(15px);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-top: 3px solid var(--gold-accent);
             border-bottom: 1px solid rgba(0,0,0,0.05);
             padding: 12px 0;
-            transition: background 0.8s ease;
+            transition: background 0.5s ease;
         }
 
         .nav-scroller {
             display: flex;
+            flex-wrap: nowrap; /* 強制不換行 */
             overflow-x: auto;
-            -webkit-overflow-scrolling: touch;
-            padding: 5px 20px;
-            gap: 12px;
-            scrollbar-width: none;
+            overflow-y: hidden;
+            -webkit-overflow-scrolling: touch; /* 解決 iOS 滑動卡頓關鍵 */
+            padding: 5px 0;
+            scrollbar-width: none; /* Firefox 隱藏捲軸 */
+            -ms-overflow-style: none; /* IE 隱藏捲軸 */
         }
-        .nav-scroller::-webkit-scrollbar { display: none; }
+
+        /* Chrome, Safari 隱藏捲軸 */
+        .nav-scroller::-webkit-scrollbar {
+            display: none;
+        }
+
+        .nav-scroller-content {
+            display: flex;
+            gap: 12px;
+            padding: 0 20px; /* 側邊留白 */
+        }
 
         .nav-dot {
-            flex: 0 0 auto;
-            padding: 10px 22px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 90px;
+            height: 42px;
             border-radius: 50px;
-            background: var(--dot-bg);
-            color: var(--dot-text) !important;
+            border: 1px solid rgba(0,0,0,0.1);
+            color: #666;
             text-decoration: none;
             font-family: 'Playfair Display', serif;
             font-weight: bold;
-            font-size: 1rem;
-            border: 1px solid rgba(0,0,0,0.05);
-            transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+            font-size: 0.95rem;
+            transition: all 0.4s ease;
+            background: white;
+            flex-shrink: 0; /* 確保在 Flex 中不被壓縮 */
         }
 
         .nav-dot.active {
             background-color: var(--primary-accent);
-            color: #fff !important;
-            transform: translateY(-3px);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            color: white;
+            border-color: var(--primary-accent);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
         }
 
-        /* --- Timeline 結構 --- */
+        /* --- Timeline --- */
         .timeline-container {
-            max-width: 1000px;
-            margin: 0 auto;
-            padding: 80px 20px;
             position: relative;
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 100px 20px 120px;
         }
 
-        .timeline-container::before {
-            content: ''; position: absolute; top: 0; bottom: 0; left: 50%;
-            width: 2px; background: var(--gold-accent); opacity: 0.3;
+        .timeline-container::after {
+            content: ''; position: absolute;
+            width: 2px; 
+            background: linear-gradient(to bottom, transparent, var(--gold-accent), transparent);
+            top: 0; bottom: 0; left: 50%;
+            margin-left: -1px; opacity: 0.4;
         }
 
         .timeline-item {
-            width: 50%;
-            padding: 20px 50px;
+            padding: 10px 50px;
             position: relative;
-            scroll-margin-top: 150px;
+            width: 50%;
+            margin-bottom: 100px;
+            scroll-margin-top: 160px;
         }
+
         .timeline-item.left { left: 0; text-align: right; }
         .timeline-item.right { left: 50%; text-align: left; }
 
         .timeline-item::after {
-            content: ''; position: absolute; width: 16px; height: 16px; 
-            background: #fff; border: 3px solid var(--gold-accent); 
-            border-radius: 50%; top: 35px; z-index: 5;
+            content: ''; position: absolute;
+            width: 18px; height: 18px; right: -9px; 
+            background-color: white; border: 3px solid var(--gold-accent);
+            top: 25px; border-radius: 50%; z-index: 10;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 0 4px var(--dynamic-bg);
         }
-        .timeline-item.left::after { right: -8px; }
-        .timeline-item.right::after { left: -8px; }
+        .timeline-item.right::after { left: -9px; }
 
-        /* 卡片與懸停動畫 */
         .content-card {
-            display: block; text-decoration: none; color: inherit !important;
-            background: #fff; border-radius: 20px; overflow: hidden;
-            box-shadow: 0 15px 45px rgba(0,0,0,0.05);
-            transition: all 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
-        }
-        .content-card:hover { 
-            transform: translateY(-10px) scale(1.02); 
-            box-shadow: 0 30px 60px rgba(0,0,0,0.12); 
+            display: block; text-decoration: none; color: #444 !important;
+            background: white; border-radius: 16px; overflow: hidden;
+            border: 1px solid rgba(0,0,0,0.05);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.06);
+            transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+            position: relative;
         }
 
-        .card-img-box { height: 240px; overflow: hidden; }
-        .card-img-box img { width: 100%; height: 100%; object-fit: cover; transition: transform 1.2s ease; }
-        .content-card:hover .card-img-box img { transform: scale(1.1); }
+        .content-card:hover { transform: translateY(-10px); box-shadow: 0 30px 60px rgba(0,0,0,0.15); }
 
-        .card-body { padding: 30px; background: #fff; }
-        .card-meta { font-size: 0.9rem; color: var(--gold-accent); font-weight: bold; margin-bottom: 8px; letter-spacing: 2px; }
-        .card-title { font-size: 1.6rem; color: #222; margin-bottom: 15px; font-weight: 700; }
-        .card-desc { font-size: 0.95rem; color: #666; line-height: 1.8; margin: 0; }
+        .card-img-frame { height: 260px; overflow: hidden; position: relative; }
+        .card-img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.8s ease; }
+        .content-card:hover .card-img { transform: scale(1.1); }
+
+        .card-body { padding: 35px; position: relative; }
+        .day-label {
+            font-family: 'Playfair Display', serif; font-weight: bold;
+            font-size: 3.5rem; color: rgba(0,0,0,0.04);
+            position: absolute; top: 10px; line-height: 1;
+        }
+        .left .day-label { right: 25px; }
+        .right .day-label { left: 25px; }
+
+        .card-title { font-size: 1.6rem; color: var(--primary-dark); margin-top: 12px; font-weight: 700; }
+        .card-meta { font-size: 0.9rem; color: var(--gold-accent); letter-spacing: 2px; margin-bottom: 10px; font-weight: bold; }
+        .card-desc { font-size: 0.95rem; color: #666; line-height: 1.8; }
 
         @media (max-width: 768px) {
-            .timeline-container::before { left: 30px; }
-            .timeline-item { width: 100%; left: 0 !important; text-align: left !important; padding-left: 60px; padding-right: 15px; }
+            .hero-title { font-size: 3.5rem; letter-spacing: 8px; }
+            .timeline-container::after { left: 31px; }
+            .timeline-item { width: 100%; padding-left: 75px; padding-right: 25px; text-align: left; }
+            .timeline-item.left, .timeline-item.right { left: 0; }
             .timeline-item::after { left: 22px; }
-            .hero-title { font-size: 3.5rem; }
+            .day-label { left: 25px !important; right: auto !important; }
         }
 
-        footer { background: #0f172a; color: #64748b; padding: 80px 0; text-align: center; }
+        .timeline-start, .timeline-end {
+            text-align: center; position: relative; z-index: 2;
+            background: white; padding: 12px 0; width: 160px; margin: 0 auto;
+            border: 1px solid var(--gold-accent); color: var(--gold-accent);
+            font-family: 'Playfair Display', serif; letter-spacing: 3px; border-radius: 50px;
+        }
+
+        footer {
+            background: #0f171e;
+            color: #888;
+            padding: 80px 0;
+            text-align: center;
+        }
     </style>
 </head>
 <body>
 
     <header class="hero-section">
-        <div data-aos="zoom-out" data-aos-duration="1500">
+        <div data-aos="zoom-in" data-aos-duration="1800">
             <h1 class="hero-title">TOKYO</h1>
-            <div class="hero-subtitle">A SEVEN-DAY STORY</div>
+            <div class="hero-subtitle">JOURNEY OF 7 DAYS</div>
         </div>
+        <a href="#anchor-start" class="scroll-indicator text-decoration-none text-white mt-4">
+            <i class="fas fa-chevron-down"></i>
+        </a>
     </header>
 
     <nav class="quick-nav">
-        <div class="nav-scroller">
-            <a href="#day1" class="nav-dot">Day 1</a>
-            <a href="#day2" class="nav-dot">Day 2</a>
-            <a href="#day3" class="nav-dot">Day 3</a>
-            <a href="#day4" class="nav-dot">Day 4</a>
-            <a href="#day5" class="nav-dot">Day 5</a>
-            <a href="#day6" class="nav-dot">Day 6</a>
-            <a href="#day7" class="nav-dot">Day 7</a>
+        <div class="container-fluid">
+            <div class="nav-scroller">
+                <div class="nav-scroller-content">
+                    <a href="#day1" class="nav-dot">Day 1</a>
+                    <a href="#day2" class="nav-dot">Day 2</a>
+                    <a href="#day3" class="nav-dot">Day 3</a>
+                    <a href="#day4" class="nav-dot">Day 4</a>
+                    <a href="#day5" class="nav-dot">Day 5</a>
+                    <a href="#day6" class="nav-dot">Day 6</a>
+                    <a href="#day7" class="nav-dot">Day 7</a>
+                </div>
+            </div>
         </div>
     </nav>
 
-    <div class="timeline-container">
+    <div id="anchor-start" class="timeline-container">
         
+        <div class="timeline-start" data-aos="fade-down">MORNING</div>
+        <div style="height: 60px;"></div>
+
         <div id="day1" class="timeline-item left" data-aos="fade-right">
             <a href="day1.html" class="content-card">
-                <div class="card-img-box"><img src="tokyotrip/day1/grasstemple.jpg" alt="Day 1"></div>
+                <div class="card-img-frame"><img src="tokyotrip/day1/grasstemple.jpg" class="card-img" alt="Day 1"></div>
                 <div class="card-body">
-                    <div class="card-meta">UENO ・ ASAKUSA</div>
+                    <div class="day-label">01</div>
+                    <div class="card-meta">上野・淺草・押上</div>
                     <h3 class="card-title">下町風情巡禮</h3>
-                    <p class="card-desc">在淺草寺的香火與雷門的宏偉中，感受東京最純粹的傳統脈動。</p>
+                    <p class="card-desc">經典東京的初次見面，穿梭在雷門紅燈籠與晴空塔的時空之間。</p>
                 </div>
             </a>
         </div>
 
         <div id="day2" class="timeline-item right" data-aos="fade-left">
             <a href="day2.html" class="content-card">
-                <div class="card-img-box"><img src="tokyotrip/day2/seapark.webp" alt="Day 2"></div>
+                <div class="card-img-frame"><img src="tokyotrip/day2/seapark.webp" class="card-img" alt="Day 2"></div>
                 <div class="card-body">
-                    <div class="card-meta">ODAIBA ・ AKIHABARA</div>
+                    <div class="day-label">02</div>
+                    <div class="card-meta">葛西・台場・秋葉原</div>
                     <h3 class="card-title">海灣與電氣</h3>
-                    <p class="card-desc">從濱海展望台到霓虹閃爍的電器街，見證東京的多樣面貌。</p>
+                    <p class="card-desc">從深海的水族館到台場的未來感，最後沉浸在電器街的霓虹光影。</p>
                 </div>
             </a>
         </div>
 
         <div id="day3" class="timeline-item left" data-aos="fade-right">
             <a href="day3.html" class="content-card">
-                <div class="card-img-box"><img src="tokyotrip/day3/zoo.webp" alt="Day 3"></div>
+                <div class="card-img-frame"><img src="tokyotrip/day3/zoo.webp" class="card-img" alt="Day 3"></div>
                 <div class="card-body">
-                    <div class="card-meta">BUNKYO ・ IKEBUKURO</div>
+                    <div class="day-label">03</div>
+                    <div class="card-meta">文京・巢鴨・池袋</div>
                     <h3 class="card-title">路面電車散策</h3>
-                    <p class="card-desc">搭乘荒川線叮叮車，穿梭在充滿生活感的老巷弄間。</p>
+                    <p class="card-desc">搭乘叮叮車穿梭在昭和與現代之間，感受東京最悠閒的步調。</p>
                 </div>
             </a>
         </div>
 
         <div id="day4" class="timeline-item right" data-aos="fade-left">
             <a href="day4.html" class="content-card">
-                <div class="card-img-box"><img src="tokyotrip/day4/shoppingstreet.jpg" alt="Day 4"></div>
+                <div class="card-img-frame"><img src="tokyotrip/day4/shoppingstreet.jpg" class="card-img" alt="Day 4"></div>
                 <div class="card-body">
-                    <div class="card-meta">KAWAGOE</div>
+                    <div class="day-label">04</div>
+                    <div class="card-meta">池袋・川越</div>
                     <h3 class="card-title">穿越小江戶</h3>
-                    <p class="card-desc">漫步於藏造建築林立的老街，彷彿走進了江戶時代的時光隧道。</p>
+                    <p class="card-desc">藏造老街的時光旅行，在鐘聲與菓子屋橫丁中體驗江戶風華。</p>
                 </div>
             </a>
         </div>
 
         <div id="day5" class="timeline-item left" data-aos="fade-right">
             <a href="day5.html" class="content-card">
-                <div class="card-img-box"><img src="tokyotrip/day5/train.jpg" alt="Day 5"></div>
+                <div class="card-img-frame"><img src="tokyotrip/day5/train.jpg" class="card-img" alt="Day 5"></div>
                 <div class="card-body">
-                    <div class="card-meta">SHONAN ・ YOKOHAMA</div>
+                    <div class="day-label">05</div>
+                    <div class="card-meta">巴士一日遊</div>
                     <h3 class="card-title">湘南與橫濱</h3>
-                    <p class="card-desc">蔚藍的海岸線與灌籃高手的平交道，勾起心中最熱血的記憶。</p>
+                    <p class="card-desc">灌籃高手的青春海岸線，銜接橫濱港都的璀璨夜景。</p>
                 </div>
             </a>
         </div>
 
         <div id="day6" class="timeline-item right" data-aos="fade-left">
             <a href="day6.html" class="content-card">
-                <div class="card-img-box"><img src="tokyotrip/day6/tokyotower.webp" alt="Day 6"></div>
+                <div class="card-img-frame"><img src="tokyotrip/day6/tokyotower.webp" class="card-img" alt="Day 6"></div>
                 <div class="card-body">
-                    <div class="card-meta">MINATO ・ NIHONBASHI</div>
+                    <div class="day-label">06</div>
+                    <div class="card-meta">上野・港區・日本橋</div>
                     <h3 class="card-title">地標與經典</h3>
-                    <p class="card-desc">在夜色漸濃之際，仰望那一抹照亮整個東京的鐵塔鮮紅。</p>
+                    <p class="card-desc">從演化奇蹟的科博館，到東京鐵塔的浪漫，見證江戶繁華。</p>
                 </div>
             </a>
         </div>
 
         <div id="day7" class="timeline-item left" data-aos="fade-right">
             <a href="day7.html" class="content-card">
-                <div class="card-img-box"><img src="tokyotrip/day7/airport.webp" alt="Day 7"></div>
+                <div class="card-img-frame"><img src="tokyotrip/day7/airport.webp" class="card-img" alt="Day 7"></div>
                 <div class="card-body">
-                    <div class="card-meta">UENO ・ NARITA</div>
+                    <div class="day-label">07</div>
+                    <div class="card-meta">上野・成田</div>
                     <h3 class="card-title">最後的賦歸</h3>
-                    <p class="card-desc">帶著滿滿的紀念品與回憶，為這段完美的旅程畫下句點。</p>
+                    <p class="card-desc">搭乘 Skyliner 奔馳在歸途，帶著滿滿的感動與戰利品溫暖返家。</p>
                 </div>
             </a>
         </div>
+        
+        <div style="height: 60px;"></div>
+        <div class="timeline-end" data-aos="fade-up">FINISH</div>
 
     </div>
 
     <footer>
-        <div class="serif mb-3" style="color: #fff; font-size: 1.5rem; letter-spacing: 5px;">TOKYO 2026</div>
-        <p>&copy; Designed for Travel Memories. All rights reserved.</p>
+        <p class="mb-2 serif-font" style="letter-spacing: 3px; color: #eee;">TOKYO TRIP JOURNAL</p>
+        <p class="mb-0" style="font-size: 0.8rem; opacity: 0.6;">&copy; 2026 Crafted with Passion</p>
     </footer>
 
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>
-        // 初始化 AOS 動畫 (保留所有顯現動畫)
-        AOS.init({ duration: 1000, once: true, offset: 150 });
+        AOS.init({ duration: 1000, once: true, offset: 120 });
 
-        // 從淺到深的背景色彩序列
-        const colorPalette = {
-            'day1': { bg: '#fcfbf9', txt: '#333', nav: 'rgba(255,255,255,0.85)', dot: '#ffffff', dt: '#666' },
-            'day2': { bg: '#f0f4f7', txt: '#333', nav: 'rgba(255,255,255,0.85)', dot: '#ffffff', dt: '#666' },
-            'day3': { bg: '#e2e8ed', txt: '#333', nav: 'rgba(226,232,237,0.85)', dot: '#ffffff', dt: '#666' },
-            'day4': { bg: '#c9d1d9', txt: '#222', nav: 'rgba(201,209,217,0.85)', dot: '#f8f9fa', dt: '#444' },
-            'day5': { bg: '#7b8da0', txt: '#fff', nav: 'rgba(123,141,160,0.85)', dot: '#94a3b4', dt: '#fff' },
-            'day6': { bg: '#425466', txt: '#eee', nav: 'rgba(66,84,102,0.85)', dot: '#5b6d81', dt: '#fff' },
-            'day7': { bg: '#1c2a38', txt: '#ddd', nav: 'rgba(28,42,56,0.85)', dot: '#2c3e50', dt: '#fff' }
+        const dayConfig = {
+            'day1': '#fcfbf9',
+            'day2': '#f0f4f7',
+            'day3': '#e6ebef',
+            'day4': '#ced6de',
+            'day5': '#9babbe',
+            'day6': '#4b5d73',
+            'day7': '#2c3e50'
         };
 
-        // 監測滾動並改變色彩
+        const observerOptions = {
+            root: null,
+            rootMargin: '-30% 0px -60% 0px',
+            threshold: 0
+        };
+
         const observer = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
                     const id = entry.target.id;
-                    const c = colorPalette[id];
-                    if (!c) return;
+                    const color = dayConfig[id];
+                    
+                    document.documentElement.style.setProperty('--dynamic-bg', color);
+                    
+                    if (id === 'day6' || id === 'day7') {
+                        document.documentElement.style.setProperty('--text-color', '#fff');
+                        document.querySelector('.quick-nav').style.background = 'rgba(44, 62, 80, 0.95)';
+                    } else {
+                        document.documentElement.style.setProperty('--text-color', '#444');
+                        document.querySelector('.quick-nav').style.background = 'rgba(255, 255, 255, 0.92)';
+                    }
 
-                    // 使用 requestAnimationFrame 優化渲染，解決手機卡頓
-                    window.requestAnimationFrame(() => {
-                        const root = document.documentElement;
-                        root.style.setProperty('--dynamic-bg', c.bg);
-                        root.style.setProperty('--text-color', c.txt);
-                        root.style.setProperty('--nav-bg', c.nav);
-                        root.style.setProperty('--dot-bg', c.dot);
-                        root.style.setProperty('--dot-text', c.dt);
-
-                        // 更新導覽列 Active 狀態
-                        document.querySelectorAll('.nav-dot').forEach(dot => {
-                            dot.classList.toggle('active', dot.getAttribute('href') === `#${id}`);
-                        });
+                    document.querySelectorAll(".nav-dot").forEach((dot) => {
+                        dot.classList.remove("active");
+                        if (dot.getAttribute("href") === `#${id}`) {
+                            dot.classList.add("active");
+                            // 讓 Active 的按鈕自動捲動到導覽列中間 (平滑效果)
+                            dot.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+                        }
                     });
                 }
             });
-        }, { rootMargin: '-30% 0px -60% 0px' });
+        }, observerOptions);
 
-        document.querySelectorAll('.timeline-item').forEach(item => observer.observe(item));
+        document.querySelectorAll('.timeline-item').forEach(item => {
+            observer.observe(item);
+        });
     </script>
 </body>
 </html>
