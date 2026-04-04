@@ -16,7 +16,6 @@
             --primary-accent: #2c5364;
             --gold-accent: #c5a059;
             --nav-bg: rgba(255, 255, 255, 0.92);
-            --shimmer: linear-gradient(135deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.2) 50%, rgba(255,255,255,0) 100%);
             --dynamic-bg: #fcfbf9; 
             --text-color: #444;
         }
@@ -77,7 +76,7 @@
             border-bottom: 1px solid rgba(255,255,255,0.5);
         }
 
-        /* --- Quick Timeline Nav 優化 --- */
+        /* --- Quick Timeline Nav (手機滑動優化) --- */
         .quick-nav {
             position: sticky; top: 0; z-index: 1000;
             background: var(--nav-bg);
@@ -91,24 +90,19 @@
 
         .nav-scroller {
             display: flex;
-            flex-wrap: nowrap; /* 強制不換行 */
+            flex-wrap: nowrap;
             overflow-x: auto;
-            overflow-y: hidden;
-            -webkit-overflow-scrolling: touch; /* 解決 iOS 滑動卡頓關鍵 */
-            padding: 5px 0;
-            scrollbar-width: none; /* Firefox 隱藏捲軸 */
-            -ms-overflow-style: none; /* IE 隱藏捲軸 */
+            -webkit-overflow-scrolling: touch; /* iOS 絲滑滑動 */
+            scrollbar-width: none;
+            -ms-overflow-style: none;
         }
 
-        /* Chrome, Safari 隱藏捲軸 */
-        .nav-scroller::-webkit-scrollbar {
-            display: none;
-        }
+        .nav-scroller::-webkit-scrollbar { display: none; }
 
         .nav-scroller-content {
             display: flex;
             gap: 12px;
-            padding: 0 20px; /* 側邊留白 */
+            padding: 0 20px;
         }
 
         .nav-dot {
@@ -126,7 +120,7 @@
             font-size: 0.95rem;
             transition: all 0.4s ease;
             background: white;
-            flex-shrink: 0; /* 確保在 Flex 中不被壓縮 */
+            flex-shrink: 0;
         }
 
         .nav-dot.active {
@@ -137,12 +131,12 @@
             box-shadow: 0 4px 12px rgba(0,0,0,0.1);
         }
 
-        /* --- Timeline --- */
+        /* --- Timeline & Content Card --- */
         .timeline-container {
             position: relative;
             max-width: 1100px;
             margin: 0 auto;
-            padding: 100px 20px 120px;
+            padding: 80px 20px 120px;
         }
 
         .timeline-container::after {
@@ -157,7 +151,7 @@
             padding: 10px 50px;
             position: relative;
             width: 50%;
-            margin-bottom: 100px;
+            margin-bottom: 80px;
             scroll-margin-top: 160px;
         }
 
@@ -174,8 +168,9 @@
         }
         .timeline-item.right::after { left: -9px; }
 
+        /* 圖片比例優化：防止手機裁切過多 */
         .content-card {
-            display: block; text-decoration: none; color: #444 !important;
+            display: block; text-decoration: none; color: inherit !important;
             background: white; border-radius: 16px; overflow: hidden;
             border: 1px solid rgba(0,0,0,0.05);
             box-shadow: 0 15px 35px rgba(0,0,0,0.06);
@@ -183,13 +178,24 @@
             position: relative;
         }
 
-        .content-card:hover { transform: translateY(-10px); box-shadow: 0 30px 60px rgba(0,0,0,0.15); }
+        .card-img-frame { 
+            width: 100%;
+            aspect-ratio: 16 / 10; /* 電腦版使用適中的寬高比 */
+            overflow: hidden; 
+            position: relative;
+            background: #eee;
+        }
 
-        .card-img-frame { height: 260px; overflow: hidden; position: relative; }
-        .card-img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.8s ease; }
-        .content-card:hover .card-img { transform: scale(1.1); }
+        .card-img { 
+            width: 100%; height: 100%; object-fit: cover; 
+            transition: transform 0.8s ease; 
+        }
 
-        .card-body { padding: 35px; position: relative; }
+        .content-card:hover .card-img { transform: scale(1.08); }
+        .content-card:hover { transform: translateY(-8px); box-shadow: 0 25px 50px rgba(0,0,0,0.12); }
+
+        .card-body { padding: 30px; position: relative; }
+        
         .day-label {
             font-family: 'Playfair Display', serif; font-weight: bold;
             font-size: 3.5rem; color: rgba(0,0,0,0.04);
@@ -198,32 +204,33 @@
         .left .day-label { right: 25px; }
         .right .day-label { left: 25px; }
 
-        .card-title { font-size: 1.6rem; color: var(--primary-dark); margin-top: 12px; font-weight: 700; }
-        .card-meta { font-size: 0.9rem; color: var(--gold-accent); letter-spacing: 2px; margin-bottom: 10px; font-weight: bold; }
-        .card-desc { font-size: 0.95rem; color: #666; line-height: 1.8; }
+        .card-title { font-size: 1.5rem; color: var(--primary-dark); margin-top: 10px; font-weight: 700; }
+        .card-meta { font-size: 0.85rem; color: var(--gold-accent); letter-spacing: 2px; margin-bottom: 8px; font-weight: bold; }
+        .card-desc { font-size: 0.95rem; color: #666; line-height: 1.7; }
 
+        /* --- 手機版 RWD 調整 --- */
         @media (max-width: 768px) {
-            .hero-title { font-size: 3.5rem; letter-spacing: 8px; }
+            .hero-title { font-size: 3rem; letter-spacing: 6px; }
             .timeline-container::after { left: 31px; }
-            .timeline-item { width: 100%; padding-left: 75px; padding-right: 25px; text-align: left; }
+            .timeline-item { width: 100%; padding-left: 70px; padding-right: 20px; text-align: left; margin-bottom: 60px; }
             .timeline-item.left, .timeline-item.right { left: 0; }
             .timeline-item::after { left: 22px; }
-            .day-label { left: 25px !important; right: auto !important; }
+            
+            .card-img-frame { aspect-ratio: 3 / 2; } /* 手機版稍微高一點點，視覺更豐富 */
+            .card-body { padding: 25px 20px; }
+            .card-title { font-size: 1.3rem; }
+            .day-label { left: 20px !important; right: auto !important; font-size: 2.8rem; }
         }
 
         .timeline-start, .timeline-end {
             text-align: center; position: relative; z-index: 2;
-            background: white; padding: 12px 0; width: 160px; margin: 0 auto;
+            background: white; padding: 10px 0; width: 140px; margin: 0 auto;
             border: 1px solid var(--gold-accent); color: var(--gold-accent);
             font-family: 'Playfair Display', serif; letter-spacing: 3px; border-radius: 50px;
+            font-size: 0.9rem;
         }
 
-        footer {
-            background: #0f171e;
-            color: #888;
-            padding: 80px 0;
-            text-align: center;
-        }
+        footer { background: #0f171e; color: #888; padding: 60px 0; text-align: center; }
     </style>
 </head>
 <body>
@@ -233,7 +240,7 @@
             <h1 class="hero-title">TOKYO</h1>
             <div class="hero-subtitle">JOURNEY OF 7 DAYS</div>
         </div>
-        <a href="#anchor-start" class="scroll-indicator text-decoration-none text-white mt-4">
+        <a href="#anchor-start" class="text-white mt-4" style="font-size: 1.5rem; opacity: 0.7;">
             <i class="fas fa-chevron-down"></i>
         </a>
     </header>
@@ -382,19 +389,22 @@
                     
                     document.documentElement.style.setProperty('--dynamic-bg', color);
                     
+                    // 背景變深時文字與導覽列適應
+                    const quickNav = document.querySelector('.quick-nav');
                     if (id === 'day6' || id === 'day7') {
                         document.documentElement.style.setProperty('--text-color', '#fff');
-                        document.querySelector('.quick-nav').style.background = 'rgba(44, 62, 80, 0.95)';
+                        quickNav.style.background = 'rgba(44, 62, 80, 0.95)';
                     } else {
                         document.documentElement.style.setProperty('--text-color', '#444');
-                        document.querySelector('.quick-nav').style.background = 'rgba(255, 255, 255, 0.92)';
+                        quickNav.style.background = 'rgba(255, 255, 255, 0.92)';
                     }
 
+                    // 更新導覽列 Active 狀態與自動捲動
                     document.querySelectorAll(".nav-dot").forEach((dot) => {
                         dot.classList.remove("active");
                         if (dot.getAttribute("href") === `#${id}`) {
                             dot.classList.add("active");
-                            // 讓 Active 的按鈕自動捲動到導覽列中間 (平滑效果)
+                            // 平滑捲動至導覽列中央
                             dot.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
                         }
                     });
