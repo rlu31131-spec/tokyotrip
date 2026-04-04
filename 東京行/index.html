@@ -68,7 +68,7 @@
             color: white; opacity: 0.8; font-size: 1.5rem; cursor: pointer;
         }
 
-        /* --- Quick Timeline Nav --- */
+        /* --- Quick Timeline Nav (修改重點：加大按鈕) --- */
         .quick-nav {
             position: sticky; top: 0; z-index: 1000;
             background: var(--nav-bg);
@@ -84,37 +84,35 @@
             gap: 15px;
             overflow-x: auto;
             white-space: nowrap;
-            padding: 5px 20px;
-            -webkit-overflow-scrolling: touch;
+            padding: 5px 20px; /* 增加一點上下空間避免陰影被切到 */
         }
 
-        .nav-scroller::-webkit-scrollbar { display: none; }
-        .nav-scroller { -ms-overflow-style: none; scrollbar-width: none; }
-
+        /* 這裡做了大幅調整：改為膠囊狀、加大尺寸 */
         .nav-dot {
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            min-width: 90px;
-            height: 45px;
-            padding: 0 20px;
-            border-radius: 50px;
+            min-width: 90px;   /* 最小寬度加大 */
+            height: 45px;      /* 高度加大 */
+            padding: 0 20px;   /* 增加左右內距 */
+            border-radius: 50px; /* 圓角改為膠囊狀 */
             border: 1px solid #ddd;
             color: #555;
             text-decoration: none;
-            font-family: 'Playfair Display', serif;
+            font-family: 'Playfair Display', serif; /* 英文數字字體 */
             font-weight: bold;
-            font-size: 1.05rem;
+            font-size: 1.05rem; /* 字體加大 */
+            letter-spacing: 1px;
             transition: all 0.3s ease;
-            background: white;
+            background: white; /* 預設白底 */
         }
 
         .nav-dot:hover, .nav-dot.active {
             background-color: var(--primary-accent);
             color: white;
             border-color: var(--primary-accent);
-            transform: translateY(-2px);
-            box-shadow: 0 4px 10px rgba(44, 83, 100, 0.3);
+            transform: translateY(-2px); /* 滑鼠懸停時輕微上浮 */
+            box-shadow: 0 4px 10px rgba(44, 83, 100, 0.3); /* 增加陰影 */
         }
 
         /* --- Timeline Container --- */
@@ -132,13 +130,14 @@
             margin-left: -1px; opacity: 0.3;
         }
 
+        /* --- Timeline Item --- */
         .timeline-item {
             padding: 10px 40px;
             position: relative;
             background-color: inherit;
             width: 50%;
             margin-bottom: 60px;
-            scroll-margin-top: 140px;
+            scroll-margin-top: 140px; /* 修正跳轉後的位置，避免被變大的導覽列擋住 */
         }
 
         .timeline-item.left { left: 0; text-align: right; }
@@ -154,6 +153,7 @@
         .timeline-item.right::after { left: -8px; }
         .timeline-item:hover::after { background-color: var(--gold-accent); transform: scale(1.3); }
 
+        /* 內容卡片 */
         .content-card {
             display: block; text-decoration: none; color: inherit;
             background: white; border-radius: 12px; overflow: hidden;
@@ -163,44 +163,32 @@
         }
         .content-card:hover { transform: translateY(-5px); box-shadow: 0 20px 40px rgba(0,0,0,0.12); }
 
-        .card-img-frame { height: 240px; overflow: hidden; background: #eee; }
+        .card-img-frame { height: 240px; overflow: hidden; position: relative; }
         .card-img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s ease; }
         .content-card:hover .card-img { transform: scale(1.08); }
 
-        .card-body { padding: 30px; position: relative; z-index: 2; }
+        .card-body { padding: 30px; }
         
         .day-label {
             font-family: 'Playfair Display', serif; font-weight: bold;
-            font-size: 3.5rem; color: rgba(0,0,0,0.04);
-            position: absolute; top: 0; line-height: 1; z-index: 1;
+            font-size: 3rem; color: rgba(0,0,0,0.05);
+            position: absolute; top: 10px; line-height: 1;
         }
         .left .day-label { right: 20px; }
         .right .day-label { left: 20px; }
 
-        .card-title { font-size: 1.5rem; color: var(--primary-accent); margin-top: 10px; font-weight: 700; position: relative; }
+        .card-title { font-size: 1.5rem; color: var(--primary-accent); margin-top: 10px; font-weight: 700; }
         .card-meta { font-size: 0.9rem; color: var(--gold-accent); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; font-weight: bold; }
         .card-desc { font-size: 0.95rem; color: #666; margin-bottom: 0; line-height: 1.7; }
 
-        /* --- 手機版適配 --- */
         @media (max-width: 768px) {
-            .hero-title { font-size: 3rem; letter-spacing: 4px; }
-            .hero-subtitle { font-size: 0.9rem; letter-spacing: 0.2em; }
-            .nav-scroller { justify-content: flex-start; }
             .timeline-container::after { left: 31px; }
-            .timeline-item {
-                width: 100% !important;
-                padding-left: 70px !important;
-                padding-right: 20px !important;
-                text-align: left !important;
-                left: 0 !important;
-                margin-bottom: 40px;
-            }
-            .timeline-item::after { left: 23px !important; right: auto !important; }
-            .left .day-label, .right .day-label {
-                right: 20px !important; left: auto !important;
-                font-size: 2.8rem;
-            }
-            .card-img-frame { height: 200px; }
+            .timeline-item { width: 100%; padding-left: 70px; padding-right: 25px; text-align: left; }
+            .timeline-item.left, .timeline-item.right { left: 0; }
+            .timeline-item::after { left: 23px; }
+            .left .day-label { right: auto; left: 20px; }
+            .hero-title { font-size: 3.5rem; }
+            .nav-scroller { justify-content: flex-start; padding-left: 20px; }
         }
 
         @keyframes float {
@@ -230,14 +218,14 @@
 
     <nav class="quick-nav">
         <div class="container">
-            <div class="nav-scroller">
-                <a href="#day1" class="nav-dot">Day 1</a>
-                <a href="#day2" class="nav-dot">Day 2</a>
-                <a href="#day3" class="nav-dot">Day 3</a>
-                <a href="#day4" class="nav-dot">Day 4</a>
-                <a href="#day5" class="nav-dot">Day 5</a>
-                <a href="#day6" class="nav-dot">Day 6</a>
-                <a href="#day7" class="nav-dot">Day 7</a>
+            <div class="nav-scroller no-scrollbar">
+                <a href="#day1" class="nav-dot" title="下町風情">Day 1</a>
+                <a href="#day2" class="nav-dot" title="海灣電氣">Day 2</a>
+                <a href="#day3" class="nav-dot" title="路面電車">Day 3</a>
+                <a href="#day4" class="nav-dot" title="穿越小江戶">Day 4</a>
+                <a href="#day5" class="nav-dot" title="湘南橫濱">Day 5</a>
+                <a href="#day6" class="nav-dot" title="地標經典">Day 6</a>
+                <a href="#day7" class="nav-dot" title="最後賦歸">Day 7</a>
             </div>
         </div>
     </nav>
@@ -264,7 +252,7 @@
         <div id="day2" class="timeline-item right" data-aos="fade-left">
             <a href="day2.html" class="content-card">
                 <div class="card-img-frame">
-                    <img src="tokyotrip/day2/seapark.webp" class="card-img" alt="Day 2" onerror="this.src='https://placehold.co/600x400/0055a5/fff?text=Day+2+Odaiba'">
+                    <img src="tokyotrip/day2/seapark.webp "class="card-img" alt="Day 2" onerror="this.src='https://placehold.co/600x400/0055a5/fff?text=Day+2+Odaiba'">
                 </div>
                 <div class="card-body">
                     <div class="day-label">02</div>
@@ -358,27 +346,6 @@
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>
         AOS.init({ duration: 1000, once: true, offset: 120 });
-        
-        // 自動偵測目前的區塊，更新導覽列樣式
-        window.addEventListener('scroll', () => {
-            const sections = document.querySelectorAll('.timeline-item');
-            const navDots = document.querySelectorAll('.nav-dot');
-            let current = "";
-
-            sections.forEach(section => {
-                const sectionTop = section.offsetTop;
-                if (window.pageYOffset >= sectionTop - 250) {
-                    current = section.getAttribute('id');
-                }
-            });
-
-            navDots.forEach(dot => {
-                dot.classList.remove('active');
-                if (dot.getAttribute('href').includes(current)) {
-                    dot.classList.add('active');
-                }
-            });
-        });
     </script>
 </body>
 </html>
