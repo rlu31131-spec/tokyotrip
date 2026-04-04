@@ -19,7 +19,7 @@
             --nav-bg: rgba(255, 255, 255, 0.95);
         }
 
-        /* 核心防禦：解決 Messenger/Line 溢出與延遲感 */
+        /* 核心防禦：防止 Messenger/Line 溢出 */
         *, *::before, *::after { box-sizing: border-box; }
 
         html, body {
@@ -34,7 +34,7 @@
         body { font-family: 'Noto Sans TC', sans-serif; color: #444; }
         h1, h2, h3, .serif-font { font-family: 'Noto Serif TC', serif; }
 
-        /* --- Hero Section (移除動畫避免延遲) --- */
+        /* --- Hero Section --- */
         .hero-section {
             height: 100vh;
             background-image: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.6)), url('tokyotrip/index/tokyo.jpg');
@@ -55,7 +55,6 @@
             letter-spacing: 8px;
             margin-bottom: 20px;
             text-shadow: 0 10px 30px rgba(0,0,0,0.5);
-            /* 移除 AOS，改用簡單的 CSS 淡入 */
             animation: fadeIn 1.2s ease-out forwards;
         }
 
@@ -114,7 +113,7 @@
             top: 0; bottom: 0; left: 50%; margin-left: -1px; opacity: 0.2;
         }
 
-        .timeline-item { position: relative; width: 50%; margin-bottom: 50px; scroll-margin-top: 140px; z-index: 2; }
+        .timeline-item { position: relative; width: 50%; margin-bottom: 50px; scroll-margin-top: 100px; z-index: 2; }
         .timeline-item.left { left: 0; padding-right: 40px; text-align: right; }
         .timeline-item.right { left: 50%; padding-left: 40px; text-align: left; }
 
@@ -157,7 +156,6 @@
             .nav-scroller { justify-content: flex-start; }
             .card-img-frame { height: 180px; }
             
-            /* 強制將手機版動畫統一為單純淡入，避免左右位移造成的加載延遲 */
             [data-aos="fade-right"], [data-aos="fade-left"] { transform: translateY(20px) !important; opacity: 0 !important; }
             .aos-animate { transform: translateY(0) !important; opacity: 1 !important; }
         }
@@ -184,7 +182,7 @@
 
     <nav class="quick-nav">
         <div class="container">
-            <div class="nav-scroller">
+            <div class="nav-scroller" id="navScroller">
                 <a href="#day1" class="nav-dot">Day 1</a>
                 <a href="#day2" class="nav-dot">Day 2</a>
                 <a href="#day3" class="nav-dot">Day 3</a>
@@ -196,15 +194,13 @@
         </div>
     </nav>
 
-    <main class="timeline-container" id="anchor-start">
+    <main class="timeline-container">
         <div class="timeline-start">START</div>
         <div style="height: 30px;"></div>
 
-        <div id="day1" class="timeline-item left" data-aos="fade-up" data-aos-delay="100">
+        <div id="day1" class="timeline-item left" data-aos="fade-up">
             <a href="day1.html" class="content-card">
-                <div class="card-img-frame">
-                    <img src="tokyotrip/day1/grasstemple.jpg" class="card-img" alt="Day 1" onerror="this.src='https://placehold.co/600x400?text=Day+1'">
-                </div>
+                <div class="card-img-frame"><img src="tokyotrip/day1/grasstemple.jpg" class="card-img" alt="Day 1" onerror="this.src='https://placehold.co/600x400?text=Day+1'"></div>
                 <div class="card-body">
                     <div class="day-label">01</div>
                     <div class="card-meta">上野・淺草・押上</div>
@@ -216,9 +212,7 @@
 
         <div id="day2" class="timeline-item right" data-aos="fade-up">
             <a href="day2.html" class="content-card">
-                <div class="card-img-frame">
-                    <img src="tokyotrip/day2/seapark.webp" class="card-img" alt="Day 2" onerror="this.src='https://placehold.co/600x400?text=Day+2'">
-                </div>
+                <div class="card-img-frame"><img src="tokyotrip/day2/seapark.webp" class="card-img" alt="Day 2" onerror="this.src='https://placehold.co/600x400?text=Day+2'"></div>
                 <div class="card-body">
                     <div class="day-label">02</div>
                     <div class="card-meta">葛西・台場・秋葉原</div>
@@ -299,33 +293,35 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>
-        // 確保 AOS 盡快初始化
-        function initAOS() {
-            AOS.init({ 
-                duration: 600, 
-                once: true, 
-                offset: 30, // 降低 offset，讓動畫更早觸發
-                easing: 'ease-out-quad',
-                startEvent: 'DOMContentLoaded' // 提前到 DOM 加載完就啟動
-            });
-        }
-        initAOS();
+        AOS.init({ duration: 600, once: true, offset: 50 });
 
-        // 監聽導覽列
         const navDots = document.querySelectorAll('.nav-dot');
         const sections = document.querySelectorAll('.timeline-item');
-        window.addEventListener('scroll', () => {
+        
+        // 核心偵測邏輯優化
+        function updateActiveNav() {
             let current = "";
+            const scrollCenter = window.pageYOffset + (window.innerHeight / 3); // 以螢幕上 1/3 為偵測點
+
             sections.forEach(section => {
-                if (pageYOffset >= section.offsetTop - 250) {
+                const sectionTop = section.offsetTop;
+                if (scrollCenter >= sectionTop) {
                     current = section.getAttribute('id');
                 }
             });
+
             navDots.forEach(dot => {
                 dot.classList.remove('active');
-                if (dot.getAttribute('href') === `#${current}`) dot.classList.add('active');
+                if (dot.getAttribute('href') === `#${current}`) {
+                    dot.classList.add('active');
+                    // 自動滑動手機版導覽列，讓亮起的標籤處於可視範圍
+                    dot.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+                }
             });
-        });
+        }
+
+        window.addEventListener('scroll', updateActiveNav);
+        window.addEventListener('load', updateActiveNav); // 初始化
     </script>
 </body>
 </html>
